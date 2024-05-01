@@ -8,13 +8,10 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.blue
-      ),
+      debugShowCheckedModeBanner: false,
       home: HomePage(),
     );
   }
@@ -32,9 +29,17 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Hi, User!"),
+        title: Text(
+          "Hi, User!",
+          style:
+              TextStyle(color: Color(0xffAAD4FF), fontWeight: FontWeight.bold),
+        ),
+        elevation: 10,
+        backgroundColor: Color(0xff0A2B4E),
+        iconTheme: IconThemeData(color: Color(0xffAAD4FF)),
       ),
-      drawer: NavBar(),
+      endDrawer: NavBar(),
+      backgroundColor: Color(0xffF0F0E8),
     );
   }
 }

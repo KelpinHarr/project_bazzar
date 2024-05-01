@@ -6,7 +6,7 @@ class NavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      
+      backgroundColor: Color(0xffF0F0E8),
     );
   }
 }
