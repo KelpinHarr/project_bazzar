@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_bazzar/main.dart';
+import 'package:project_bazzar/student/home.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -100,7 +101,7 @@ class _LoginState extends State<Login> {
                         onPressed: () {
                           Navigator.push(
                             context, 
-                            MaterialPageRoute(builder: (context) => HomePage())
+                            MaterialPageRoute(builder: (context) => Home())
                           );
                         },
                         child: Text(
