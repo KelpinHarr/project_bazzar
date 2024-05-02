@@ -1,43 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:project_bazzar/stand/tambahBarang.dart';
 
 class NavBar extends StatelessWidget {
-  const NavBar({super.key});
+  const NavBar({Key? key});
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
       backgroundColor: Color(0xffF0F0E8),
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
+      child: Column(
+        children: [
           Container(
-            height: 120,
+            margin: EdgeInsets.symmetric(vertical: 16),
             decoration: BoxDecoration(
               color: Color(0xff0A2B4E),
               borderRadius: BorderRadius.circular(16),
             ),
-            margin: EdgeInsets.all(16),
-            child: Stack(
-              alignment: Alignment.center,
+            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 75),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'assets/Profile.png', // Ganti dengan path gambar Anda
-                      height: 60, // Atur ukuran gambar sesuai kebutuhan Anda
-                      width: 60,
-                      fit: BoxFit.contain, // Atur agar gambar sesuai ke dalam kotak
-                    ),
-                    Text(
-                      'Sushi Saga',
-                      style: TextStyle(
-                        color: Color(0xffAAD4FF),
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+                Image.asset(
+                  'assets/Profile.png', // Replace with your image path
+                  height: 60, // Adjust image size as needed
+                  width: 60,
+                  fit: BoxFit.contain, // Ensure image fits within container
+                ),
+                Text(
+                  'Sushi Saga',
+                  style: TextStyle(
+                    color: Color(0xffAAD4FF),
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
             ),
@@ -48,7 +43,7 @@ class NavBar extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Color(0xff0A2B4E)
+                color: Color(0xff0A2B4E),
               ),
             ),
             onTap: () {
@@ -60,7 +55,7 @@ class NavBar extends StatelessWidget {
               'Buat transaksi',
               textAlign: TextAlign.center,
               style: TextStyle(
-                  color: Color(0xff0A2B4E)
+                color: Color(0xff0A2B4E),
               ),
             ),
             onTap: () {
@@ -71,9 +66,9 @@ class NavBar extends StatelessWidget {
             title: Text(
               'Riwayat transaksi',
               textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Color(0xff0A2B4E)
-                )
+              style: TextStyle(
+                color: Color(0xff0A2B4E),
+              ),
             ),
             onTap: () {
               // Add action
@@ -82,10 +77,10 @@ class NavBar extends StatelessWidget {
           ListTile(
             title: Text(
               'Daftar barang',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Color(0xff0A2B4E)
-                )
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Color(0xff0A2B4E),
+              ),
             ),
             onTap: () {
               // Add action
@@ -94,14 +89,44 @@ class NavBar extends StatelessWidget {
           ListTile(
             title: Text(
               'Tambah barang',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Color(0xff0A2B4E)
-                )
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Color(0xff0A2B4E),
+              ),
             ),
             onTap: () {
-              // Add action
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TambahBarang()),
+              );
             },
+          ),
+          Spacer(), // Tambahkan Spacer agar tombol logout muncul di bagian bawah
+          Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  // Tambahkan fungsi logout di sini
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0), // Atur borderRadius di sini
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 16.0)
+                ),
+                child: Text(
+                  'Keluar',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ),
           ),
         ],
       ),
