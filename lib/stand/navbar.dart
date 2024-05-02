@@ -11,21 +11,35 @@ class NavBar extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: <Widget>[
           Container(
+            height: 120,
             decoration: BoxDecoration(
               color: Color(0xff0A2B4E),
               borderRadius: BorderRadius.circular(16),
             ),
             margin: EdgeInsets.all(16),
-            child: DrawerHeader(
-              child: Text(
-                'Sushi Saga',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white, // Mengubah warna teks menjadi putih
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/profile.png', // Ganti dengan path gambar Anda
+                      height: 60, // Atur ukuran gambar sesuai kebutuhan Anda
+                      width: 60,
+                      fit: BoxFit.contain, // Atur agar gambar sesuai ke dalam kotak
+                    ),
+                    Text(
+                      'Sushi Saga',
+                      style: TextStyle(
+                        color: Color(0xffAAD4FF),
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
+              ],
             ),
           ),
           ListTile(
