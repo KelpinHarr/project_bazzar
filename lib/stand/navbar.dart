@@ -24,7 +24,7 @@ class NavBar extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                      'assets/profile.png', // Ganti dengan path gambar Anda
+                      'assets/Profile.png', // Ganti dengan path gambar Anda
                       height: 60, // Atur ukuran gambar sesuai kebutuhan Anda
                       width: 60,
                       fit: BoxFit.contain, // Atur agar gambar sesuai ke dalam kotak

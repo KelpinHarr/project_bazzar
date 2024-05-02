@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_bazzar/main.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -33,13 +34,6 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                   SizedBox(height: 40),
-                  // const Text(
-                  //   'Username',
-                  //   style: TextStyle(
-                  //     fontSize: 18,
-                  //
-                  //   ),
-                  // ),
                   SizedBox(
                     width: 275.0,
                     height: 50.0,
@@ -88,15 +82,7 @@ class _LoginState extends State<Login> {
                     width: 275.0,
                     height: 50.0,
                     decoration: BoxDecoration(
-                        // gradient: LinearGradient(
-                        //   colors: [
-                        //     Color.fromRGBO(170, 212, 255, 1.0),
-                        //     Color.fromRGBO(10, 43, 78, 1.0),
-                        //   ],
-                        //   begin: Alignment.centerLeft,
-                        //   end: Alignment.centerRight,
-                        // ),
-                        color: Color(0xffAAD4FF),
+                        // color: Color(0xffAAD4FF),
                         borderRadius: const BorderRadius.all(
                           Radius.circular(12.0),
                         ),
@@ -110,8 +96,13 @@ class _LoginState extends State<Login> {
                         ]
                     ),
                     child: Center(
-                      child: GestureDetector(
-                        onTap: () {},
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context, 
+                            MaterialPageRoute(builder: (context) => HomePage())
+                          );
+                        },
                         child: Text(
                           'Login',
                           textAlign: TextAlign.left,
@@ -121,6 +112,13 @@ class _LoginState extends State<Login> {
                             letterSpacing: 0.0,
                             color: Color(0xff0A2B4E),
                           ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xffAAD4FF),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          minimumSize: Size(275.0, 50.0),
                         ),
                       ),
                     ),

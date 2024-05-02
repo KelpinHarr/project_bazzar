@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_bazzar/stand/login.dart';
+import 'package:project_bazzar/login.dart';
 import 'package:project_bazzar/stand/navbar.dart';
 
 void main() {
