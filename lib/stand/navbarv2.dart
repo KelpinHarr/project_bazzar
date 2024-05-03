@@ -9,10 +9,21 @@ class Navbarv2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String pageTitle = '';
+    if (activePage == 'Tambah barang') {
+      pageTitle = 'Tambah Barang';
+    } else if (activePage == 'Tambah transaksi') {
+      pageTitle = 'Tambah Transaksi';
+    } else if (activePage == 'Riwayat transaksi') {
+      pageTitle = 'Riwayat transaksi';
+    } else if (activePage == 'List barang') {
+      pageTitle = 'List barang';
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Sushi Saga",
+          pageTitle,
           style: TextStyle(
             color: Color(0xffAAD4FF),
           ),
