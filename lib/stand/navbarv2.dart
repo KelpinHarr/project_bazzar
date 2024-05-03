@@ -19,8 +19,10 @@ class Navbarv2 extends StatelessWidget {
         backgroundColor: Color(0xff0A2B4E),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-          color: Color(0xffAAD4FF), // Set back button icon color here
+          onPressed: () {
+            Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+          },
+          color: Color(0xffAAD4FF),
         ),
         actions: [
           Builder(
@@ -39,100 +41,128 @@ class Navbarv2 extends StatelessWidget {
       endDrawer: Builder(
         builder: (context) => Drawer(
           backgroundColor: Color(0xffF0F0E8),
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Color(0xff0A2B4E),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'assets/Profile.png', // Replace with your image path
-                      height: 60, // Adjust image size as needed
-                      width: 60,
-                      fit: BoxFit.contain, // Ensure image fits within container
-                    ),
-                    Text(
-                      'Sushi Saga',
-                      style: TextStyle(
-                        color: Color(0xffAAD4FF),
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
+            child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 16),
+                  decoration: BoxDecoration(
+                    color: Color(0xff0A2B4E),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 75),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/Profile.png', // Replace with your image path
+                        height: 60, // Adjust image size as needed
+                        width: 60,
+                        fit: BoxFit.contain, // Ensure image fits within container
                       ),
-                    ),
-                  ],
+                      Text(
+                        'Sushi Saga',
+                        style: TextStyle(
+                          color: Color(0xffAAD4FF),
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              ListTile(
-                title: Text(
-                  'Home',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
+                ListTile(
+                  title: Text(
+                    'Home',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Color(0xff0A2B4E)
+                      color: Color(0xff0A2B4E),
+                    ),
                   ),
+                  onTap: () {
+                    // Add action
+                  },
                 ),
-                onTap: () {
-                  // Add action
-                },
-              ),
-              ListTile(
-                title: Text(
-                  'Buat transaksi',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Color(0xff0A2B4E)
+                ListTile(
+                  title: Text(
+                    'Buat transaksi',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color(0xff0A2B4E),
+                    ),
                   ),
+                  onTap: () {
+                    // Add action
+                  },
                 ),
-                onTap: () {
-                  // Add action
-                },
-              ),
-              ListTile(
-                title: Text(
+                ListTile(
+                  title: Text(
                     'Riwayat transaksi',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        color: Color(0xff0A2B4E)
-                    )
+                      color: Color(0xff0A2B4E),
+                    ),
+                  ),
+                  onTap: () {
+                    // Add action
+                  },
                 ),
-                onTap: () {
-                  // Add action
-                },
-              ),
-              ListTile(
-                title: Text(
+                ListTile(
+                  title: Text(
                     'Daftar barang',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        color: Color(0xff0A2B4E)
-                    )
+                      color: Color(0xff0A2B4E),
+                    ),
+                  ),
+                  onTap: () {
+                    // Add action
+                  },
                 ),
-                onTap: () {
-                  // Add action
-                },
-              ),
-              ListTile(
-                title: Text(
+                ListTile(
+                  title: Text(
                     'Tambah barang',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        color: Color(0xff0A2B4E)
-                    )
-                ),
-                onTap: () {
-                  Navigator.push(
+                      color: Color(0xff0A2B4E),
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => TambahBarang())
-                  );
-                },
-              ),
-            ],
-          ),
+                      MaterialPageRoute(builder: (context) => TambahBarang()),
+                    );
+                  },
+                ),
+                Spacer(),
+                Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Tambahkan fungsi logout di sini
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 16.0)
+                      ),
+                      child: Text(
+                        'Keluar',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            )
         ),
       ),
     );

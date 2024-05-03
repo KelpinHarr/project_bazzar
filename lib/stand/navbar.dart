@@ -101,7 +101,7 @@ class NavBar extends StatelessWidget {
               );
             },
           ),
-          Spacer(), // Tambahkan Spacer agar tombol logout muncul di bagian bawah
+          Spacer(),
           Padding(
             padding: const EdgeInsets.all(24.0),
             child: SizedBox(
@@ -114,7 +114,7 @@ class NavBar extends StatelessWidget {
                   backgroundColor: Colors.red,
                   elevation: 5,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0), // Atur borderRadius di sini
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
                   padding: const EdgeInsets.symmetric(vertical: 16.0)
                 ),
