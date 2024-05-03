@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:project_bazzar/stand/tambahBarang.dart';
 
 class Navbarv2 extends StatelessWidget {
-  const Navbarv2({Key? key, required this.body});
+  const Navbarv2({Key? key, required this.body, required this.activePage});
 
   final Widget body;
+  final String activePage;
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +76,7 @@ class Navbarv2 extends StatelessWidget {
                     'Home',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                      fontWeight: activePage == 'Home' ? FontWeight.bold : FontWeight.normal,
                       color: Color(0xff0A2B4E),
                     ),
                   ),
@@ -88,6 +89,7 @@ class Navbarv2 extends StatelessWidget {
                     'Buat transaksi',
                     textAlign: TextAlign.center,
                     style: TextStyle(
+                      fontWeight: activePage == 'Buat transaksi' ? FontWeight.bold : FontWeight.normal,
                       color: Color(0xff0A2B4E),
                     ),
                   ),
@@ -100,6 +102,7 @@ class Navbarv2 extends StatelessWidget {
                     'Riwayat transaksi',
                     textAlign: TextAlign.center,
                     style: TextStyle(
+                      fontWeight: activePage == 'Riwayat transaksi' ? FontWeight.bold : FontWeight.normal,
                       color: Color(0xff0A2B4E),
                     ),
                   ),
@@ -112,6 +115,7 @@ class Navbarv2 extends StatelessWidget {
                     'Daftar barang',
                     textAlign: TextAlign.center,
                     style: TextStyle(
+                      fontWeight: activePage == 'Daftar barang' ? FontWeight.bold : FontWeight.normal,
                       color: Color(0xff0A2B4E),
                     ),
                   ),
@@ -124,6 +128,7 @@ class Navbarv2 extends StatelessWidget {
                     'Tambah barang',
                     textAlign: TextAlign.center,
                     style: TextStyle(
+                      fontWeight: activePage == 'Tambah barang' ? FontWeight.bold : FontWeight.normal,
                       color: Color(0xff0A2B4E),
                     ),
                   ),

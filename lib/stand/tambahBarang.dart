@@ -169,6 +169,7 @@ class _TambahBarangState extends State<TambahBarang> {
           ),
         ),
       ),
+      activePage: 'Tambah barang',
     );
   }
 }
