@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:project_bazzar/admin/navbarv2.dart';
 
 class QrCekSaldo extends StatefulWidget {
-  const QrCekSaldo({Key? key}) : super(key: key);
+  const QrCekSaldo({super.key});
 
   @override
   _QrCekSaldoState createState() => _QrCekSaldoState();
@@ -46,7 +46,7 @@ class _QrCekSaldoState extends State<QrCekSaldo> {
               child: (result != null)
                   ? Text(
                   'Barcode Type: ${result!.format.name}   Data: ${result!.code}')
-                  : Text('Scan a code'),
+                  : const Text('Scan a code'),
             ),
           )
         ],

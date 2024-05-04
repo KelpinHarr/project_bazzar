@@ -116,7 +116,7 @@ class NavbarAdminv2 extends StatelessWidget {
                     await initializeCamera();
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => QrCekSaldo()),
+                      MaterialPageRoute(builder: (context) => const QrCekSaldo()),
                     );
                   },
                 ),
