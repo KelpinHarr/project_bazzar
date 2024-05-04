@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:project_bazzar/stand/daftarBarang.dart';
 import 'package:project_bazzar/stand/tambahBarang.dart';
 
-class NavBar extends StatelessWidget {
-  const NavBar({Key? key});
+class NavBarStand extends StatelessWidget {
+  const NavBarStand({Key? key});
 
   @override
   Widget build(BuildContext context) {

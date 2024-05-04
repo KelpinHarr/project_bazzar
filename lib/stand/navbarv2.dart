@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:project_bazzar/stand/daftarBarang.dart';
 import 'package:project_bazzar/stand/tambahBarang.dart';
 
-class Navbarv2 extends StatelessWidget {
-  const Navbarv2({Key? key, required this.body, required this.activePage});
+class NavbarStandv2 extends StatelessWidget {
+  const NavbarStandv2({Key? key, required this.body, required this.activePage});
 
   final Widget body;
   final String activePage;

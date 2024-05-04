@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_bazzar/login.dart';
+import 'package:project_bazzar/admin/navbar.dart';
 import 'package:project_bazzar/stand/navbar.dart';
 
 void main() {
@@ -37,14 +38,14 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Hi, Sushi Saga!",
+          "Hi, Admin!",
           style: TextStyle(color: Color(0xffAAD4FF), fontWeight: FontWeight.bold),
         ),
         elevation: 10,
         backgroundColor: Color(0xff0A2B4E),
         iconTheme: IconThemeData(color: Color(0xffAAD4FF)),
       ),
-      endDrawer: NavBar(),
+      endDrawer: NavBarAdmin(),
       backgroundColor: Color(0xffF0F0E8),
     );
   }

@@ -14,7 +14,7 @@ class _EditBarangState extends State<EditBarang> {
 
   @override
   Widget build(BuildContext context) {
-    return Navbarv2(
+    return NavbarStandv2(
       key: GlobalKey(),
       body: Scaffold(
         backgroundColor: Color(0xffF0F0E8),
