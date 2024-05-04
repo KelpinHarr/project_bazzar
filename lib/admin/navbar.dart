@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:project_bazzar/admin/cekSaldo.dart';
+import 'package:project_bazzar/login.dart';
 
 late List<CameraDescription>? cameras;
 Future<List<CameraDescription>?> initializeCamera() async {
@@ -9,21 +10,21 @@ Future<List<CameraDescription>?> initializeCamera() async {
 }
 
 class NavBarAdmin extends StatelessWidget {
-  const NavBarAdmin({Key? key});
+  const NavBarAdmin({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: Color(0xffF0F0E8),
+      backgroundColor: const Color(0xffF0F0E8),
       child: Column(
         children: [
           Container(
-            margin: EdgeInsets.symmetric(vertical: 16),
+            margin: const EdgeInsets.symmetric(vertical: 16),
             decoration: BoxDecoration(
-              color: Color(0xff0A2B4E),
+              color: const Color(0xff0A2B4E),
               borderRadius: BorderRadius.circular(16),
             ),
-            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 75),
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 75),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -33,7 +34,7 @@ class NavBarAdmin extends StatelessWidget {
                   width: 60,
                   fit: BoxFit.contain,
                 ),
-                Text(
+                const Text(
                   'Admin',
                   style: TextStyle(
                     color: Color(0xffAAD4FF),
@@ -45,7 +46,7 @@ class NavBarAdmin extends StatelessWidget {
             ),
           ),
           ListTile(
-            title: Text(
+            title: const Text(
               'Home',
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -58,7 +59,7 @@ class NavBarAdmin extends StatelessWidget {
             },
           ),
           ListTile(
-            title: Text(
+            title: const Text(
               'Cek saldo',
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -74,7 +75,7 @@ class NavBarAdmin extends StatelessWidget {
             },
           ),
           ListTile(
-            title: Text(
+            title: const Text(
               'Top up',
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -86,7 +87,7 @@ class NavBarAdmin extends StatelessWidget {
             },
           ),
           ListTile(
-            title: Text(
+            title: const Text(
               'Daftar user',
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -97,14 +98,17 @@ class NavBarAdmin extends StatelessWidget {
 
             },
           ),
-          Spacer(),
+          const Spacer(),
           Padding(
             padding: const EdgeInsets.all(24.0),
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // Tambahkan fungsi logout di sini
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Login()),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
@@ -114,7 +118,7 @@ class NavBarAdmin extends StatelessWidget {
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 16.0)
                 ),
-                child: Text(
+                child: const Text(
                   'Keluar',
                   style: TextStyle(
                     color: Colors.white,

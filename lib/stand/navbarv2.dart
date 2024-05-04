@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_bazzar/login.dart';
 import 'package:project_bazzar/stand/daftarBarang.dart';
 import 'package:project_bazzar/stand/tambahBarang.dart';
 
@@ -23,6 +24,16 @@ class NavbarStandv2 extends StatelessWidget {
       pageTitle = 'Daftar barang';
     } else if (activePage == 'Edit barang') {
       pageTitle = 'Edit barang';
+    } else if (activePage == 'Detail transaksi') {
+      pageTitle = 'Detail transaksi';
+    } else if (activePage == 'Buat transaksi') {
+      pageTitle = 'Buat transaksi';
+    } else if (activePage == 'Bayar transaksi') {
+      pageTitle = 'Bayar transaksi';
+    } else if (activePage == 'Riwayat transaksi') {
+      pageTitle = 'Riwayat transaksi';
+    } else if (activePage == 'Scan QR') {
+      pageTitle = 'Scan QR';
     }
 
     return Scaffold(
@@ -165,7 +176,10 @@ class NavbarStandv2 extends StatelessWidget {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        // Tambahkan fungsi logout di sini
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Login()),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.red,

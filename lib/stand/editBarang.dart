@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:project_bazzar/stand/daftarBarang.dart';
 import 'package:project_bazzar/stand/navbarv2.dart';
 class EditBarang extends StatefulWidget {
+  const EditBarang({super.key});
+
   @override
   _EditBarangState createState() => _EditBarangState();
 }
@@ -17,7 +19,7 @@ class _EditBarangState extends State<EditBarang> {
     return NavbarStandv2(
       key: GlobalKey(),
       body: Scaffold(
-        backgroundColor: Color(0xffF0F0E8),
+        backgroundColor: const Color(0xffF0F0E8),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -25,7 +27,7 @@ class _EditBarangState extends State<EditBarang> {
               children: [
                 TextField(
                   controller: _namaBarangController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: "Nama Barang",
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Color(0xff0A2B4E)),
@@ -35,11 +37,11 @@ class _EditBarangState extends State<EditBarang> {
                     ),
                   ),
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 TextField(
                   controller: _hargaController,
                   keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: "Harga Barang",
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Color(0xff0A2B4E)),
@@ -49,14 +51,14 @@ class _EditBarangState extends State<EditBarang> {
                     ),
                   ),
                 ),
-                SizedBox(height: 24.0),
+                const SizedBox(height: 24.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     _qty > 0
                         ? Text(
                         "Qty: $_qty",
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Color(0xff0A2B4E),
                             fontSize: 16.0
                         )
@@ -71,9 +73,9 @@ class _EditBarangState extends State<EditBarang> {
                         });
                       },
                       style: ButtonStyle(
-                        foregroundColor: MaterialStateProperty.all<Color>(Color(0xff0A2B4E)), // Mengatur warna teks menjadi hitam
+                        foregroundColor: MaterialStateProperty.all<Color>(const Color(0xff0A2B4E)), // Mengatur warna teks menjadi hitam
                       ),
-                      child: Row(
+                      child: const Row(
                         children: [
                           Icon(Icons.add),
                           SizedBox(width: 8), // Adjust the width as needed
@@ -92,8 +94,8 @@ class _EditBarangState extends State<EditBarang> {
                                 _qty--;
                               });
                             },
-                            icon: Icon(Icons.remove),
-                            color: Color(0xff0A2B4E),
+                            icon: const Icon(Icons.remove),
+                            color: const Color(0xff0A2B4E),
                           ),
                           // Text("$_qty"),
                           SizedBox(
@@ -111,16 +113,15 @@ class _EditBarangState extends State<EditBarang> {
                                     });
                                   }
                                 } catch (e) {
-                                  print("Invalid quantity input: $e");
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
+                                    const SnackBar(
                                       content: Text('Invalid quantity. Please enter a number.'),
                                     ),
                                   );
                                 }
                               },
                               textAlign: TextAlign.center,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 contentPadding: EdgeInsets.all(0.0), // Remove padding for a cleaner look
                               ),
                             ),
@@ -131,15 +132,15 @@ class _EditBarangState extends State<EditBarang> {
                                 _qty++;
                               });
                             },
-                            icon: Icon(Icons.add),
-                            color: Color(0xff0A2B4E),
+                            icon: const Icon(Icons.add),
+                            color: const Color(0xff0A2B4E),
                           ),
                         ],
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 Padding(
                   padding: const EdgeInsets.all(24.0),
                   child: SizedBox(
@@ -149,14 +150,14 @@ class _EditBarangState extends State<EditBarang> {
                         showEditSuccessDialog(context);
                       },
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xffAAD4FF),
+                          backgroundColor: const Color(0xffAAD4FF),
                           elevation: 5,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           padding: const EdgeInsets.symmetric(vertical: 16.0)
                       ),
-                      child: Text(
+                      child: const Text(
                         'Edit',
                         style: TextStyle(
                             color: Color(0xff0A2B4E),
@@ -185,7 +186,7 @@ void showEditSuccessDialog(BuildContext context) async {
       return CustomDialog(
         title: "Edit Berhasil",
         // content: "Barang berhasil diedit.",
-        icon: Icon(Icons.check_circle, color: Colors.green, size: 48.0),
+        icon: const Icon(Icons.check_circle, color: Colors.green, size: 48.0),
         actionText: "Kembali ke daftar barang",
         onPressed: () => Navigator.pop(context), // Pop the dialog first
       );
@@ -196,7 +197,7 @@ void showEditSuccessDialog(BuildContext context) async {
     // User pressed the action button
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => DaftarBarang()),
+      MaterialPageRoute(builder: (context) => const DaftarBarang()),
     );
   }
 }
@@ -208,7 +209,7 @@ class CustomDialog extends StatelessWidget {
   final String actionText;
   final VoidCallback onPressed;
 
-  const CustomDialog({
+  const CustomDialog({super.key,
     required this.title,
     // required this.content,
     required this.icon,
@@ -221,7 +222,7 @@ class CustomDialog extends StatelessWidget {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
       child: ConstrainedBox(
-        constraints: BoxConstraints(
+        constraints: const BoxConstraints(
             maxWidth: 350.0,
         ), // Set maximum width
         child: Padding(
@@ -230,11 +231,11 @@ class CustomDialog extends StatelessWidget {
             mainAxisSize: MainAxisSize.min, // Prevent dialog from growing too large
             children: [
               Center(child: icon),
-              SizedBox(height: 16.0), // Add spacing between icon and text
-              Text(title, style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 16.0), // Add spacing between icon and text
+              Text(title, style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
               // SizedBox(height: 8.0), // Add spacing between title and content
               // Text(content),
-              SizedBox(height: 16.0), // Add spacing before button
+              const SizedBox(height: 16.0), // Add spacing before button
               TextButton(
                 onPressed: onPressed,
                 style: ButtonStyle(
@@ -243,7 +244,7 @@ class CustomDialog extends StatelessWidget {
                     RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
                   ),
                 ),
-                child: Text(actionText, style: TextStyle(color: Colors.green)),
+                child: Text(actionText, style: const TextStyle(color: Colors.green)),
               ),
             ],
           ),

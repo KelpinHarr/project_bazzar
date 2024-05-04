@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_bazzar/login.dart';
 import 'package:project_bazzar/stand/daftarBarang.dart';
 import 'package:project_bazzar/stand/tambahBarang.dart';
 
@@ -112,7 +113,10 @@ class NavBarStand extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // Tambahkan fungsi logout di sini
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Login()),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red,

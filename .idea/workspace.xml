@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6530c596-663a-4f13-9484-6ee29065bd16" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/admin/cekSaldo.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/admin/daftarUser.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/admin/topUp.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/stand/bayarTransaksi.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/stand/buatTransaksi.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/stand/detailTransaksi.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/stand/riwayatTransaksi.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/admin/navbar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/admin/navbar.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/admin/navbarv2.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/admin/navbarv2.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/stand/daftarBarang.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/stand/daftarBarang.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/stand/editBarang.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/stand/editBarang.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/stand/navbar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/stand/navbar.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/stand/navbarv2.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/stand/navbarv2.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/stand/tambahBarang.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/stand/tambahBarang.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,22 +70,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Felicia Pangestu/Downloads/aris_file_select_upload-master&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;flutter.settings&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "com.google.services.firebase.aqiPopupShown": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "main",
+    "io.flutter.reload.alreadyRun": "true",
+    "last_opened_file_path": "C:/Users/Felicia Pangestu/OneDrive/Documents/Informatika Semester 6/MDP/Proyek/EcoTong_Android",
+    "settings.editor.selected.configurable": "flutter.settings",
+    "show.migrate.to.gradle.popup": "false"
   }
-}</component>
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Felicia Pangestu\OneDrive\Documents\Informatika Semester 6\Kerja Praktek\project_bazzar\lib\stand" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

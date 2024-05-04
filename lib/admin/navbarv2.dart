@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:project_bazzar/login.dart';
 
 class NavbarAdminv2 extends StatelessWidget {
-  const NavbarAdminv2({Key? key, required this.body, required this.activePage});
+  const NavbarAdminv2({super.key, required this.body, required this.activePage});
 
   final Widget body;
   final String activePage;
@@ -15,50 +16,52 @@ class NavbarAdminv2 extends StatelessWidget {
       pageTitle = 'Top up';
     } else if (activePage == 'Daftar user') {
       pageTitle = 'Daftar user';
+    } else if (activePage == 'Scan QR') {
+      pageTitle = 'Scan QR';
     }
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
           pageTitle,
-          style: TextStyle(
+          style: const TextStyle(
             color: Color(0xffAAD4FF),
           ),
         ),
-        backgroundColor: Color(0xff0A2B4E),
+        backgroundColor: const Color(0xff0A2B4E),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
           },
-          color: Color(0xffAAD4FF),
+          color: const Color(0xffAAD4FF),
         ),
         actions: [
           Builder(
             builder: (context) => IconButton(
-              icon: Icon(Icons.menu),
+              icon: const Icon(Icons.menu),
               onPressed: () {
                 Scaffold.of(context).openEndDrawer();
               },
-              color: Color(0xffAAD4FF), // Set menu icon color here
+              color: const Color(0xffAAD4FF), // Set menu icon color here
             ),
           ),
         ],
-        iconTheme: IconThemeData(color: Color(0xffAAD4FF)),
+        iconTheme: const IconThemeData(color: Color(0xffAAD4FF)),
       ),
       body: body,
       endDrawer: Builder(
         builder: (context) => Drawer(
-            backgroundColor: Color(0xffF0F0E8),
+            backgroundColor: const Color(0xffF0F0E8),
             child: Column(
               children: [
                 Container(
-                  margin: EdgeInsets.symmetric(vertical: 16),
+                  margin: const EdgeInsets.symmetric(vertical: 16),
                   decoration: BoxDecoration(
-                    color: Color(0xff0A2B4E),
+                    color: const Color(0xff0A2B4E),
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 75),
+                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 75),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -68,7 +71,7 @@ class NavbarAdminv2 extends StatelessWidget {
                         width: 60,
                         fit: BoxFit.contain, // Ensure image fits within container
                       ),
-                      Text(
+                      const Text(
                         'Admin',
                         style: TextStyle(
                           color: Color(0xffAAD4FF),
@@ -85,7 +88,7 @@ class NavbarAdminv2 extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontWeight: activePage == 'Home' ? FontWeight.bold : FontWeight.normal,
-                      color: Color(0xff0A2B4E),
+                      color: const Color(0xff0A2B4E),
                     ),
                   ),
                   onTap: () {
@@ -98,7 +101,7 @@ class NavbarAdminv2 extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontWeight: activePage == 'Cek saldo' ? FontWeight.bold : FontWeight.normal,
-                      color: Color(0xff0A2B4E),
+                      color: const Color(0xff0A2B4E),
                     ),
                   ),
                   onTap: () {
@@ -111,7 +114,7 @@ class NavbarAdminv2 extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontWeight: activePage == 'Top up' ? FontWeight.bold : FontWeight.normal,
-                      color: Color(0xff0A2B4E),
+                      color: const Color(0xff0A2B4E),
                     ),
                   ),
                   onTap: () {
@@ -124,21 +127,24 @@ class NavbarAdminv2 extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontWeight: activePage == 'Daftar user' ? FontWeight.bold : FontWeight.normal,
-                      color: Color(0xff0A2B4E),
+                      color: const Color(0xff0A2B4E),
                     ),
                   ),
                   onTap: () {
 
                   },
                 ),
-                Spacer(),
+                const Spacer(),
                 Padding(
                   padding: const EdgeInsets.all(24.0),
                   child: SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        // Tambahkan fungsi logout di sini
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const Login()),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.red,
@@ -148,7 +154,7 @@ class NavbarAdminv2 extends StatelessWidget {
                           ),
                           padding: const EdgeInsets.symmetric(vertical: 16.0)
                       ),
-                      child: Text(
+                      child: const Text(
                         'Keluar',
                         style: TextStyle(
                           color: Colors.white,

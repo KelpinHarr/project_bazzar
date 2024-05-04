@@ -7,6 +7,8 @@ import 'package:iconsax/iconsax.dart';
 import 'dart:typed_data';
 
 class TambahBarang extends StatefulWidget {
+  const TambahBarang({super.key});
+
   @override
   _TambahBarangState createState() => _TambahBarangState();
 }
@@ -57,7 +59,7 @@ class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderSt
     return NavbarStandv2(
       key: GlobalKey(),
       body: Scaffold(
-        backgroundColor: Color(0xffF0F0E8),
+        backgroundColor: const Color(0xffF0F0E8),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -65,7 +67,7 @@ class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderSt
               children: [
                 TextField(
                   controller: _namaBarangController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: "Nama Barang",
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Color(0xff0A2B4E)),
@@ -75,11 +77,11 @@ class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderSt
                     ),
                   ),
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 TextField(
                   controller: _hargaController,
                   keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: "Harga Barang",
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Color(0xff0A2B4E)),
@@ -89,14 +91,14 @@ class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderSt
                     ),
                   ),
                 ),
-                SizedBox(height: 24.0),
+                const SizedBox(height: 24.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     _qty > 0
                         ? Text(
                           "Qty: $_qty",
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Color(0xff0A2B4E),
                             fontSize: 16.0
                           )
@@ -111,9 +113,9 @@ class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderSt
                             });
                           },
                           style: ButtonStyle(
-                            foregroundColor: MaterialStateProperty.all<Color>(Color(0xff0A2B4E)), // Mengatur warna teks menjadi hitam
+                            foregroundColor: MaterialStateProperty.all<Color>(const Color(0xff0A2B4E)), // Mengatur warna teks menjadi hitam
                           ),
-                          child: Row(
+                          child: const Row(
                             children: [
                               Icon(Icons.add),
                               SizedBox(width: 8), // Adjust the width as needed
@@ -132,8 +134,8 @@ class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderSt
                                 _qty--;
                               });
                             },
-                            icon: Icon(Icons.remove),
-                            color: Color(0xff0A2B4E),
+                            icon: const Icon(Icons.remove),
+                            color: const Color(0xff0A2B4E),
                           ),
                           // Text("$_qty"),
                           SizedBox(
@@ -151,16 +153,15 @@ class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderSt
                                     });
                                   }
                                 } catch (e) {
-                                  print("Invalid quantity input: $e");
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
+                                    const SnackBar(
                                       content: Text('Invalid quantity. Please enter a number.'),
                                     ),
                                   );
                                 }
                               },
                               textAlign: TextAlign.center,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 contentPadding: EdgeInsets.all(0.0), // Remove padding for a cleaner look
                               ),
                             ),
@@ -171,15 +172,15 @@ class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderSt
                                 _qty++;
                               });
                             },
-                            icon: Icon(Icons.add),
-                            color: Color(0xff0A2B4E),
+                            icon: const Icon(Icons.add),
+                            color: const Color(0xff0A2B4E),
                           ),
                         ],
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 Padding(
                   padding: const EdgeInsets.all(24.0),
                   child: SizedBox(
@@ -189,14 +190,14 @@ class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderSt
                         // Tambahkan fungsi tambah barang di sini
                       },
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xffAAD4FF),
+                          backgroundColor: const Color(0xffAAD4FF),
                           elevation: 5,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           padding: const EdgeInsets.symmetric(vertical: 16.0)
                       ),
-                      child: Text(
+                      child: const Text(
                         'Tambah',
                         style: TextStyle(
                           color: Color(0xff0A2B4E),
@@ -207,8 +208,8 @@ class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderSt
                     ),
                   ),
                 ),
-                SizedBox(height: 24.0),
-                Row(
+                const SizedBox(height: 24.0),
+                const Row(
                   children: [
                     Expanded(
                       child: Divider(
@@ -216,7 +217,7 @@ class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderSt
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
                       child: Text(
                         'Atau',
                         style: TextStyle(
@@ -232,17 +233,17 @@ class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderSt
                     ),
                   ],
                 ),
-                SizedBox(height: 24.0),
+                const SizedBox(height: 24.0),
 
                 // upload file
                 GestureDetector(
                   onTap: selectFile,
                   child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
                       child: DottedBorder(
                         borderType: BorderType.RRect,
-                        radius: Radius.circular(10),
-                        dashPattern: [10, 4],
+                        radius: const Radius.circular(10),
+                        dashPattern: const [10, 4],
                         strokeCap: StrokeCap.round,
                         color: Colors.blue.shade400,
                         child: Container(
@@ -255,8 +256,8 @@ class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderSt
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Iconsax.folder_open, color: Colors.blue, size: 40,),
-                              SizedBox(height: 15,),
+                              const Icon(Iconsax.folder_open, color: Colors.blue, size: 40,),
+                              const SizedBox(height: 15,),
                               Text('Select your file', style: TextStyle(fontSize: 15, color: Colors.grey.shade400),),
                             ],
                           ),
@@ -267,7 +268,7 @@ class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderSt
 
                 _platformFile != null
                     ? Container(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -275,16 +276,16 @@ class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderSt
                         'Selected File',
                         style: TextStyle(color: Colors.grey.shade400, fontSize: 15),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: Colors.white,
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey.shade200,
-                              offset: Offset(0, 1),
+                              offset: const Offset(0, 1),
                               blurRadius: 3,
                               spreadRadius: 2,
                             )
@@ -295,14 +296,14 @@ class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderSt
                           children: [
                             Text(
                               _platformFile!.name,
-                              style: TextStyle(fontSize: 13, color: Colors.black),
+                              style: const TextStyle(fontSize: 13, color: Colors.black),
                             ),
-                            SizedBox(height: 5),
+                            const SizedBox(height: 5),
                             Text(
                               '${(_platformFile!.size / 1024).ceil()} KB',
                               style: TextStyle(fontSize: 13, color: Colors.grey.shade500),
                             ),
-                            SizedBox(height: 5),
+                            const SizedBox(height: 5),
                             Container(
                               height: 5,
                               clipBehavior: Clip.hardEdge,
@@ -312,14 +313,14 @@ class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderSt
                               ),
                               child: LinearProgressIndicator(
                                 value: loadingController.value,
-                                backgroundColor: Color(0xffAAD4FF), // Warna latar belakang
-                                valueColor: AlwaysStoppedAnimation<Color>(Color(0xff0A2B4E)),
+                                backgroundColor: const Color(0xffAAD4FF), // Warna latar belakang
+                                valueColor: const AlwaysStoppedAnimation<Color>(Color(0xff0A2B4E)),
                               ),
                             ),
                           ],
                         ),
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       loadingController.value == 1.0
                           ? SizedBox(
                         width: double.infinity,
@@ -333,7 +334,7 @@ class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderSt
                             // );
                           },
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xffAAD4FF),
+                              backgroundColor: const Color(0xffAAD4FF),
                               elevation: 5,
                               shape: RoundedRectangleBorder(
                                 borderRadius:
@@ -341,7 +342,7 @@ class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderSt
                               ),
                               padding: const EdgeInsets.symmetric(
                                   vertical: 16.0)),
-                          child: Text(
+                          child: const Text(
                             'Selanjutnya',
                             style: TextStyle(
                                 color: Color(0xff0A2B4E),
@@ -350,7 +351,7 @@ class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderSt
                           ),
                         ),
                       )
-                          : SizedBox(), // Widget kosong jika loading belum selesai
+                          : const SizedBox(), // Widget kosong jika loading belum selesai
                     ],
                   ),
                 )
