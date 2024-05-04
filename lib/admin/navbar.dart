@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:project_bazzar/admin/cekSaldo.dart';
+import 'package:project_bazzar/admin/qrCekSaldo.dart';
 import 'package:project_bazzar/login.dart';
 
 late List<CameraDescription>? cameras;
@@ -70,7 +70,7 @@ class NavBarAdmin extends StatelessWidget {
               await initializeCamera();
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => CekSaldo(cameras: cameras)),
+                MaterialPageRoute(builder: (context) => QrCekSaldo()),
               );
             },
           ),

@@ -29,6 +29,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   camera: ^0.10.5+9
+  qr_code_scanner: ^1.0.1
   flutter_excel: any
   flutter:
     sdk: flutter

@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:camera/camera.dart';
+import 'package:project_bazzar/admin/qrCekSaldo.dart';
 import 'package:project_bazzar/login.dart';
+
+late List<CameraDescription>? cameras;
+Future<List<CameraDescription>?> initializeCamera() async {
+  cameras = await availableCameras();
+  return cameras;
+}
 
 class NavbarAdminv2 extends StatelessWidget {
   const NavbarAdminv2({super.key, required this.body, required this.activePage});
@@ -104,8 +112,12 @@ class NavbarAdminv2 extends StatelessWidget {
                       color: const Color(0xff0A2B4E),
                     ),
                   ),
-                  onTap: () {
-                    // Add action
+                  onTap: () async {
+                    await initializeCamera();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => QrCekSaldo()),
+                    );
                   },
                 ),
                 ListTile(
