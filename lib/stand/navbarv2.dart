@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_bazzar/stand/daftarBarang.dart';
 import 'package:project_bazzar/stand/tambahBarang.dart';
 
 class Navbarv2 extends StatelessWidget {
@@ -18,6 +19,10 @@ class Navbarv2 extends StatelessWidget {
       pageTitle = 'Riwayat transaksi';
     } else if (activePage == 'List barang') {
       pageTitle = 'List barang';
+    } else if (activePage == 'Daftar barang') {
+      pageTitle = 'Daftar barang';
+    } else if (activePage == 'Edit barang') {
+      pageTitle = 'Edit barang';
     }
 
     return Scaffold(
@@ -131,7 +136,10 @@ class Navbarv2 extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    // Add action
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => DaftarBarang()),
+                    );
                   },
                 ),
                 ListTile(

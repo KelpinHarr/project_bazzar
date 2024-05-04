@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_bazzar/stand/daftarBarang.dart';
 import 'package:project_bazzar/stand/tambahBarang.dart';
 
 class NavBar extends StatelessWidget {
@@ -83,7 +84,10 @@ class NavBar extends StatelessWidget {
               ),
             ),
             onTap: () {
-              // Add action
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => DaftarBarang()),
+              );
             },
           ),
           ListTile(
