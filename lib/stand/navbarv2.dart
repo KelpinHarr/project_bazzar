@@ -24,8 +24,8 @@ class NavbarStandv2 extends StatelessWidget {
       pageTitle = 'Daftar barang';
     } else if (activePage == 'Edit barang') {
       pageTitle = 'Edit barang';
-    } else if (activePage == 'Detail transaksi') {
-      pageTitle = 'Detail transaksi';
+    } else if (activePage == 'Detil transaksi') {
+      pageTitle = 'Detil transaksi';
     } else if (activePage == 'Buat transaksi') {
       pageTitle = 'Buat transaksi';
     } else if (activePage == 'Bayar transaksi') {

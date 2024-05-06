@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_bazzar/login.dart';
 import 'package:project_bazzar/stand/daftarBarang.dart';
+import 'package:project_bazzar/stand/detailTransaksi.dart';
 import 'package:project_bazzar/stand/tambahBarang.dart';
 
 class NavBarStand extends StatelessWidget {
@@ -73,7 +74,23 @@ class NavBarStand extends StatelessWidget {
               ),
             ),
             onTap: () {
-              // Add action
+              final dummyTransaction = Transaction(
+                id: '123456789',
+                date: '01/05/2024',
+                stand: 'Stand A',
+                buyerId: 'Buyer123',
+                status: 'Completed',
+                items: [
+                  TransactionItem(name: 'Product A', quantity: 2, price: 25.0),
+                  TransactionItem(name: 'Product B', quantity: 1, price: 15.0),
+                  TransactionItem(name: 'Product C', quantity: 3, price: 10.0),
+                ],
+                totalAmount: 100.0,
+              );
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => DetailTransaksi(transaction: dummyTransaction)),
+              );
             },
           ),
           ListTile(
