@@ -10,7 +10,7 @@ class RiwayatTransaksi extends StatefulWidget {
 }
 
 class _RiwayatTransaksiState extends State<RiwayatTransaksi>{
-  final Transaction dummyTransaction = Transaction(
+  final Transaction dummyTransaction = const Transaction(
     id: 'PK1249281',
     date: '01/05/2024',
     time: '11:11',
@@ -20,7 +20,7 @@ class _RiwayatTransaksiState extends State<RiwayatTransaksi>{
     items: [
       TransactionItem(name: 'Product A', quantity: 2, price: 25000),
       TransactionItem(name: 'Product B', quantity: 1, price: 15000),
-      TransactionItem(name: 'Product C', quantity: 3, price: 10000),
+      const TransactionItem(name: 'Product C', quantity: 3, price: 10000),
     ],
     totalAmount: 100000,
     totalQty: 6,
@@ -40,6 +40,7 @@ class _RiwayatTransaksiState extends State<RiwayatTransaksi>{
               children: [
                 Card(
                   elevation: 5.0,
+                  // color: const Color(0xffAAD4FF),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)), // Set rounded corners
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -65,7 +66,7 @@ class _RiwayatTransaksiState extends State<RiwayatTransaksi>{
                               padding: const EdgeInsets.only(right: 8.0),
                               child: Text(
                                 'Rp${dummyTransaction.totalAmount}',
-                                style: TextStyle(fontSize: 16.0, color: Color(0xff0A2B4E)),
+                                style: const TextStyle(fontSize: 16.0, color: Color(0xff0A2B4E)),
                               ),
                             )
 
@@ -76,9 +77,9 @@ class _RiwayatTransaksiState extends State<RiwayatTransaksi>{
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             // Date and Time
-                            Text(
+                            const Text(
                               '1 Mei 2024, 11:11', // Replace with actual date and time
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontSize: 14.0,
                                   color: Color(0xff0A2B4E)
                               ),
@@ -91,7 +92,7 @@ class _RiwayatTransaksiState extends State<RiwayatTransaksi>{
                                     MaterialPageRoute(builder: (context) => DetailTransaksi(transaction: dummyTransaction)),
                                 );
                               },
-                              child: Text(
+                              child: const Text(
                                 'Lihat detail >',
                                 style: TextStyle(
                                     color: Color(0xff0A2B4E),

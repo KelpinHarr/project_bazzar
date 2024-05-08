@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_bazzar/login.dart';
+import 'package:project_bazzar/stand/buatTransaksi.dart';
 import 'package:project_bazzar/stand/daftarBarang.dart';
-import 'package:project_bazzar/stand/detailTransaksi.dart';
 import 'package:project_bazzar/stand/riwayatTransaksi.dart';
 import 'package:project_bazzar/stand/tambahBarang.dart';
 
@@ -51,7 +51,7 @@ class NavBarStand extends StatelessWidget {
               ),
             ),
             onTap: () {
-              // Add action
+              // Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
             },
           ),
           ListTile(
@@ -63,7 +63,10 @@ class NavBarStand extends StatelessWidget {
               ),
             ),
             onTap: () {
-              // Add action
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const BuatTransaksi()),
+              );
             },
           ),
           ListTile(

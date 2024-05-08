@@ -11,7 +11,7 @@ class DetailTransaksi extends StatelessWidget {
     return NavbarStandv2(
         key: GlobalKey(),
         body: Scaffold(
-            backgroundColor: const Color(0xffF0F0E8),
+          backgroundColor: const Color(0xffF0F0E8),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(16.0),
             child: Column(

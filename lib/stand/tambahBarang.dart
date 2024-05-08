@@ -65,7 +65,7 @@ class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderSt
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                TextField(
+                TextFormField(
                   controller: _namaBarangController,
                   decoration: const InputDecoration(
                     labelText: "Nama Barang",
@@ -76,9 +76,14 @@ class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderSt
                       color: Color(0xff0A2B4E),
                     ),
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Nama barang tidak boleh kosong';
+                    }
+                  },
                 ),
                 const SizedBox(height: 16.0),
-                TextField(
+                TextFormField(
                   controller: _hargaController,
                   keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
@@ -90,6 +95,17 @@ class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderSt
                       color: Color(0xff0A2B4E),
                     ),
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Harga barang tidak boleh kosong';
+                    }
+                    try {
+                      int.parse(value);
+                      return null; // Valid number
+                    } catch (e) {
+                      return 'Harga barang harus berupa angka';
+                    }
+                  },
                 ),
                 const SizedBox(height: 24.0),
                 Row(

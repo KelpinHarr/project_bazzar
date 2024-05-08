@@ -25,7 +25,7 @@ class _EditBarangState extends State<EditBarang> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                TextField(
+                TextFormField(
                   controller: _namaBarangController,
                   decoration: const InputDecoration(
                     labelText: "Nama Barang",
@@ -38,7 +38,7 @@ class _EditBarangState extends State<EditBarang> {
                   ),
                 ),
                 const SizedBox(height: 16.0),
-                TextField(
+                TextFormField (
                   controller: _hargaController,
                   keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
