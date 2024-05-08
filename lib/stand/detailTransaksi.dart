@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:project_bazzar/stand/navbarv2.dart';
+import 'package:project_bazzar/stand/riwayatTransaksi.dart';
 
 class DetailTransaksi extends StatelessWidget {
   final Transaction transaction;
-
   const DetailTransaksi({Key? key, required this.transaction}) : super(key: key);
 
   @override
@@ -50,7 +50,7 @@ class DetailTransaksi extends StatelessWidget {
                 DataTable(
                   // Define columns for items table
                   columns: [
-                    DataColumn(
+                    const DataColumn(
                       label: Expanded(
                         child: Text(
                           'Nama',
@@ -60,7 +60,7 @@ class DetailTransaksi extends StatelessWidget {
                         ),
                       ),
                     ),
-                    DataColumn(
+                    const DataColumn(
                       label: Expanded(
                         child: Text(
                           'Qty',
@@ -70,7 +70,7 @@ class DetailTransaksi extends StatelessWidget {
                         ),
                       ),
                     ),
-                    DataColumn(
+                    const DataColumn(
                       label: Expanded(
                         child: Text(
                           'Harga',
@@ -80,7 +80,7 @@ class DetailTransaksi extends StatelessWidget {
                         ),
                       ),
                     ),
-                    DataColumn(
+                    const DataColumn(
                       label: Expanded(
                         child: Text(
                           'Total',
@@ -127,9 +127,9 @@ class DetailTransaksi extends StatelessWidget {
                         Expanded(
                           child: Container(
                             alignment: Alignment.centerRight, // Align text to the right
-                            child: Text(
+                            child: const Text(
                               'Total Qty: ',
-                              style: const TextStyle(fontSize: 16.0),
+                              style: TextStyle(fontSize: 16.0),
                             ),
                           ),
                         ),
@@ -184,8 +184,7 @@ class DetailTransaksi extends StatelessWidget {
     } else if (value == 'Canceled') {
       textColor = Colors.red;
     } else {
-      // Gunakan warna default untuk nilai lainnya
-      textColor = Colors.black; // Atau warna lain sesuai kebutuhan
+      textColor = const Color(0xff0A2B4E);
     }
 
     return Row(
@@ -210,38 +209,4 @@ class DetailTransaksi extends StatelessWidget {
       ],
     );
   }
-}
-
-class Transaction {
-  final String id;
-  final String date;
-  final String stand;
-  final String buyerId;
-  final String status;
-  final List<TransactionItem> items;
-  final double totalAmount;
-  final double totalQty;
-
-  const Transaction({
-    required this.id,
-    required this.date,
-    required this.stand,
-    required this.buyerId,
-    required this.status,
-    required this.items,
-    required this.totalAmount,
-    required this.totalQty,
-  });
-}
-
-class TransactionItem {
-  final String name;
-  final int quantity;
-  final double price;
-
-  const TransactionItem({
-    required this.name,
-    required this.quantity,
-    required this.price,
-  });
 }

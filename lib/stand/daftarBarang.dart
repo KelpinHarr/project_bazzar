@@ -15,7 +15,7 @@ class _DaftarBarangState extends State<DaftarBarang> {
     return NavbarStandv2(
         key: GlobalKey(),
         body: Scaffold(
-        backgroundColor: const Color(0xffF0F0E8),
+          backgroundColor: const Color(0xffF0F0E8),
           body: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(16.0),

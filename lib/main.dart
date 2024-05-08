@@ -74,12 +74,15 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Text(
                   'Pendapatan Hari Ini',
-                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 18.0),
                 ),
                 const SizedBox(height: 8.0),
                 Text(
                   'Rp150.000',
-                  style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold
+                  ),
                 ),
               ],
             ),
