@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:project_bazzar/stand/navbarv2.dart';
-import 'package:project_bazzar/student/navbar.dart';
 
 class DetailTransaksi extends StatelessWidget {
   final Transaction transaction;
@@ -16,7 +15,7 @@ class DetailTransaksi extends StatelessWidget {
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(16.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 // Transaction Info Card
                 Card(
@@ -43,26 +42,133 @@ class DetailTransaksi extends StatelessWidget {
                 const SizedBox(height: 16.0), // Spacing after card
 
                 // Items List with Heading
-                Text(
-                  'Item',
-                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, color: Color(0xff0A2B4E)),
-                ),
+                // Text(
+                //   '',
+                //   style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, color: Color(0xff0A2B4E)),
+                // ),
                 const SizedBox(height: 8.0),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: transaction.items.length,
-                  itemBuilder: (context, index) {
-                    final item = transaction.items[index];
-                    return _buildTransactionItem(context, item.name, item.quantity, item.price);
-                  },
+                DataTable(
+                  // Define columns for items table
+                  columns: [
+                    DataColumn(
+                      label: Expanded(
+                        child: Text(
+                          'Nama',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                    DataColumn(
+                      label: Expanded(
+                        child: Text(
+                          'Qty',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                    DataColumn(
+                      label: Expanded(
+                        child: Text(
+                          'Harga',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                    DataColumn(
+                      label: Expanded(
+                        child: Text(
+                          'Total',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                  rows: transaction.items.map((item) => DataRow(
+                    cells: [
+                      DataCell(
+                        Expanded(
+                          child: Text(item.name),
+                        ),
+                      ),
+                      DataCell(
+                        Expanded(
+                          child: Text(item.quantity.toString()),
+                        ),
+                      ),
+                      DataCell(
+                        Expanded(
+                          child: Text('Rp${item.price}'),
+                        ),
+                      ),
+                      DataCell(
+                        Expanded(
+                          child: Text('Rp${item.price * item.quantity}'),
+                        ),
+                      ),
+                    ],
+                  )).toList(),
                 ),
                 const SizedBox(height: 16.0), // Spacing before total
-
                 // Total Amount with Divider
                 const Divider(thickness: 1.0, color: Colors.grey),
                 const SizedBox(height: 16.0),
-                _buildTransactionInfo(context, 'Rp ${transaction.totalAmount.toStringAsFixed(2)}', 'Total:'),
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            alignment: Alignment.centerRight, // Align text to the right
+                            child: Text(
+                              'Total Qty: ',
+                              style: const TextStyle(fontSize: 16.0),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.centerRight, // Align text to the right
+                          child: Text(
+                            '${transaction.totalQty}',
+                            style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16.0),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            alignment: Alignment.centerRight, // Align text to the right
+                            child: const Text(
+                              'Total: ',
+                              style: TextStyle(fontSize: 16.0),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.centerRight, // Align text to the right
+                          child: Text(
+                            'Rp${transaction.totalAmount}',
+                            style: const TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.green
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
@@ -72,35 +178,34 @@ class DetailTransaksi extends StatelessWidget {
   }
 
   Widget _buildTransactionInfo(BuildContext context, String value, String label) {
+    Color textColor;
+    if (value == 'Completed') {
+      textColor = Colors.green;
+    } else if (value == 'Canceled') {
+      textColor = Colors.red;
+    } else {
+      // Gunakan warna default untuk nilai lainnya
+      textColor = Colors.black; // Atau warna lain sesuai kebutuhan
+    }
+
     return Row(
       children: [
         Text(
           label,
-          style: const TextStyle(fontSize: 16.0, color: Colors.grey),
+          style: const TextStyle(
+              fontSize: 16.0,
+              color: Color(0xff0A2B4E)),
         ),
         const SizedBox(width: 8.0),
         Expanded(
           child: Text(
             value,
-            style: const TextStyle(fontSize: 16.0),
+            style: TextStyle(
+                fontSize: 16.0,
+                color: textColor,
+                fontWeight: FontWeight.w900
+            ),
           ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildTransactionItem(BuildContext context, String name, int quantity, double price) {
-    return Row(
-      children: [
-        Expanded(
-          child: Text(
-            '$name x $quantity',
-            style: const TextStyle(fontSize: 16.0),
-          ),
-        ),
-        Text(
-          'Rp ${price.toStringAsFixed(2)}',
-          style: const TextStyle(fontSize: 16.0),
         ),
       ],
     );
@@ -115,6 +220,7 @@ class Transaction {
   final String status;
   final List<TransactionItem> items;
   final double totalAmount;
+  final double totalQty;
 
   const Transaction({
     required this.id,
@@ -124,6 +230,7 @@ class Transaction {
     required this.status,
     required this.items,
     required this.totalAmount,
+    required this.totalQty,
   });
 }
 

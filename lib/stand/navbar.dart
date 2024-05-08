@@ -81,11 +81,12 @@ class NavBarStand extends StatelessWidget {
                 buyerId: 'Buyer123',
                 status: 'Completed',
                 items: [
-                  TransactionItem(name: 'Product A', quantity: 2, price: 25.0),
-                  TransactionItem(name: 'Product B', quantity: 1, price: 15.0),
-                  TransactionItem(name: 'Product C', quantity: 3, price: 10.0),
+                  TransactionItem(name: 'Product A', quantity: 2, price: 25000),
+                  TransactionItem(name: 'Product B', quantity: 1, price: 15000),
+                  TransactionItem(name: 'Product C', quantity: 3, price: 10000),
                 ],
-                totalAmount: 100.0,
+                totalAmount: 100000,
+                totalQty: 6
               );
               Navigator.push(
                 context,
