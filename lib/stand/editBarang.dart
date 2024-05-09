@@ -235,7 +235,7 @@ class CustomDialog extends StatelessWidget {
               Text(title, style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
               // SizedBox(height: 8.0), // Add spacing between title and content
               // Text(content),
-              const SizedBox(height: 16.0), // Add spacing before button
+              const SizedBox(height: 16.0),
               TextButton(
                 onPressed: onPressed,
                 style: ButtonStyle(

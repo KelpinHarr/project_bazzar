@@ -1,31 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:project_bazzar/login.dart';
 
-class Navbar extends StatelessWidget {
-  const Navbar({super.key});
+class NavBarStudent extends StatelessWidget {
+  const NavBarStudent({Key? key});
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
       backgroundColor: Color(0xffF0F0E8),
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
+      child: Column(
+        children: [
           Container(
+            margin: EdgeInsets.symmetric(vertical: 16),
             decoration: BoxDecoration(
               color: Color(0xff0A2B4E),
               borderRadius: BorderRadius.circular(16),
             ),
-            margin: EdgeInsets.all(16),
-            child: DrawerHeader(
-              child: Text(
-                '<Nama Siswa>',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white, // Mengubah warna teks menjadi putih
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 75),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/Profile.png', // Replace with your image path
+                  height: 60, // Adjust image size as needed
+                  width: 60,
+                  fit: BoxFit.contain, // Ensure image fits within container
                 ),
-              ),
+                Text(
+                  'Felicia',
+                  style: TextStyle(
+                    color: Color(0xffAAD4FF),
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
           ),
           ListTile(
@@ -34,15 +43,45 @@ class Navbar extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Color(0xff0A2B4E)
+                color: Color(0xff0A2B4E),
               ),
             ),
             onTap: () {
-              // Add action
+              // Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
             },
           ),
+          Spacer(),
+          Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Login()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 16.0)
+                ),
+                child: Text(
+                  'Keluar',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
-      ),      
+      ),
     );
   }
 }

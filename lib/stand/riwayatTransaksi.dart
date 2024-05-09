@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_bazzar/Transaction.dart';
 import 'package:project_bazzar/stand/detailTransaksi.dart';
 import 'package:project_bazzar/stand/navbarv2.dart';
 
@@ -10,10 +11,9 @@ class RiwayatTransaksi extends StatefulWidget {
 }
 
 class _RiwayatTransaksiState extends State<RiwayatTransaksi>{
-  final Transaction dummyTransaction = const Transaction(
+  final Transaction dummyTransaction = Transaction(
     id: 'PK1249281',
-    date: '01/05/2024',
-    time: '11:11',
+    date: DateTime(2024, 4, 24, 10, 11),
     stand: 'Felicia',
     buyerId: 'Kenny',
     status: 'Completed',
@@ -115,40 +115,4 @@ class _RiwayatTransaksiState extends State<RiwayatTransaksi>{
       activePage: 'Riwayat transaksi',
     );
   }
-}
-
-class Transaction {
-  final String id;
-  final String date;
-  final String time;
-  final String stand;
-  final String buyerId;
-  final String status;
-  final List<TransactionItem> items;
-  final double totalAmount;
-  final double totalQty;
-
-  const Transaction({
-    required this.id,
-    required this.date,
-    required this.time,
-    required this.stand,
-    required this.buyerId,
-    required this.status,
-    required this.items,
-    required this.totalAmount,
-    required this.totalQty,
-  });
-}
-
-class TransactionItem {
-  final String name;
-  final int quantity;
-  final double price;
-
-  const TransactionItem({
-    required this.name,
-    required this.quantity,
-    required this.price,
-  });
 }

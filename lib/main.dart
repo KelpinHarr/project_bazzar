@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project_bazzar/login.dart';
 import 'package:project_bazzar/admin/navbar.dart';
 import 'package:project_bazzar/stand/navbar.dart';
+import 'package:project_bazzar/student/home.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +18,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         // '/': (context) => Login(),
-        '/': (context) => HomePage(),
+        '/': (context) => Home(),
+        // '/': (context) => HomePage(),
         // '/main': (context) => HomePage(),
         // tambahkan rute lain jika diperlukan
       },

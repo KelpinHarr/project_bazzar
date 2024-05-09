@@ -166,7 +166,7 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
           ),
         ),
       ),
-      activePage: 'Buat transaksi',
+      activePage: 'Tambah',
     );
   }
 }

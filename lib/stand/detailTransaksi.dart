@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:project_bazzar/Transaction.dart';
 import 'package:project_bazzar/stand/navbarv2.dart';
-import 'package:project_bazzar/stand/riwayatTransaksi.dart';
 
 class DetailTransaksi extends StatelessWidget {
   final Transaction transaction;
-  const DetailTransaksi({Key? key, required this.transaction}) : super(key: key);
+  const DetailTransaksi({super.key, required this.transaction});
 
   @override
   Widget build(BuildContext context) {
+    String formattedTime = '${transaction.date.day} ${_getMonthName(transaction.date.month)} ${transaction.date.year}, ${_formatTime(transaction.date.hour, transaction.date.minute)}';
     return NavbarStandv2(
         key: GlobalKey(),
         body: Scaffold(
@@ -28,7 +29,7 @@ class DetailTransaksi extends StatelessWidget {
                       children: [
                         _buildTransactionInfo(context, transaction.id, 'Nomor Transaksi:'),
                         const SizedBox(height: 8.0),
-                        _buildTransactionInfo(context, transaction.date, 'Tanggal:'),
+                        _buildTransactionInfo(context, formattedTime, 'Tanggal:'),
                         const SizedBox(height: 8.0),
                         _buildTransactionInfo(context, transaction.stand, 'Stand:'),
                         const SizedBox(height: 8.0),
@@ -49,8 +50,8 @@ class DetailTransaksi extends StatelessWidget {
                 const SizedBox(height: 8.0),
                 DataTable(
                   // Define columns for items table
-                  columns: [
-                    const DataColumn(
+                  columns: const [
+                    DataColumn(
                       label: Expanded(
                         child: Text(
                           'Nama',
@@ -60,7 +61,7 @@ class DetailTransaksi extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const DataColumn(
+                    DataColumn(
                       label: Expanded(
                         child: Text(
                           'Qty',
@@ -70,7 +71,7 @@ class DetailTransaksi extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const DataColumn(
+                    DataColumn(
                       label: Expanded(
                         child: Text(
                           'Harga',
@@ -80,7 +81,7 @@ class DetailTransaksi extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const DataColumn(
+                    DataColumn(
                       label: Expanded(
                         child: Text(
                           'Total',
@@ -175,6 +176,43 @@ class DetailTransaksi extends StatelessWidget {
         ),
         activePage: 'Detil transaksi'
     );
+  }
+
+  String _getMonthName(int month) {
+    switch (month) {
+      case 1:
+        return 'Januari';
+      case 2:
+        return 'Februari';
+      case 3:
+        return 'Maret';
+      case 4:
+        return 'April';
+      case 5:
+        return 'Mei';
+      case 6:
+        return 'Juni';
+      case 7:
+        return 'Juli';
+      case 8:
+        return 'Agustus';
+      case 9:
+        return 'September';
+      case 10:
+        return 'Oktober';
+      case 11:
+        return 'November';
+      case 12:
+        return 'Desember';
+      default:
+        return '';
+    }
+  }
+
+  String _formatTime(int hour, int minute) {
+    String formattedHour = hour.toString().padLeft(2, '0');
+    String formattedMinute = minute.toString().padLeft(2, '0');
+    return '$formattedHour:$formattedMinute';
   }
 
   Widget _buildTransactionInfo(BuildContext context, String value, String label) {

@@ -10,16 +10,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6530c596-663a-4f13-9484-6ee29065bd16" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/Transaction.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/stand/buatTransaksi.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/stand/buatTransaksi.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/stand/detailTransaksi.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/stand/detailTransaksi.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/stand/editBarang.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/stand/editBarang.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/stand/navbar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/stand/navbar.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/stand/navbarv2.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/stand/navbarv2.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/stand/riwayatTransaksi.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/stand/riwayatTransaksi.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/stand/tambahBarang.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/stand/tambahBarang.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/student/home.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/student/home.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/student/navbar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/student/navbar.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

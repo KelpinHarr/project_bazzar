@@ -11,16 +11,16 @@ class NavBarStand extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: Color(0xffF0F0E8),
+      backgroundColor: const Color(0xffF0F0E8),
       child: Column(
         children: [
           Container(
-            margin: EdgeInsets.symmetric(vertical: 16),
+            margin: const EdgeInsets.symmetric(vertical: 16),
             decoration: BoxDecoration(
-              color: Color(0xff0A2B4E),
+              color: const Color(0xff0A2B4E),
               borderRadius: BorderRadius.circular(16),
             ),
-            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 75),
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 75),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -30,7 +30,7 @@ class NavBarStand extends StatelessWidget {
                   width: 60,
                   fit: BoxFit.contain, // Ensure image fits within container
                 ),
-                Text(
+                const Text(
                   'Sushi Saga',
                   style: TextStyle(
                     color: Color(0xffAAD4FF),
@@ -42,7 +42,7 @@ class NavBarStand extends StatelessWidget {
             ),
           ),
           ListTile(
-            title: Text(
+            title: const Text(
               'Home',
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -55,7 +55,7 @@ class NavBarStand extends StatelessWidget {
             },
           ),
           ListTile(
-            title: Text(
+            title: const Text(
               'Buat transaksi',
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -70,7 +70,7 @@ class NavBarStand extends StatelessWidget {
             },
           ),
           ListTile(
-            title: Text(
+            title: const Text(
               'Riwayat transaksi',
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -80,12 +80,12 @@ class NavBarStand extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => RiwayatTransaksi()),
+                MaterialPageRoute(builder: (context) => const RiwayatTransaksi()),
               );
             },
           ),
           ListTile(
-            title: Text(
+            title: const Text(
               'Daftar barang',
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -95,12 +95,12 @@ class NavBarStand extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => DaftarBarang()),
+                MaterialPageRoute(builder: (context) => const DaftarBarang()),
               );
             },
           ),
           ListTile(
-            title: Text(
+            title: const Text(
               'Tambah barang',
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -110,11 +110,11 @@ class NavBarStand extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => TambahBarang()),
+                MaterialPageRoute(builder: (context) => const TambahBarang()),
               );
             },
           ),
-          Spacer(),
+          const Spacer(),
           Padding(
             padding: const EdgeInsets.all(24.0),
             child: SizedBox(
@@ -123,7 +123,7 @@ class NavBarStand extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Login()),
+                    MaterialPageRoute(builder: (context) => const Login()),
                   );
                 },
                 style: ElevatedButton.styleFrom(
@@ -134,7 +134,7 @@ class NavBarStand extends StatelessWidget {
                   ),
                   padding: const EdgeInsets.symmetric(vertical: 16.0)
                 ),
-                child: Text(
+                child: const Text(
                   'Keluar',
                   style: TextStyle(
                     color: Colors.white,
