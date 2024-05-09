@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:project_bazzar/stand/detailTransaksi.dart';
 import 'package:project_bazzar/student/navbar.dart';
 import 'package:project_bazzar/Transaction.dart';
 
-class Home extends StatelessWidget {
-  const Home({Key? key}) : super(key: key);
+class HomeStudent extends StatelessWidget {
+  const HomeStudent({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +72,7 @@ class Home extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.w900,
-                    color: const Color(0xff0A2B4E),
+                    color: Color(0xff0A2B4E),
                 ),
               ),
             ),
@@ -86,10 +85,10 @@ class Home extends StatelessWidget {
                     stand: 'Felicia',
                     buyerId: 'Kenny',
                     status: 'Completed',
-                    items: [
-                      const TransactionItem(name: 'Product A', quantity: 2, price: 25000),
-                      const TransactionItem(name: 'Product B', quantity: 1, price: 15000),
-                      const TransactionItem(name: 'Product C', quantity: 3, price: 10000),
+                    items: const [
+                      TransactionItem(name: 'Product A', quantity: 2, price: 25000),
+                      TransactionItem(name: 'Product B', quantity: 1, price: 15000),
+                      TransactionItem(name: 'Product C', quantity: 3, price: 10000),
                     ],
                     totalAmount: 100000,
                     totalQty: 6,
@@ -103,10 +102,10 @@ class Home extends StatelessWidget {
                     stand: 'Uncle Tan',
                     buyerId: 'Kenny',
                     status: 'Completed',
-                    items: [
-                      const TransactionItem(name: 'Product A', quantity: 2, price: 25000),
-                      const TransactionItem(name: 'Product B', quantity: 1, price: 15000),
-                      const TransactionItem(name: 'Product C', quantity: 3, price: 10000),
+                    items: const [
+                      TransactionItem(name: 'Product A', quantity: 2, price: 25000),
+                      TransactionItem(name: 'Product B', quantity: 1, price: 15000),
+                      TransactionItem(name: 'Product C', quantity: 3, price: 10000),
                     ],
                     totalAmount: 100000,
                     totalQty: 6,

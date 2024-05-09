@@ -101,7 +101,7 @@ class _LoginState extends State<Login> {
                         onPressed: () {
                           Navigator.push(
                             context, 
-                            MaterialPageRoute(builder: (context) => Home())
+                            MaterialPageRoute(builder: (context) => HomeStudent())
                           );
                         },
                         child: Text(
