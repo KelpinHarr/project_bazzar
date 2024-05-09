@@ -81,6 +81,7 @@ class _HomeStandState extends State<HomeStand>{
                 ),
               ),
             ),
+            const SizedBox(height: 16.0),
 
           ],
         ),

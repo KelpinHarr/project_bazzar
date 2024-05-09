@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_bazzar/Transaction.dart';
+import 'package:project_bazzar/stand/billTransaksi.dart';
 import 'package:project_bazzar/stand/navbarv2.dart';
 
 class DetailTransaksi extends StatelessWidget {
@@ -48,128 +49,76 @@ class DetailTransaksi extends StatelessWidget {
                 //   style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, color: Color(0xff0A2B4E)),
                 // ),
                 const SizedBox(height: 8.0),
-                DataTable(
-                  // Define columns for items table
-                  columns: const [
-                    DataColumn(
-                      label: Expanded(
-                        child: Text(
-                          'Nama',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                    DataColumn(
-                      label: Expanded(
-                        child: Text(
-                          'Qty',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                    DataColumn(
-                      label: Expanded(
-                        child: Text(
-                          'Harga',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                    DataColumn(
-                      label: Expanded(
-                        child: Text(
-                          'Total',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                  rows: transaction.items.map((item) => DataRow(
-                    cells: [
-                      DataCell(
-                        Expanded(
-                          child: Text(item.name),
-                        ),
-                      ),
-                      DataCell(
-                        Expanded(
-                          child: Text(item.quantity.toString()),
-                        ),
-                      ),
-                      DataCell(
-                        Expanded(
-                          child: Text('Rp${item.price}'),
-                        ),
-                      ),
-                      DataCell(
-                        Expanded(
-                          child: Text('Rp${item.price * item.quantity}'),
-                        ),
-                      ),
-                    ],
-                  )).toList(),
-                ),
-                const SizedBox(height: 16.0), // Spacing before total
-                // Total Amount with Divider
-                const Divider(thickness: 1.0, color: Colors.grey),
-                const SizedBox(height: 16.0),
-                Column(
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            alignment: Alignment.centerRight, // Align text to the right
-                            child: const Text(
-                              'Total Qty: ',
-                              style: TextStyle(fontSize: 16.0),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          alignment: Alignment.centerRight, // Align text to the right
-                          child: Text(
-                            '${transaction.totalQty}',
-                            style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16.0),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            alignment: Alignment.centerRight, // Align text to the right
-                            child: const Text(
-                              'Total: ',
-                              style: TextStyle(fontSize: 16.0),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          alignment: Alignment.centerRight, // Align text to the right
-                          child: Text(
-                            'Rp${transaction.totalAmount}',
-                            style: const TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.green
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                // DataTable(
+                //   // Define columns for items table
+                //   columns: const [
+                //     DataColumn(
+                //       label: Expanded(
+                //         child: Text(
+                //           'Nama',
+                //           style: TextStyle(
+                //             fontWeight: FontWeight.bold,
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //     DataColumn(
+                //       label: Expanded(
+                //         child: Text(
+                //           'Qty',
+                //           style: TextStyle(
+                //             fontWeight: FontWeight.bold,
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //     DataColumn(
+                //       label: Expanded(
+                //         child: Text(
+                //           'Harga',
+                //           style: TextStyle(
+                //             fontWeight: FontWeight.bold,
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //     DataColumn(
+                //       label: Expanded(
+                //         child: Text(
+                //           'Total',
+                //           style: TextStyle(
+                //             fontWeight: FontWeight.bold,
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                //   rows: transaction.items.map((item) => DataRow(
+                //     cells: [
+                //       DataCell(
+                //         Expanded(
+                //           child: Text(item.name),
+                //         ),
+                //       ),
+                //       DataCell(
+                //         Expanded(
+                //           child: Text(item.quantity.toString()),
+                //         ),
+                //       ),
+                //       DataCell(
+                //         Expanded(
+                //           child: Text('Rp${item.price}'),
+                //         ),
+                //       ),
+                //       DataCell(
+                //         Expanded(
+                //           child: Text('Rp${item.price * item.quantity}'),
+                //         ),
+                //       ),
+                //     ],
+                //   )).toList(),
+                // ),
+                BillTransaksi(transaction: transaction),
               ],
             ),
           ),
