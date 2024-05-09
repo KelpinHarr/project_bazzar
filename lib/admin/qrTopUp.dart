@@ -3,14 +3,14 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:flutter/material.dart';
 import 'package:project_bazzar/admin/navbarv2.dart';
 
-class QrCekSaldo extends StatefulWidget {
-  const QrCekSaldo({super.key});
+class QrTopUp extends StatefulWidget {
+  const QrTopUp({super.key});
 
   @override
-  _QrCekSaldoState createState() => _QrCekSaldoState();
+  _QrTopUpState createState() => _QrTopUpState();
 }
 
-class _QrCekSaldoState extends State<QrCekSaldo> {
+class _QrTopUpState extends State<QrTopUp> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? result;
   QRViewController? controller;

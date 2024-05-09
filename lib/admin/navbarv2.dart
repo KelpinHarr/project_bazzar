@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:project_bazzar/admin/daftarUser.dart';
 import 'package:project_bazzar/admin/qrCekSaldo.dart';
 import 'package:project_bazzar/login.dart';
 
@@ -40,7 +41,7 @@ class NavbarAdminv2 extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+            Navigator.of(context).pop();
           },
           color: const Color(0xffAAD4FF),
         ),
@@ -143,7 +144,10 @@ class NavbarAdminv2 extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => DaftarUser()),
+                    );
                   },
                 ),
                 const Spacer(),

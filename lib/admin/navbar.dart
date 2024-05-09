@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:project_bazzar/admin/daftarUser.dart';
 import 'package:project_bazzar/admin/qrCekSaldo.dart';
 import 'package:project_bazzar/login.dart';
 
@@ -95,7 +96,10 @@ class NavBarAdmin extends StatelessWidget {
               ),
             ),
             onTap: () {
-
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => DaftarUser()),
+              );
             },
           ),
           const Spacer(),
