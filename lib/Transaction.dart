@@ -46,11 +46,11 @@ class Transaction extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start, // Align text vertically within row
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Transaction ID (increased font size)
                 Text(
-                  stand,
+                  id,
                   style: const TextStyle(
                       fontSize: 18.0,
                       color: Color(0xff0A2B4E),
@@ -63,8 +63,12 @@ class Transaction extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: Text(
-                    'Rp $totalAmount',
-                    style: const TextStyle(fontSize: 16.0, color: Color(0xff0A2B4E)),
+                    'Rp$totalAmount',
+                    style: const TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.green,
+                        fontWeight: FontWeight.w600
+                    ),
                   ),
                 )
               ],
@@ -76,9 +80,9 @@ class Transaction extends StatelessWidget {
                 // Date and Time
                 Text(
                   '${date.day} ${_getMonthName(date.month)} ${date.year}, ${_formatTime(date.hour, date.minute)}',
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 14.0,
-                      color: Color(0xff0A2B4E)
+                      color: const Color(0xff0A2B4E)
                   ),
                 ),
 

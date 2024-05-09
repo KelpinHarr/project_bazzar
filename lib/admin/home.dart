@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_bazzar/Topup.dart';
 import 'package:project_bazzar/admin/navbar.dart';
 
 class HomeAdmin extends StatefulWidget {
@@ -81,43 +82,28 @@ class _HomeAdminState extends State<HomeAdmin>{
                 ),
               ),
             ),
-            // Column(
-            //   children: [
-            //     Padding(
-            //       padding: const EdgeInsets.only(bottom: 8.0),
-            //       child: Transaction(
-            //         id: 'PK1249281',
-            //         stand: 'Felicia',
-            //         buyerId: 'Kenny',
-            //         status: 'Completed',
-            //         items: const [
-            //           TransactionItem(name: 'Product A', quantity: 2, price: 25000),
-            //           TransactionItem(name: 'Product B', quantity: 1, price: 15000),
-            //           TransactionItem(name: 'Product C', quantity: 3, price: 10000),
-            //         ],
-            //         totalAmount: 100000,
-            //         date: DateTime(2024, 4, 24, 11, 11, 23),
-            //       ),
-            //     ),
-            //     Padding(
-            //       padding: const EdgeInsets.only(bottom: 8.0),
-            //       child: Transaction(
-            //         id: 'PK1249281',
-            //         stand: 'Uncle Tan',
-            //         buyerId: 'Kenny',
-            //         status: 'Completed',
-            //         items: const [
-            //           TransactionItem(name: 'Product A', quantity: 2, price: 25000),
-            //           TransactionItem(name: 'Product B', quantity: 1, price: 15000),
-            //           TransactionItem(name: 'Product C', quantity: 3, price: 10000),
-            //         ],
-            //         totalAmount: 100000,
-            //         totalQty: 6,
-            //         date: DateTime(2024, 6, 25, 14, 11, 12),
-            //       ),
-            //     ),
-            //   ],
-            // ),
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Topup(
+                    id: 'T239423122',
+                    buyer: 'Kenny',
+                    totalAmount: 100000,
+                    date: DateTime(2024, 4, 24, 11, 11, 23),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Topup(
+                    id: 'T112123312',
+                    buyer: 'Felicia',
+                    totalAmount: 100000,
+                    date: DateTime(2024, 4, 24, 11, 11, 23),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
