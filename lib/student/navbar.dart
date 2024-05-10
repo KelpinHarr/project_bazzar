@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_bazzar/login.dart';
+import 'package:project_bazzar/student/home.dart';
 
 class NavBarStudent extends StatelessWidget {
   const NavBarStudent({Key? key});
@@ -47,7 +48,10 @@ class NavBarStudent extends StatelessWidget {
               ),
             ),
             onTap: () {
-              // Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HomeStudent()),
+              );
             },
           ),
           Spacer(),

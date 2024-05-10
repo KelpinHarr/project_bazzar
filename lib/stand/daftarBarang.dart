@@ -3,118 +3,124 @@ import 'package:project_bazzar/stand/editBarang.dart';
 import 'package:project_bazzar/stand/navbarv2.dart';
 
 class DaftarBarang extends StatefulWidget {
-  const DaftarBarang({super.key});
+  const DaftarBarang({Key? key}) : super(key: key);
 
   @override
   _DaftarBarangState createState() => _DaftarBarangState();
 }
 
 class _DaftarBarangState extends State<DaftarBarang> {
+  // Dummy data for barang
+  final List<Map<String, dynamic>> daftarBarang = [
+    {'nama': 'Tuna Sushi', 'harga': 'Rp 20.000'},
+    {'nama': 'Salmon Sushi', 'harga': 'Rp 25.000'},
+    // Add more data as needed
+  ];
+
   @override
   Widget build(BuildContext context) {
     return NavbarStandv2(
-        key: GlobalKey(),
-        body: Scaffold(
-          backgroundColor: const Color(0xffF0F0E8),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  Card(
-                    elevation: 5.0,
-                    // color: Color(0xffAAD4FF),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)), // Set rounded corners
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0), // Add padding around content
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween, // Align content horizontally
-                        children: [
-                          // Info Section
-                          const Expanded( // Make info section fill available space
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start, // Align content to start
-                              children: [
-                                // Title Section
-                                Text(
-                                  'Tuna Sushi',
-                                  style: TextStyle(
+      key: GlobalKey(),
+      body: Scaffold(
+        backgroundColor: const Color(0xffF0F0E8),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: daftarBarang.length,
+                  itemBuilder: (context, index) {
+                    final barang = daftarBarang[index];
+                    return Card(
+                      elevation: 2.5,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    barang['nama'],
+                                    style: TextStyle(
                                       fontSize: 18.0,
                                       fontWeight: FontWeight.bold,
-                                      color: Color(0xff0A2B4E)
+                                      color: Color(0xff0A2B4E),
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  maxLines: 1, // Limit title to one line (optional)
-                                  overflow: TextOverflow.ellipsis, // Add ellipsis (...) if title overflows
-                                ),
-                                SizedBox(height: 8.0), // Add spacing between title and price
-
-                                // Price Section
+                                  SizedBox(height: 8.0),
+                                  Text(
+                                    barang['harga'],
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w600,
+                                      color: Color(0xff0A2B4E),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
                                 Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text('Rp 20.000', style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(0xff0A2B4E)
-                                    )),
+                                    TextButton.icon(
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return CustomDialog(
+                                              title: "Konfirmasi Hapus Barang",
+                                              icon: const Icon(Icons.warning, color: Colors.orange),
+                                              message: "Apakah Anda yakin ingin menghapus barang ini?",
+                                              onDeletePressed: () {
+                                                // Implement your logic for deleting the item here
+                                                Navigator.pop(context);
+                                              },
+                                              onCancelPressed: () => Navigator.pop(context),
+                                            );
+                                          },
+                                        );
+                                      },
+                                      icon: const Icon(Icons.delete, color: Colors.red),
+                                      label: const Text('Hapus', style: TextStyle(color: Colors.red)),
+                                    ),
+                                    TextButton.icon(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(builder: (context) => EditBarang()),
+                                        );
+                                      },
+                                      icon: const Icon(Icons.edit, color: Color(0xff0A2B4E)),
+                                      label: const Text('Edit', style: TextStyle(color: Color(0xff0A2B4E))),
+                                    ),
                                   ],
                                 ),
                               ],
                             ),
-                          ),
-
-                          // Action Buttons (Aligned at bottom)
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.end, // Align buttons at bottom
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween, // Align buttons horizontally within column
-                                children: [
-                                  TextButton.icon(
-                                    onPressed: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return CustomDialog(
-                                            title: "Konfirmasi Hapus Barang",
-                                            icon: const Icon(Icons.warning, color: Colors.orange),
-                                            message: "Apakah Anda yakin ingin menghapus barang ini?",
-                                            onDeletePressed: () {
-                                              // Implement your logic for deleting the item here
-                                              Navigator.pop(context); // Close the dialog after delete
-                                            },
-                                            onCancelPressed: () => Navigator.pop(context),
-                                          );
-                                        },
-                                      );
-                                    },
-                                    icon: const Icon(Icons.delete, color: Colors.red),
-                                    label: const Text('Hapus', style: TextStyle(color: Colors.red)),
-                                  ),
-                                  TextButton.icon(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(builder: (context) => EditBarang()),
-                                      );
-                                    },
-                                    icon: const Icon(Icons.edit, color: Color(0xff0A2B4E)),
-                                    label: const Text('Edit', style: TextStyle(color: Color(0xff0A2B4E))),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ),
-
-                ],
-              ),
+                    );
+                  },
+                ),
+              ],
             ),
           ),
         ),
-        activePage: 'Daftar barang',
+      ),
+      activePage: 'Daftar barang',
     );
   }
 }
@@ -138,43 +144,43 @@ class CustomDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-      backgroundColor: const Color(0xff0A2B4E), // Set background color (dark grey)
+      backgroundColor: const Color(0xff0A2B4E),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Center(child: icon),
-            const SizedBox(height: 16.0), // Add spacing between icon and text
+            const SizedBox(height: 16.0),
             Text(
               title,
               style: const TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
-                color: Colors.white, // Text color (white)
+                color: Colors.white,
               ),
             ),
-            const SizedBox(height: 8.0), // Add spacing between title and message
+            const SizedBox(height: 8.0),
             Text(
               message,
               textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.white70), // Text color (light grey)
+              style: const TextStyle(color: Colors.white70),
             ),
-            const SizedBox(height: 16.0), // Add spacing before buttons
+            const SizedBox(height: 16.0),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center, // Center buttons horizontally
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
                   onPressed: onDeletePressed,
                   child: const Text("Hapus", style: TextStyle(color: Colors.white)),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red, // Button color (red)
+                    backgroundColor: Colors.red,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                   ),
                 ),
-                const SizedBox(width: 16.0), // Add spacing between buttons
+                const SizedBox(width: 16.0),
                 TextButton(
                   onPressed: onCancelPressed,
                   child: const Text("Kembali", style: TextStyle(color: Colors.white70)),
@@ -187,4 +193,3 @@ class CustomDialog extends StatelessWidget {
     );
   }
 }
-

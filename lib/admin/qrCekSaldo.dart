@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:project_bazzar/admin/cekSaldo.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:flutter/material.dart';
 import 'package:project_bazzar/admin/navbarv2.dart';
@@ -59,6 +60,19 @@ class _QrCekSaldoState extends State<QrCekSaldo> {
       setState(() {
         result = scanData;
       });
+
+      if (result != null) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const CekSaldo()),
+        ).then((_) {
+          // Dispose controller after returning from TopUp page
+          controller.dispose();
+          setState(() {
+            result = null;
+          });
+        });
+      }
     });
   }
 

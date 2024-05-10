@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:project_bazzar/admin/daftarUser.dart';
+import 'package:project_bazzar/admin/home.dart';
 import 'package:project_bazzar/admin/qrCekSaldo.dart';
+import 'package:project_bazzar/admin/qrTopUp.dart';
 import 'package:project_bazzar/login.dart';
 
 late List<CameraDescription>? cameras;
@@ -56,7 +58,10 @@ class NavBarAdmin extends StatelessWidget {
               ),
             ),
             onTap: () {
-              // Add action
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HomeAdmin()),
+              );
             },
           ),
           ListTile(
@@ -71,7 +76,7 @@ class NavBarAdmin extends StatelessWidget {
               await initializeCamera();
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => QrCekSaldo()),
+                MaterialPageRoute(builder: (context) => const QrCekSaldo()),
               );
             },
           ),
@@ -83,8 +88,12 @@ class NavBarAdmin extends StatelessWidget {
                 color: Color(0xff0A2B4E),
               ),
             ),
-            onTap: () {
-              // Add action
+            onTap: () async {
+              await initializeCamera();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const QrTopUp()),
+              );
             },
           ),
           ListTile(
@@ -98,7 +107,7 @@ class NavBarAdmin extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => DaftarUser()),
+                MaterialPageRoute(builder: (context) => const DaftarUser()),
               );
             },
           ),

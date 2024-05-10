@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:project_bazzar/admin/topUp.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:flutter/material.dart';
 import 'package:project_bazzar/admin/navbarv2.dart';
@@ -53,12 +54,27 @@ class _QrTopUpState extends State<QrTopUp> {
     );
   }
 
+  bool _isNavigated = false;
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
       });
+
+      if (result != null && !_isNavigated) {
+        _isNavigated = true; // Tandai bahwa navigasi sudah dilakukan
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const TopUp()),
+        ).then((_) {
+          // Dispose controller after returning from TopUp page
+          controller.dispose();
+          setState(() {
+            result = null;
+          });
+        });
+      }
     });
   }
 

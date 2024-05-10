@@ -214,7 +214,7 @@ class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderSt
                           padding: const EdgeInsets.symmetric(vertical: 16.0)
                       ),
                       child: const Text(
-                        'Tambah',
+                        'Tambah barang',
                         style: TextStyle(
                           color: Color(0xff0A2B4E),
                           fontSize: 16,
