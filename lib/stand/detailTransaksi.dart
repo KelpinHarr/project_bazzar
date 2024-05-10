@@ -49,75 +49,7 @@ class DetailTransaksi extends StatelessWidget {
                 //   style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, color: Color(0xff0A2B4E)),
                 // ),
                 const SizedBox(height: 8.0),
-                // DataTable(
-                //   // Define columns for items table
-                //   columns: const [
-                //     DataColumn(
-                //       label: Expanded(
-                //         child: Text(
-                //           'Nama',
-                //           style: TextStyle(
-                //             fontWeight: FontWeight.bold,
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //     DataColumn(
-                //       label: Expanded(
-                //         child: Text(
-                //           'Qty',
-                //           style: TextStyle(
-                //             fontWeight: FontWeight.bold,
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //     DataColumn(
-                //       label: Expanded(
-                //         child: Text(
-                //           'Harga',
-                //           style: TextStyle(
-                //             fontWeight: FontWeight.bold,
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //     DataColumn(
-                //       label: Expanded(
-                //         child: Text(
-                //           'Total',
-                //           style: TextStyle(
-                //             fontWeight: FontWeight.bold,
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                //   rows: transaction.items.map((item) => DataRow(
-                //     cells: [
-                //       DataCell(
-                //         Expanded(
-                //           child: Text(item.name),
-                //         ),
-                //       ),
-                //       DataCell(
-                //         Expanded(
-                //           child: Text(item.quantity.toString()),
-                //         ),
-                //       ),
-                //       DataCell(
-                //         Expanded(
-                //           child: Text('Rp${item.price}'),
-                //         ),
-                //       ),
-                //       DataCell(
-                //         Expanded(
-                //           child: Text('Rp${item.price * item.quantity}'),
-                //         ),
-                //       ),
-                //     ],
-                //   )).toList(),
-                // ),
+
                 BillTransaksi(transaction: transaction),
               ],
             ),
