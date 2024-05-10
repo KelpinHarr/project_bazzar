@@ -1,8 +1,10 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:project_bazzar/ConfirmDialog.dart';
 import 'package:project_bazzar/Transaction.dart';
 import 'package:project_bazzar/stand/navbarv2.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 List<String> productNames = [
   'Pisang Ambon',
@@ -27,6 +29,10 @@ class BuatTransaksi extends StatefulWidget {
 class _BuatTransaksiState extends State<BuatTransaksi> {
   final _formKey = GlobalKey<FormState>();
 
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  Barcode? result;
+  QRViewController? controller;
+
   // Input controllers for various fields
   // final _namaController = TextEditingController();
   int _qty = 1; // Track quantity, set initial value to 1
@@ -37,6 +43,16 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
   String _selectedProduct = productNames[0];
   List<String> _filteredProducts = productNames;
   List<Transaction> transactions = [];
+
+  @override
+  void reassemble() {
+    super.reassemble();
+    if (Platform.isAndroid) {
+      controller!.pauseCamera();
+    } else if (Platform.isIOS) {
+      controller!.resumeCamera();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +72,7 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                   Center(
                     child: RichText(
                       textAlign: TextAlign.center,
-                      text: TextSpan(
+                      text: const TextSpan(
                         children: [
                           TextSpan(
                             text: 'Transaksi',
@@ -327,14 +343,14 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                   ),
 
                   const SizedBox(height: 48.0),
-                  // button buat transaksi
+                  // button bayar transaksi
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
                     child: SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          // showEditSuccessDialog(context);
+
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xffAAD4FF),
@@ -345,7 +361,7 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                             padding: const EdgeInsets.symmetric(vertical: 16.0)
                         ),
                         child: const Text(
-                          'Buat transaksi',
+                          'Bayar',
                           style: TextStyle(
                               color: Color(0xff0A2B4E),
                               fontSize: 18,
@@ -363,7 +379,21 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          // showEditSuccessDialog(context);
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return ConfirmDialog(
+                                title: "Konfirmasi Membatalkan Transaksi",
+                                icon: const Icon(Icons.warning, color: Colors.orange),
+                                message: "Apakah Anda yakin ingin membatalkan transaksi ini?",
+                                mode: "Ya",
+                                onDeletePressed: () {
+                                  Navigator.pop(context);
+                                },
+                                onCancelPressed: () => Navigator.pop(context),
+                              );
+                            },
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red,
@@ -392,5 +422,35 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
       ),
       activePage: 'Buat transaksi',
     );
+  }
+
+  bool _isNavigated = false;
+  void _onQRViewCreated(QRViewController controller) {
+    this.controller = controller;
+    controller.scannedDataStream.listen((scanData) {
+      setState(() {
+        result = scanData;
+      });
+
+      if (result != null && !_isNavigated) {
+        _isNavigated = true; // Tandai bahwa navigasi sudah dilakukan
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => const TopUp()),
+        // ).then((_) {
+        //   // Dispose controller after returning from TopUp page
+        //   controller.dispose();
+        //   setState(() {
+        //     result = null;
+        //   });
+        // });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
   }
 }

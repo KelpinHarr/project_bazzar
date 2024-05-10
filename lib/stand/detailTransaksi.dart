@@ -41,7 +41,7 @@ class DetailTransaksi extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 16.0), // Spacing after card
+                const SizedBox(height: 16.0),
 
                 // Items List with Heading
                 // Text(
