@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "577468757459",
-    "project_id": "projectbazzar-b35b2",
-    "storage_bucket": "projectbazzar-b35b2.appspot.com"
+    "project_number": "806688010038",
+    "project_id": "projectbazzar-9e716",
+    "storage_bucket": "projectbazzar-9e716.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:577468757459:android:e2357cc185659c7678eb26",
+        "mobilesdk_app_id": "1:806688010038:android:ddcf9c90259394be5a8d97",
         "android_client_info": {
           "package_name": "com.example.project_bazzar"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyD5jTdxq52klLjBe6ZwLmFUy6Flb6hmHuc"
+          "current_key": "AIzaSyC1b1KTJgae_97i_bgkB4InVga_MZaI4Ko"
         }
       ],
       "services": {

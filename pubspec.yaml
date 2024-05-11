@@ -44,6 +44,7 @@ dependencies:
   iconsax: ^0.0.8
   file_picker: ^8.0.3
   dio: ^4.0.0
+  firebase_core: ^2.31.0
 
 dev_dependencies:
   flutter_test:
