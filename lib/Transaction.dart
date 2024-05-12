@@ -13,7 +13,7 @@ class TransactionItem {
   });
 }
 
-class Transaction extends StatelessWidget {
+class Transactions extends StatelessWidget {
   final String id;
   final DateTime date;
   final String stand;
@@ -23,7 +23,7 @@ class Transaction extends StatelessWidget {
   final double totalAmount;
   final double totalQty;
 
-  const Transaction({
+  const Transactions({
     required this.id,
     required this.date,
     required this.stand,
@@ -90,7 +90,7 @@ class Transaction extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => DetailTransaksi(transaction: Transaction(id: id, date: date, stand: stand, buyerId: buyerId, status: status, items: items, totalAmount: totalAmount, totalQty: totalQty))),
+                      MaterialPageRoute(builder: (context) => DetailTransaksi(transaction: Transactions(id: id, date: date, stand: stand, buyerId: buyerId, status: status, items: items, totalAmount: totalAmount, totalQty: totalQty))),
                     );
                   },
                   child: const Text(

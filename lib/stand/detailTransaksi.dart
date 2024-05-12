@@ -4,7 +4,7 @@ import 'package:project_bazzar/stand/billTransaksi.dart';
 import 'package:project_bazzar/stand/navbarv2.dart';
 
 class DetailTransaksi extends StatelessWidget {
-  final Transaction transaction;
+  final Transactions transaction;
   const DetailTransaksi({super.key, required this.transaction});
 
   @override

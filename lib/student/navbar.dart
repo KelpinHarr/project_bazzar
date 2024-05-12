@@ -3,7 +3,8 @@ import 'package:project_bazzar/login.dart';
 import 'package:project_bazzar/student/home.dart';
 
 class NavBarStudent extends StatelessWidget {
-  const NavBarStudent({Key? key});
+  final String name;
+  const NavBarStudent({Key? key, required this.name}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class NavBarStudent extends StatelessWidget {
                   fit: BoxFit.contain, // Ensure image fits within container
                 ),
                 Text(
-                  'Felicia',
+                  '$name',
                   style: TextStyle(
                     color: Color(0xffAAD4FF),
                     fontSize: 24,
@@ -50,7 +51,7 @@ class NavBarStudent extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const HomeStudent()),
+                MaterialPageRoute(builder: (context) => HomeStudent(name: name)),
               );
             },
           ),

@@ -12,8 +12,8 @@ class RiwayatTransaksi extends StatefulWidget {
 
 class _RiwayatTransaksiState extends State<RiwayatTransaksi>{
   // Dummy data for riwayat transaksi
-  final List<Transaction> riwayatTransaksi = [
-    Transaction(
+  final List<Transactions> riwayatTransaksi = [
+    Transactions(
       id: 'PK1249281',
       date: DateTime(2024, 4, 24, 10, 11),
       stand: 'Felicia',
