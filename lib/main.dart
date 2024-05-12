@@ -4,7 +4,14 @@ import 'package:project_bazzar/login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+      options: FirebaseOptions(
+          apiKey: "AIzaSyC1b1KTJgae_97i_bgkB4InVga_MZaI4Ko",
+          appId: "1:806688010038:android:ddcf9c90259394be5a8d97",
+          messagingSenderId: "806688010038",
+          projectId: "projectbazzar-9e716"
+      )
+  );
   runApp(const MyApp());
 }
 

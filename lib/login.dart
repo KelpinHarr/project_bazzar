@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_bazzar/stand/home.dart';
 import 'package:project_bazzar/student/home.dart';
@@ -11,6 +12,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -18,7 +20,8 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffF0F0E8),
-      body: SingleChildScrollView(
+      body: Form(
+        key: _formKey,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -50,13 +53,15 @@ class _LoginState extends State<Login> {
                           borderRadius: BorderRadius.circular(12.0),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide:
-                          const BorderSide(color: Color(0xffAAD4FF)), // Warna tepi luar saat tidak aktif
+                          borderSide: const BorderSide(
+                              color: Color(
+                                  0xffAAD4FF)), // Warna tepi luar saat tidak aktif
                           borderRadius: BorderRadius.circular(12.0),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: const BorderSide(
-                              color: Color(0xff0A2B4E)), // Warna tepi luar saat aktif
+                              color: Color(
+                                  0xff0A2B4E)), // Warna tepi luar saat aktif
                           borderRadius: BorderRadius.circular(12.0),
                         ),
                       ),
@@ -75,13 +80,15 @@ class _LoginState extends State<Login> {
                           borderRadius: BorderRadius.circular(12.0),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide:
-                          const BorderSide(color: Color(0xffAAD4FF)), // Warna tepi luar saat tidak aktif
+                          borderSide: const BorderSide(
+                              color: Color(
+                                  0xffAAD4FF)), // Warna tepi luar saat tidak aktif
                           borderRadius: BorderRadius.circular(12.0),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: const BorderSide(
-                              color: Color(0xff0A2B4E)), // Warna tepi luar saat aktif
+                              color: Color(
+                                  0xff0A2B4E)), // Warna tepi luar saat aktif
                           borderRadius: BorderRadius.circular(12.0),
                         ),
                       ),
@@ -97,8 +104,7 @@ class _LoginState extends State<Login> {
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color:
-                          Colors.lightBlueAccent.withOpacity(0.2),
+                          color: Colors.lightBlueAccent.withOpacity(0.2),
                           spreadRadius: 2,
                           blurRadius: 8,
                           offset: const Offset(0, 3),
@@ -107,29 +113,9 @@ class _LoginState extends State<Login> {
                     ),
                     child: Center(
                       child: ElevatedButton(
-                        onPressed: () {
-                          String username = _usernameController.text.trim();
-                          if (username.toLowerCase() == 'admin') {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const HomeAdmin(),
-                              ),
-                            );
-                          } else if (username.toLowerCase() == 'stand') {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const HomeStand(),
-                              ),
-                            );
-                          } else {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const HomeStudent(),
-                              ),
-                            );
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            await _loginUser();
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -159,5 +145,53 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
+  }
+
+  Future<void> _loginUser() async {
+    final username = _usernameController.text.trim();
+    final password = _passwordController.text.trim();
+
+    try {
+      final firestore = FirebaseFirestore.instance;
+      final userDoc = await firestore.collection('users').where('username', isEqualTo: username).get();
+
+      if (userDoc.docs.isNotEmpty) {
+        for (var doc in userDoc.docs){
+          final user = doc.data();
+          if (user!['password'] == password) {
+            if (user['role'] == 'admin') {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomeAdmin()),
+              );
+            } 
+            else if (user['role'] == 'stand') {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomeStand()),
+              );
+            } 
+            else {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomeStudent()),
+              );
+            }
+          } 
+          else {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text('Invalid password')));
+          }
+
+        }
+      } 
+      else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('User not found')));
+      }
+    } 
+    catch (e) {
+      print('Error: $e');
+    }
   }
 }
