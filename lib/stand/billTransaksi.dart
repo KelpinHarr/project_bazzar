@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project_bazzar/Transaction.dart';
 
 class BillTransaksi extends StatelessWidget {
-  final Transaction transaction;
+  final Transactions transaction;
   const BillTransaksi({Key? key, required this.transaction}) : super(key: key);
 
   @override

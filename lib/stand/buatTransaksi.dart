@@ -42,7 +42,7 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
 
   String _selectedProduct = productNames[0];
   List<String> _filteredProducts = productNames;
-  List<Transaction> transactions = [];
+  List<Transactions> transactions = [];
 
   @override
   void reassemble() {
@@ -273,7 +273,7 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                                     // tambah baris tabel
                                     setState(() {
                                       // Buat objek transaksi baru
-                                      Transaction newTransaction = Transaction(
+                                      Transactions newTransaction = Transactions(
                                         // Isi data transaksi sesuai dengan input pengguna
                                         items: [TransactionItem(name: _selectedProduct, quantity: _qty, price: 4000)],
                                         buyerId: "Kenny",

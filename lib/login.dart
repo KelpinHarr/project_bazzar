@@ -26,7 +26,7 @@ class _LoginState extends State<Login> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 20.0, top: 100.0),
+              padding: const EdgeInsets.only(left: 20.0),
               child: Image.asset('assets/Logo Pelangi Kristus.png'),
             ),
             Center(
@@ -153,10 +153,13 @@ class _LoginState extends State<Login> {
 
     try {
       final firestore = FirebaseFirestore.instance;
-      final userDoc = await firestore.collection('users').where('username', isEqualTo: username).get();
+      final userDoc = await firestore
+          .collection('users')
+          .where('username', isEqualTo: username)
+          .get();
 
       if (userDoc.docs.isNotEmpty) {
-        for (var doc in userDoc.docs){
+        for (var doc in userDoc.docs) {
           final user = doc.data();
           if (user!['password'] == password) {
             if (user['role'] == 'admin') {
@@ -164,33 +167,28 @@ class _LoginState extends State<Login> {
                 context,
                 MaterialPageRoute(builder: (context) => HomeAdmin()),
               );
-            } 
-            else if (user['role'] == 'stand') {
+            } else if (user['role'] == 'stand') {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => HomeStand()),
               );
-            } 
-            else {
+            } else {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => HomeStudent()),
+                MaterialPageRoute(
+                    builder: (context) => HomeStudent(name: user['name'])),
               );
             }
-          } 
-          else {
+          } else {
             ScaffoldMessenger.of(context)
                 .showSnackBar(SnackBar(content: Text('Invalid password')));
           }
-
         }
-      } 
-      else {
+      } else {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text('User not found')));
       }
-    } 
-    catch (e) {
+    } catch (e) {
       print('Error: $e');
     }
   }
