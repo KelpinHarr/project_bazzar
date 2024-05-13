@@ -7,7 +7,8 @@ import 'package:project_bazzar/stand/riwayatTransaksi.dart';
 import 'package:project_bazzar/stand/tambahBarang.dart';
 
 class NavBarStand extends StatelessWidget {
-  const NavBarStand({Key? key});
+  final String name;
+  const NavBarStand({Key? key, required this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +32,8 @@ class NavBarStand extends StatelessWidget {
                   width: 60,
                   fit: BoxFit.contain, // Ensure image fits within container
                 ),
-                const Text(
-                  'Sushi Saga',
+                Text(
+                  '$name',
                   style: TextStyle(
                     color: Color(0xffAAD4FF),
                     fontSize: 24,
@@ -54,7 +55,7 @@ class NavBarStand extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const HomeStand()),
+                MaterialPageRoute(builder: (context) => HomeStand(name: name)),
               );
             },
           ),
@@ -99,7 +100,7 @@ class NavBarStand extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const DaftarBarang()),
+                MaterialPageRoute(builder: (context) => DaftarBarang(name: name,)),
               );
             },
           ),
