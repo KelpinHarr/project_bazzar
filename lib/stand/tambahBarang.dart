@@ -13,26 +13,27 @@ class TambahBarang extends StatefulWidget {
   _TambahBarangState createState() => _TambahBarangState();
 }
 
-class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderStateMixin{
+class _TambahBarangState extends State<TambahBarang>
+    with SingleTickerProviderStateMixin {
   final _namaBarangController = TextEditingController();
   final _hargaController = TextEditingController();
   bool _showQtyInput = false;
   int _qty = 0; // Current quantity
 
-  Future<File> createFileFromUint8List(Uint8List uint8list, String filePath) async {
+  Future<File> createFileFromUint8List(
+      Uint8List uint8list, String filePath) async {
     final file = File(filePath);
     await file.writeAsBytes(uint8list);
     return file;
   }
+
   late AnimationController loadingController;
   File? _file;
   PlatformFile? _platformFile;
 
   selectFile() async {
-    final file = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: ['xlsx', 'jpg']
-    );
+    final file = await FilePicker.platform
+        .pickFiles(type: FileType.custom, allowedExtensions: ['xlsx', 'jpg']);
 
     if (file != null) {
       setState(() {
@@ -44,13 +45,14 @@ class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderSt
     loadingController.forward();
   }
 
-
   @override
   void initState() {
     loadingController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 10),
-    )..addListener(() { setState(() {}); });
+    )..addListener(() {
+        setState(() {});
+      });
     super.initState();
   }
 
@@ -112,34 +114,32 @@ class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderSt
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     _qty > 0
-                        ? Text(
-                          "Qty: $_qty",
-                          style: const TextStyle(
-                            color: Color(0xff0A2B4E),
-                            fontSize: 16.0
-                          )
-                        )
+                        ? Text("Qty: $_qty",
+                            style: const TextStyle(
+                                color: Color(0xff0A2B4E), fontSize: 16.0))
                         :
                         // Button add qty
                         TextButton(
-                          onPressed: () {
-                            setState(() {
-                              _showQtyInput = true;
-                              _qty = 1;
-                            });
-                          },
-                          style: ButtonStyle(
-                            foregroundColor: MaterialStateProperty.all<Color>(const Color(0xff0A2B4E)), // Mengatur warna teks menjadi hitam
+                            onPressed: () {
+                              setState(() {
+                                _showQtyInput = true;
+                                _qty = 1;
+                              });
+                            },
+                            style: ButtonStyle(
+                              foregroundColor: MaterialStateProperty.all<Color>(
+                                  const Color(
+                                      0xff0A2B4E)), // Mengatur warna teks menjadi hitam
+                            ),
+                            child: const Row(
+                              children: [
+                                Icon(Icons.add),
+                                SizedBox(
+                                    width: 8), // Adjust the width as needed
+                                Text("Add Qty"),
+                              ],
+                            ),
                           ),
-                          child: const Row(
-                            children: [
-                              Icon(Icons.add),
-                              SizedBox(width: 8), // Adjust the width as needed
-                              Text("Add Qty"),
-                            ],
-                          ),
-                        ),
-
                     Visibility(
                       visible: _qty > 0, // Only show when qty is positive
                       child: Row(
@@ -171,14 +171,16 @@ class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderSt
                                 } catch (e) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                      content: Text('Invalid quantity. Please enter a number.'),
+                                      content: Text(
+                                          'Invalid quantity. Please enter a number.'),
                                     ),
                                   );
                                 }
                               },
                               textAlign: TextAlign.center,
                               decoration: const InputDecoration(
-                                contentPadding: EdgeInsets.all(0.0), // Remove padding for a cleaner look
+                                contentPadding: EdgeInsets.all(
+                                    0.0), // Remove padding for a cleaner look
                               ),
                             ),
                           ),
@@ -203,11 +205,11 @@ class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderSt
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () async {
-                        if (_namaBarangController.text.isEmpty || _hargaController.text.isEmpty){
-                          ScaffoldMessenger.of(context).showMaterialBanner(
-                            const MaterialBanner(
-                              content: Text('Nama dan harga barang tidak boleh kosong!'), 
-                              actions: [],
+                        if (_namaBarangController.text.isEmpty ||
+                            _hargaController.text.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("Nama / harga tidak boleh kosong!")
                             )
                           );
                           return;
@@ -219,15 +221,13 @@ class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderSt
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
-                          padding: const EdgeInsets.symmetric(vertical: 16.0)
-                      ),
+                          padding: const EdgeInsets.symmetric(vertical: 16.0)),
                       child: const Text(
                         'Tambah barang',
                         style: TextStyle(
-                          color: Color(0xff0A2B4E),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w900
-                        ),
+                            color: Color(0xff0A2B4E),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w900),
                       ),
                     ),
                   ),
@@ -263,7 +263,8 @@ class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderSt
                 GestureDetector(
                   onTap: selectFile,
                   child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 40.0, vertical: 20.0),
                       child: DottedBorder(
                         borderType: BorderType.RRect,
                         radius: const Radius.circular(10),
@@ -275,110 +276,126 @@ class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderSt
                           height: 150,
                           decoration: BoxDecoration(
                               color: Colors.blue.shade50.withOpacity(.3),
-                              borderRadius: BorderRadius.circular(10)
-                          ),
+                              borderRadius: BorderRadius.circular(10)),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(Iconsax.folder_open, color: Colors.blue, size: 40,),
-                              const SizedBox(height: 15,),
-                              Text('Select your file', style: TextStyle(fontSize: 15, color: Colors.grey.shade400),),
+                              const Icon(
+                                Iconsax.folder_open,
+                                color: Colors.blue,
+                                size: 40,
+                              ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              Text(
+                                'Select your file',
+                                style: TextStyle(
+                                    fontSize: 15, color: Colors.grey.shade400),
+                              ),
                             ],
                           ),
                         ),
-                      )
-                  ),
+                      )),
                 ),
 
                 _platformFile != null
                     ? Container(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Selected File',
-                        style: TextStyle(color: Colors.grey.shade400, fontSize: 15),
-                      ),
-                      const SizedBox(height: 10),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.shade200,
-                              offset: const Offset(0, 1),
-                              blurRadius: 3,
-                              spreadRadius: 2,
-                            )
-                          ],
-                        ),
+                        padding: const EdgeInsets.all(20),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              _platformFile!.name,
-                              style: const TextStyle(fontSize: 13, color: Colors.black),
+                              'Selected File',
+                              style: TextStyle(
+                                  color: Colors.grey.shade400, fontSize: 15),
                             ),
-                            const SizedBox(height: 5),
-                            Text(
-                              '${(_platformFile!.size / 1024).ceil()} KB',
-                              style: TextStyle(fontSize: 13, color: Colors.grey.shade500),
-                            ),
-                            const SizedBox(height: 5),
+                            const SizedBox(height: 10),
                             Container(
-                              height: 5,
-                              clipBehavior: Clip.hardEdge,
+                              padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: Colors.blue.shade50,
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.shade200,
+                                    offset: const Offset(0, 1),
+                                    blurRadius: 3,
+                                    spreadRadius: 2,
+                                  )
+                                ],
                               ),
-                              child: LinearProgressIndicator(
-                                value: loadingController.value,
-                                backgroundColor: const Color(0xffAAD4FF), // Warna latar belakang
-                                valueColor: const AlwaysStoppedAnimation<Color>(Color(0xff0A2B4E)),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    _platformFile!.name,
+                                    style: const TextStyle(
+                                        fontSize: 13, color: Colors.black),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    '${(_platformFile!.size / 1024).ceil()} KB',
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        color: Colors.grey.shade500),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Container(
+                                    height: 5,
+                                    clipBehavior: Clip.hardEdge,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: Colors.blue.shade50,
+                                    ),
+                                    child: LinearProgressIndicator(
+                                      value: loadingController.value,
+                                      backgroundColor: const Color(
+                                          0xffAAD4FF), // Warna latar belakang
+                                      valueColor:
+                                          const AlwaysStoppedAnimation<Color>(
+                                              Color(0xff0A2B4E)),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
+                            const SizedBox(height: 20),
+                            loadingController.value == 1.0
+                                ? SizedBox(
+                                    width: double.infinity,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        // Navigator.push(
+                                        //   context,
+                                        //   MaterialPageRoute(
+                                        //     builder: (context) => (data: dataToPass),
+                                        //   ),
+                                        // );
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              const Color(0xffAAD4FF),
+                                          elevation: 5,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 16.0)),
+                                      child: const Text(
+                                        'Selanjutnya',
+                                        style: TextStyle(
+                                            color: Color(0xff0A2B4E),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w900),
+                                      ),
+                                    ),
+                                  )
+                                : const SizedBox(), // Widget kosong jika loading belum selesai
                           ],
                         ),
-                      ),
-                      const SizedBox(height: 20),
-                      loadingController.value == 1.0
-                          ? SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => (data: dataToPass),
-                            //   ),
-                            // );
-                          },
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xffAAD4FF),
-                              elevation: 5,
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                BorderRadius.circular(8.0),
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 16.0)),
-                          child: const Text(
-                            'Selanjutnya',
-                            style: TextStyle(
-                                color: Color(0xff0A2B4E),
-                                fontSize: 16,
-                                fontWeight: FontWeight.w900),
-                          ),
-                        ),
                       )
-                          : const SizedBox(), // Widget kosong jika loading belum selesai
-                    ],
-                  ),
-                )
                     : Container(),
               ],
             ),
