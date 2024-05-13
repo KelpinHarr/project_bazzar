@@ -1,10 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:project_bazzar/ConfirmDialog.dart';
 import 'package:project_bazzar/stand/editBarang.dart';
 import 'package:project_bazzar/stand/navbarv2.dart';
 
 class DaftarBarang extends StatefulWidget {
-  const DaftarBarang({Key? key}) : super(key: key);
+  final String name;
+  const DaftarBarang({Key? key, required this.name}) : super(key: key);
 
   @override
   _DaftarBarangState createState() => _DaftarBarangState();
@@ -12,11 +15,45 @@ class DaftarBarang extends StatefulWidget {
 
 class _DaftarBarangState extends State<DaftarBarang> {
   // Dummy data for barang
-  final List<Map<String, dynamic>> daftarBarang = [
-    {'nama': 'Tuna Sushi', 'harga': 'Rp 20.000'},
-    {'nama': 'Salmon Sushi', 'harga': 'Rp 25.000'},
-    // Add more data as needed
-  ];
+  List<Map<String, dynamic>> daftarBarang = [];
+
+  @override
+  void initState(){
+    super.initState();
+    _getItem();
+  }
+
+  Future<void>_getItem() async {
+    try{
+      final firestore = FirebaseFirestore.instance;
+      final itemDoc = await firestore
+          .collection('items')
+          .where('stand_name', isEqualTo: widget.name)
+          .get(); 
+      if (itemDoc.docs.isNotEmpty){
+        for (final item in itemDoc.docs){
+          final name = item['name'].trim();
+          final price = item['price'];
+          print('name: $name, stand_name: ${item['stand_name']}');
+          setState(() {
+            daftarBarang.add({'nama': name, 'harga': price});
+          });
+        }
+      }
+    }
+    catch(e){
+      print(e);
+    }
+  }
+
+  String formatIdr(int amount) {
+    final format = NumberFormat.currency(
+      locale: 'id_ID',
+      symbol: 'Rp ',
+      decimalDigits: 0,
+    );
+    return format.format(amount);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +96,7 @@ class _DaftarBarangState extends State<DaftarBarang> {
                                   ),
                                   SizedBox(height: 8.0),
                                   Text(
-                                    barang['harga'],
+                                    'Rp ${barang['harga'].toString()}',
                                     style: TextStyle(
                                       fontSize: 16.0,
                                       fontWeight: FontWeight.w600,

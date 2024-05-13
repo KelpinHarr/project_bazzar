@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_bazzar/CustomDialog.dart';
 import 'package:project_bazzar/stand/daftarBarang.dart';
@@ -196,9 +197,12 @@ void showEditSuccessDialog(BuildContext context) async {
 
   if (result == true) {
     // User pressed the action button
+    final DocumentSnapshot document = await FirebaseFirestore.instance.collection('users').doc('name').get();
+    final Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+    final String name = data['name'] ?? '';    
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const DaftarBarang()),
+      MaterialPageRoute(builder: (context) => DaftarBarang(name: name)),
     );
   }
 }

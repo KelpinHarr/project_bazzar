@@ -202,8 +202,16 @@ class _TambahBarangState extends State<TambahBarang> with SingleTickerProviderSt
                   child: SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
-                        // Tambahkan fungsi tambah barang di sini
+                      onPressed: () async {
+                        if (_namaBarangController.text.isEmpty || _hargaController.text.isEmpty){
+                          ScaffoldMessenger.of(context).showMaterialBanner(
+                            const MaterialBanner(
+                              content: Text('Nama dan harga barang tidak boleh kosong!'), 
+                              actions: [],
+                            )
+                          );
+                          return;
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xffAAD4FF),

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:project_bazzar/stand/navbar.dart';
 
 class HomeStand extends StatefulWidget {
-  const HomeStand({super.key});
+  final String name;
+  const HomeStand({super.key, required this.name});
 
   @override
   _HomeStandState createState() => _HomeStandState();
@@ -14,8 +15,8 @@ class _HomeStandState extends State<HomeStand>{
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text(
-          "Welcome, Sushi Saga!",
+        title: Text(
+          "Welcome, ${widget.name}",
           style: TextStyle(
             color: Color(0xffAAD4FF),
           ),
@@ -23,7 +24,8 @@ class _HomeStandState extends State<HomeStand>{
         backgroundColor: const Color(0xff0A2B4E),
         iconTheme: const IconThemeData(color: Color(0xffAAD4FF)),
       ),
-      endDrawer: const NavBarStand(),
+      endDrawer: NavBarStand(name: widget.name,),
+      backgroundColor: Color(0xffF0F0E8),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
         child: Column(

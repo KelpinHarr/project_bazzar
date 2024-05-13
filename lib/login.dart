@@ -15,6 +15,53 @@ class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _obsecureText = true;
+
+    Future<void> _loginUser() async {
+    final username = _usernameController.text.trim();
+    final password = _passwordController.text.trim();
+
+    try {
+      final firestore = FirebaseFirestore.instance;
+      final userDoc = await firestore
+          .collection('users')
+          .where('username', isEqualTo: username)
+          .get();
+
+      if (userDoc.docs.isNotEmpty) {
+        for (var doc in userDoc.docs) {
+          final user = doc.data();
+          if (user['password'] == password) {
+            if (user['role'] == 'admin') {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomeAdmin()),
+              );
+            } else if (user['role'] == 'stand') {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomeStand(name: user['name'])),
+              );
+            } else {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => HomeStudent(name: user['name'])),
+              );
+            }
+          } else {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text('Invalid password')));
+          }
+        }
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('User not found')));
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +120,7 @@ class _LoginState extends State<Login> {
                     height: 50.0,
                     child: TextField(
                       controller: _passwordController,
+                      obscureText: _obsecureText,
                       decoration: InputDecoration(
                         labelText: 'Password',
                         labelStyle: const TextStyle(color: Color(0xff36454F)),
@@ -91,6 +139,17 @@ class _LoginState extends State<Login> {
                                   0xff0A2B4E)), // Warna tepi luar saat aktif
                           borderRadius: BorderRadius.circular(12.0),
                         ),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obsecureText ? Icons.visibility_off : Icons.visibility,
+                            color: const Color(0xff36454F),
+                          ),
+                          onPressed: (){
+                            setState(() {
+                              _obsecureText = !_obsecureText;
+                            });
+                          },
+                        )
                       ),
                     ),
                   ),
@@ -147,49 +206,4 @@ class _LoginState extends State<Login> {
     );
   }
 
-  Future<void> _loginUser() async {
-    final username = _usernameController.text.trim();
-    final password = _passwordController.text.trim();
-
-    try {
-      final firestore = FirebaseFirestore.instance;
-      final userDoc = await firestore
-          .collection('users')
-          .where('username', isEqualTo: username)
-          .get();
-
-      if (userDoc.docs.isNotEmpty) {
-        for (var doc in userDoc.docs) {
-          final user = doc.data();
-          if (user!['password'] == password) {
-            if (user['role'] == 'admin') {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomeAdmin()),
-              );
-            } else if (user['role'] == 'stand') {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomeStand()),
-              );
-            } else {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => HomeStudent(name: user['name'])),
-              );
-            }
-          } else {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text('Invalid password')));
-          }
-        }
-      } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('User not found')));
-      }
-    } catch (e) {
-      print('Error: $e');
-    }
-  }
 }
