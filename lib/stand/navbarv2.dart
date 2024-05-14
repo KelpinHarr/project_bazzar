@@ -51,11 +51,18 @@ class NavbarStandv2 extends StatelessWidget {
         backgroundColor: const Color(0xff0A2B4E),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () {
+          onPressed: () async {
             if (activePage == 'Detil transaksi') {
               Navigator.pop(context);
             } else {
-              Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+              // Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+              final DocumentSnapshot document = await FirebaseFirestore.instance.collection('users').doc('name').get();
+              final Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+              final String name = data['name'] ?? '';
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomeStand(name: name)),
+              );
             }
           },
           color: const Color(0xffAAD4FF),

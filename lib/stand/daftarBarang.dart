@@ -14,7 +14,6 @@ class DaftarBarang extends StatefulWidget {
 }
 
 class _DaftarBarangState extends State<DaftarBarang> {
-  // Dummy data for barang
   List<Map<String, dynamic>> daftarBarang = [];
 
   @override
@@ -72,6 +71,9 @@ class _DaftarBarangState extends State<DaftarBarang> {
                   itemCount: daftarBarang.length,
                   itemBuilder: (context, index) {
                     final barang = daftarBarang[index];
+                    final String namaBarang = barang['qty'] != null
+                        ? '${barang['nama']} (Qty: ${barang['qty']})'
+                        : barang['nama'];
                     return Card(
                       elevation: 2.5,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
@@ -85,7 +87,7 @@ class _DaftarBarangState extends State<DaftarBarang> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    barang['nama'],
+                                    namaBarang,
                                     style: TextStyle(
                                       fontSize: 18.0,
                                       fontWeight: FontWeight.bold,
@@ -138,7 +140,11 @@ class _DaftarBarangState extends State<DaftarBarang> {
                                       onPressed: () {
                                         Navigator.push(
                                           context,
-                                          MaterialPageRoute(builder: (context) => EditBarang()),
+                                          MaterialPageRoute(builder: (context) => EditBarang(
+                                            name: barang['nama'],
+                                            price: barang['harga'],
+                                            qty: barang['qty'],
+                                          )),
                                         );
                                       },
                                       icon: const Icon(Icons.edit, color: Color(0xff0A2B4E)),

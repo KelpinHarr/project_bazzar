@@ -4,17 +4,60 @@ import 'package:project_bazzar/CustomDialog.dart';
 import 'package:project_bazzar/stand/daftarBarang.dart';
 import 'package:project_bazzar/stand/navbarv2.dart';
 class EditBarang extends StatefulWidget {
-  const EditBarang({super.key});
+  final String name;
+  final int price;
+  final int? qty;
+
+  const EditBarang({
+    super.key,
+    required this.name,
+    required this.price,
+    this.qty
+  });
 
   @override
   _EditBarangState createState() => _EditBarangState();
 }
 
 class _EditBarangState extends State<EditBarang> {
-  final _namaBarangController = TextEditingController();
-  final _hargaController = TextEditingController();
+  late TextEditingController _namaBarangController;
+  late TextEditingController _hargaController;
   bool _showQtyInput = false;
-  int _qty = 0; // Current quantity
+  int _qty = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _namaBarangController = TextEditingController(text: widget.name);
+    _hargaController = TextEditingController(text: widget.price.toString());
+    _qty = widget.qty ?? 0;
+    _showQtyInput = _qty > 0;
+  }
+
+  // mungkin berguna
+  // Future<void> _saveChanges() async {
+  //   try {
+  //     final firestore = FirebaseFirestore.instance;
+  //     final itemDoc = await firestore
+  //         .collection('items')
+  //         .where('name', isEqualTo: widget.name)
+  //         .get();
+  //
+  //     if (itemDoc.docs.isNotEmpty) {
+  //       final docId = itemDoc.docs.first.id;
+  //       await firestore.collection('items').doc(docId).update({
+  //         'name': _namaBarangController.text.trim(),
+  //         'price': int.parse(_hargaController.text.trim()),
+  //         'qty': _qty > 0 ? _qty : FieldValue.delete(),
+  //       });
+  //
+  //       showEditSuccessDialog(context);
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //     // Handle the error appropriately
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
