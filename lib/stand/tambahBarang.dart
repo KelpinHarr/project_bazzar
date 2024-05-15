@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_bazzar/stand/navbarv2.dart';
 import 'dart:io';
@@ -5,6 +6,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:iconsax/iconsax.dart';
 import 'dart:typed_data';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class TambahBarang extends StatefulWidget {
   const TambahBarang({super.key});
@@ -31,18 +33,56 @@ class _TambahBarangState extends State<TambahBarang>
   File? _file;
   PlatformFile? _platformFile;
 
-  selectFile() async {
-    final file = await FilePicker.platform
-        .pickFiles(type: FileType.custom, allowedExtensions: ['xlsx', 'jpg']);
+  Future<void> selectFile() async {
+    try {
+      final file = await FilePicker.platform
+          .pickFiles(type: FileType.custom, allowedExtensions: ['xlsx', 'jpg']);
 
-    if (file != null) {
-      setState(() {
-        _file = File(String.fromCharCodes(file.files.single.bytes!));
-        _platformFile = file.files.first;
-      });
+      if (file != null) {
+        setState(() {
+          _file = File(String.fromCharCodes(file.files.single.bytes!));
+          _platformFile = file.files.first;
+        });
+      }
+      loadingController.forward();
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error selecting file: $e')),
+      );
     }
+  }
 
-    loadingController.forward();
+  Future<void> uploadFileToFirestore() async {
+    if (_file == null) return;
+
+    try {
+      // final firestore = FirebaseFirestore.instance;
+      final storage = FirebaseStorage.instance;
+      final storageRef = storage.ref().child('files/${_platformFile!.name}');
+      final uploadTask = await storageRef.putFile(_file!);
+
+      final downloadUrl = await uploadTask.ref.getDownloadURL();
+
+      final firestore = FirebaseFirestore.instance;
+
+      final fileMetadata = {
+        'nama': _platformFile!.name,
+        'size': _platformFile!.size,
+        'downloadUrl': downloadUrl,
+        'item_name': _namaBarangController.text,
+        'price': int.parse(_hargaController.text),
+        'stand_name': 'Sushi Saga',
+      };
+      await firestore.collection('items').add(fileMetadata);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('File uploaded and saved successfully')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error selecting file: $e')),
+      );
+    }
   }
 
   @override
@@ -208,11 +248,12 @@ class _TambahBarangState extends State<TambahBarang>
                         if (_namaBarangController.text.isEmpty ||
                             _hargaController.text.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("Nama / harga tidak boleh kosong!")
-                            )
-                          );
+                              const SnackBar(
+                                  content: Text(
+                                      "Nama / harga tidak boleh kosong!")));
                           return;
+                        } else {
+                          await uploadFileToFirestore();
                         }
                       },
                       style: ElevatedButton.styleFrom(
