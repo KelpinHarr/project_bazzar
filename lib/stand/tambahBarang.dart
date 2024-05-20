@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:project_bazzar/stand/navbarv2.dart';
 import 'dart:io';
@@ -35,16 +36,57 @@ class _TambahBarangState extends State<TambahBarang>
 
   Future<void> selectFile() async {
     try {
-      final file = await FilePicker.platform
+      FilePickerResult? file = await FilePicker.platform
           .pickFiles(type: FileType.custom, allowedExtensions: ['xlsx', 'jpg']);
 
-      if (file != null) {
-        setState(() {
-          _file = File(String.fromCharCodes(file.files.single.bytes!));
-          _platformFile = file.files.first;
-        });
+      if (file != null && file.files != null && file.files.isNotEmpty) { 
+      final bytes = file.files.single.bytes;
+      if (bytes != null){
+          final excel = Excel.decodeBytes(bytes!);
+
+          final sheetName = excel.tables.keys.first;
+          final sheet = excel.tables[sheetName];
+
+          if (sheet != null && sheet.rows != null){
+            final data = sheet.rows;
+            String? namaStand;
+            List<String>? namaBarang;
+            int? qty;
+            int? price;
+
+            for (var row in data!){
+              if (row.first?.value == 'NAMA STAND' || row.first?.value == 'NAMA BARANG' || row.first?.value == 'QTY' || row.first?.value == 'HARGA'){
+                print('Skipping row with first cell value: ${row.first?.value}');
+                continue;
+              }
+              if (row[1]?.value.toString() == "Sushi Saga") {
+                namaStand = row[1]?.value.toString();
+                break;
+              }
+              // final qtyString = row[2]?.value.toString();
+              // final priceString = row[row.length - 1]?.value.toString();
+              // qty = qtyString != null ? int.tryParse(qtyString) : null;
+              // price = priceString != null ? int.tryParse(priceString) : null;
+            }
+            for (var row in data!.sublist(2)){
+              if (namaBarang != null){
+                namaBarang!.add(row[0]?.value?.toString() ?? "");
+              }
+              print('Nama Barang: $namaBarang');
+            }
+            print('Nama Stand: $namaStand');
+            
+            print('QTY: $qty');
+            print('Harga: $price');
+          }
+
+          setState(() {
+            _file = File(String.fromCharCodes(file.files.single.bytes!));
+            _platformFile = file.files.first;
+          });
+        }
+        loadingController.forward();
       }
-      loadingController.forward();
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error selecting file: $e')),
@@ -53,7 +95,7 @@ class _TambahBarangState extends State<TambahBarang>
   }
 
   Future<void> uploadFileToFirestore() async {
-    if (_file == null) return;
+    if (_file == null || _platformFile == null) return;
 
     try {
       // final firestore = FirebaseFirestore.instance;
