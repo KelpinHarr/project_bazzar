@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:project_bazzar/stand/navbar.dart';
 
 class HomeStand extends StatefulWidget {
@@ -10,6 +12,43 @@ class HomeStand extends StatefulWidget {
 }
 
 class _HomeStandState extends State<HomeStand>{
+  int? _standBalance;
+
+  @override
+  void initState(){
+    super.initState();
+  }
+
+  String formatIdr(int amount) {
+    final format = NumberFormat.currency(
+      locale: 'id_ID',
+      symbol: 'Rp ',
+      decimalDigits: 0,
+    );
+    return format.format(amount);
+  }
+
+  Future<void> _getUser() async {
+    try {
+      final firestore = FirebaseFirestore.instance;
+      final userDoc = await firestore
+          .collection('users')
+          .where('role', isEqualTo: 'student')
+          .where('name', isEqualTo: widget.name)
+          .get();
+      if (userDoc.docs.isNotEmpty) {
+        final user = userDoc.docs.first;
+        final balance = user['balance'];
+        print('Retrieved balance: $balance');
+        setState(() {
+          _standBalance = balance;
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,16 +89,16 @@ class _HomeStandState extends State<HomeStand>{
                   ),
                 ],
               ),
-              child: const Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Pedapatan hari ini',
+                    'Pendapatan hari ini',
                     style: TextStyle(fontSize: 18.0),
                   ),
                   SizedBox(height: 8.0),
                   Text(
-                    'Rp1.500.000',
+                    formatIdr(_standBalance ?? 0),
                     style: TextStyle(
                       fontSize: 24.0,
                       fontWeight: FontWeight.bold,

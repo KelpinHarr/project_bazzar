@@ -33,9 +33,10 @@ class _DaftarBarangState extends State<DaftarBarang> {
         for (final item in itemDoc.docs){
           final name = item['name'].trim();
           final price = item['price'];
-          print('name: $name, stand_name: ${item['stand_name']}');
+          final qty = item['qty'];
+          print('name: $name, stand_name: ${item['stand_name']}, qty: $qty');
           setState(() {
-            daftarBarang.add({'nama': name, 'harga': price});
+            daftarBarang.add({'nama': name, 'harga': price, 'qty': qty});
           });
         }
       }
