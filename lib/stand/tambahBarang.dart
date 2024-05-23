@@ -10,7 +10,8 @@ import 'dart:typed_data';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class TambahBarang extends StatefulWidget {
-  const TambahBarang({super.key});
+  final String name;
+  const TambahBarang({super.key, required this.name});
 
   @override
   _TambahBarangState createState() => _TambahBarangState();
@@ -39,24 +40,28 @@ class _TambahBarangState extends State<TambahBarang>
       FilePickerResult? file = await FilePicker.platform
           .pickFiles(type: FileType.custom, allowedExtensions: ['xlsx', 'jpg']);
 
-      if (file != null && file.files != null && file.files.isNotEmpty) { 
-      final bytes = file.files.single.bytes;
-      if (bytes != null){
+      if (file != null && file.files != null && file.files.isNotEmpty) {
+        final bytes = file.files.single.bytes;
+        if (bytes != null) {
           final excel = Excel.decodeBytes(bytes!);
 
           final sheetName = excel.tables.keys.first;
           final sheet = excel.tables[sheetName];
 
-          if (sheet != null && sheet.rows != null){
+          if (sheet != null && sheet.rows != null) {
             final data = sheet.rows;
             String? namaStand;
             List<String>? namaBarang;
             int? qty;
             int? price;
 
-            for (var row in data!){
-              if (row.first?.value == 'NAMA STAND' || row.first?.value == 'NAMA BARANG' || row.first?.value == 'QTY' || row.first?.value == 'HARGA'){
-                print('Skipping row with first cell value: ${row.first?.value}');
+            for (var row in data!) {
+              if (row.first?.value == 'NAMA STAND' ||
+                  row.first?.value == 'NAMA BARANG' ||
+                  row.first?.value == 'QTY' ||
+                  row.first?.value == 'HARGA') {
+                print(
+                    'Skipping row with first cell value: ${row.first?.value}');
                 continue;
               }
               if (row[1]?.value.toString() == "Sushi Saga") {
@@ -68,14 +73,14 @@ class _TambahBarangState extends State<TambahBarang>
               // qty = qtyString != null ? int.tryParse(qtyString) : null;
               // price = priceString != null ? int.tryParse(priceString) : null;
             }
-            for (var row in data!.sublist(2)){
-              if (namaBarang != null){
+            for (var row in data!.sublist(2)) {
+              if (namaBarang != null) {
                 namaBarang!.add(row[0]?.value?.toString() ?? "");
               }
               print('Nama Barang: $namaBarang');
             }
             print('Nama Stand: $namaStand');
-            
+
             print('QTY: $qty');
             print('Harga: $price');
           }
@@ -141,6 +146,7 @@ class _TambahBarangState extends State<TambahBarang>
   @override
   Widget build(BuildContext context) {
     return NavbarStandv2(
+      name: widget.name,
       key: GlobalKey(),
       body: Scaffold(
         backgroundColor: const Color(0xffF0F0E8),

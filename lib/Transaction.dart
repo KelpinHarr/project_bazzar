@@ -15,6 +15,7 @@ class TransactionItem {
 
 class Transactions extends StatelessWidget {
   final String id;
+  final String name;
   final DateTime date;
   final String stand;
   final String buyerId;
@@ -25,6 +26,7 @@ class Transactions extends StatelessWidget {
 
   const Transactions({
     required this.id,
+    required this.name,
     required this.date,
     required this.stand,
     required this.buyerId,
@@ -36,10 +38,11 @@ class Transactions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Card(
+    return Card(
       elevation: 5.0,
       // color: const Color(0xffAAD4FF),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)), // Set rounded corners
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.0)), // Set rounded corners
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -54,8 +57,7 @@ class Transactions extends StatelessWidget {
                   style: const TextStyle(
                       fontSize: 18.0,
                       color: Color(0xff0A2B4E),
-                      fontWeight: FontWeight.w900
-                  ),
+                      fontWeight: FontWeight.w900),
                 ),
                 const Spacer(), // Add space between ID and price
 
@@ -67,8 +69,7 @@ class Transactions extends StatelessWidget {
                     style: const TextStyle(
                         fontSize: 16.0,
                         color: Colors.green,
-                        fontWeight: FontWeight.w600
-                    ),
+                        fontWeight: FontWeight.w600),
                   ),
                 )
               ],
@@ -81,16 +82,27 @@ class Transactions extends StatelessWidget {
                 Text(
                   '${date.day} ${_getMonthName(date.month)} ${date.year}, ${_formatTime(date.hour, date.minute)}',
                   style: const TextStyle(
-                      fontSize: 14.0,
-                      color: const Color(0xff0A2B4E)
-                  ),
+                      fontSize: 14.0, color: const Color(0xff0A2B4E)),
                 ),
 
                 TextButton(
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => DetailTransaksi(transaction: Transactions(id: id, date: date, stand: stand, buyerId: buyerId, status: status, items: items, totalAmount: totalAmount, totalQty: totalQty))),
+                      MaterialPageRoute(
+                          builder: (context) => DetailTransaksi(
+                                transaction: Transactions(
+                                    id: id,
+                                    name: name,
+                                    date: date,
+                                    stand: stand,
+                                    buyerId: buyerId,
+                                    status: status,
+                                    items: items,
+                                    totalAmount: totalAmount,
+                                    totalQty: totalQty),
+                                name: name,
+                              )),
                     );
                   },
                   child: const Text(
@@ -98,8 +110,7 @@ class Transactions extends StatelessWidget {
                     style: TextStyle(
                         color: Color(0xff0A2B4E),
                         fontSize: 16.0,
-                        fontWeight: FontWeight.bold
-                    ),
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
               ],

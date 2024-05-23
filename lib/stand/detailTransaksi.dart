@@ -5,12 +5,15 @@ import 'package:project_bazzar/stand/navbarv2.dart';
 
 class DetailTransaksi extends StatelessWidget {
   final Transactions transaction;
-  const DetailTransaksi({super.key, required this.transaction});
+  final String name;
+  const DetailTransaksi({super.key, required this.transaction, required this.name});
 
   @override
   Widget build(BuildContext context) {
-    String formattedTime = '${transaction.date.day} ${_getMonthName(transaction.date.month)} ${transaction.date.year}, ${_formatTime(transaction.date.hour, transaction.date.minute)}';
+    String formattedTime =
+        '${transaction.date.day} ${_getMonthName(transaction.date.month)} ${transaction.date.year}, ${_formatTime(transaction.date.hour, transaction.date.minute)}';
     return NavbarStandv2(
+      name: name,
         key: GlobalKey(),
         body: Scaffold(
           backgroundColor: const Color(0xffF0F0E8),
@@ -22,21 +25,28 @@ class DetailTransaksi extends StatelessWidget {
                 // Transaction Info Card
                 Card(
                   elevation: 4.0, // Add a slight shadow effect
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)), // Rounded corners
+                  shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(8.0)), // Rounded corners
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _buildTransactionInfo(context, transaction.id, 'Nomor Transaksi:'),
+                        _buildTransactionInfo(
+                            context, transaction.id, 'Nomor Transaksi:'),
                         const SizedBox(height: 8.0),
-                        _buildTransactionInfo(context, formattedTime, 'Tanggal:'),
+                        _buildTransactionInfo(
+                            context, formattedTime, 'Tanggal:'),
                         const SizedBox(height: 8.0),
-                        _buildTransactionInfo(context, transaction.stand, 'Stand:'),
+                        _buildTransactionInfo(
+                            context, transaction.stand, 'Stand:'),
                         const SizedBox(height: 8.0),
-                        _buildTransactionInfo(context, transaction.buyerId, 'Pembeli:'),
+                        _buildTransactionInfo(
+                            context, transaction.buyerId, 'Pembeli:'),
                         const SizedBox(height: 8.0),
-                        _buildTransactionInfo(context, transaction.status, 'Status:'),
+                        _buildTransactionInfo(
+                            context, transaction.status, 'Status:'),
                       ],
                     ),
                   ),
@@ -55,8 +65,7 @@ class DetailTransaksi extends StatelessWidget {
             ),
           ),
         ),
-        activePage: 'Detil transaksi'
-    );
+        activePage: 'Detil transaksi');
   }
 
   String _getMonthName(int month) {
@@ -96,7 +105,8 @@ class DetailTransaksi extends StatelessWidget {
     return '$formattedHour:$formattedMinute';
   }
 
-  Widget _buildTransactionInfo(BuildContext context, String value, String label) {
+  Widget _buildTransactionInfo(
+      BuildContext context, String value, String label) {
     Color textColor;
     if (value == 'Completed') {
       textColor = Colors.green;
@@ -110,19 +120,14 @@ class DetailTransaksi extends StatelessWidget {
       children: [
         Text(
           label,
-          style: const TextStyle(
-              fontSize: 16.0,
-              color: Color(0xff0A2B4E)),
+          style: const TextStyle(fontSize: 16.0, color: Color(0xff0A2B4E)),
         ),
         const SizedBox(width: 8.0),
         Expanded(
           child: Text(
             value,
             style: TextStyle(
-                fontSize: 16.0,
-                color: textColor,
-                fontWeight: FontWeight.w900
-            ),
+                fontSize: 16.0, color: textColor, fontWeight: FontWeight.w900),
           ),
         ),
       ],

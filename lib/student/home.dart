@@ -129,6 +129,7 @@ class _HomeStudentState extends State<HomeStudent> {
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Transactions(
                     id: 'PK1249281',
+                    name: widget.name,
                     stand: 'Felicia',
                     buyerId: 'Kenny',
                     status: 'Completed',
@@ -149,6 +150,7 @@ class _HomeStudentState extends State<HomeStudent> {
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Transactions(
                     id: 'PK1249679',
+                    name: widget.name,
                     stand: 'Uncle Tan',
                     buyerId: 'Kenny',
                     status: 'Completed',

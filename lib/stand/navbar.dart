@@ -70,7 +70,7 @@ class NavBarStand extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const BuatTransaksi()),
+                MaterialPageRoute(builder: (context) => BuatTransaksi(name: name,)),
               );
             },
           ),
@@ -85,7 +85,7 @@ class NavBarStand extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const RiwayatTransaksi()),
+                MaterialPageRoute(builder: (context) => RiwayatTransaksi(name: name,)),
               );
             },
           ),
@@ -115,7 +115,7 @@ class NavBarStand extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const TambahBarang()),
+                MaterialPageRoute(builder: (context) => TambahBarang(name: name,)),
               );
             },
           ),

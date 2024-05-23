@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_bazzar/login.dart';
 import 'package:project_bazzar/stand/buatTransaksi.dart';
@@ -8,7 +7,12 @@ import 'package:project_bazzar/stand/riwayatTransaksi.dart';
 import 'package:project_bazzar/stand/tambahBarang.dart';
 
 class NavbarStandv2 extends StatelessWidget {
-  const NavbarStandv2({super.key, required this.body, required this.activePage});
+  final String name;
+  const NavbarStandv2(
+      {super.key,
+      required this.body,
+      required this.activePage,
+      required this.name});
 
   final Widget body;
   final String activePage;
@@ -55,14 +59,15 @@ class NavbarStandv2 extends StatelessWidget {
             if (activePage == 'Detil transaksi') {
               Navigator.pop(context);
             } else {
-              // Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
-              final DocumentSnapshot document = await FirebaseFirestore.instance.collection('users').doc('name').get();
-              final Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-              final String name = data['name'] ?? '';
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomeStand(name: name)),
-              );
+              try {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => HomeStand(name: name)),
+                );
+              } catch (e) {
+                print(e);
+              }
             }
           },
           color: const Color(0xffAAD4FF),
@@ -83,7 +88,7 @@ class NavbarStandv2 extends StatelessWidget {
       body: body,
       endDrawer: Builder(
         builder: (context) => Drawer(
-          backgroundColor: const Color(0xffF0F0E8),
+            backgroundColor: const Color(0xffF0F0E8),
             child: Column(
               children: [
                 Container(
@@ -92,7 +97,8 @@ class NavbarStandv2 extends StatelessWidget {
                     color: const Color(0xff0A2B4E),
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 75),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 16, horizontal: 75),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -100,10 +106,11 @@ class NavbarStandv2 extends StatelessWidget {
                         'assets/Profile.png', // Replace with your image path
                         height: 60, // Adjust image size as needed
                         width: 60,
-                        fit: BoxFit.contain, // Ensure image fits within container
+                        fit: BoxFit
+                            .contain, // Ensure image fits within container
                       ),
-                      const Text(
-                        'Sushi Saga',
+                      Text(
+                        '$name',
                         style: TextStyle(
                           color: Color(0xffAAD4FF),
                           fontSize: 24,
@@ -118,17 +125,17 @@ class NavbarStandv2 extends StatelessWidget {
                     'Home',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontWeight: activePage == 'Home' ? FontWeight.bold : FontWeight.normal,
+                      fontWeight: activePage == 'Home'
+                          ? FontWeight.bold
+                          : FontWeight.normal,
                       color: const Color(0xff0A2B4E),
                     ),
                   ),
-                  onTap: () async {
-                    final DocumentSnapshot document = await FirebaseFirestore.instance.collection('users').doc('name').get();
-                    final Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-                    final String name = data['name'] ?? '';
+                  onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => HomeStand(name: name)),
+                      MaterialPageRoute(
+                          builder: (context) => HomeStand(name: name)),
                     );
                   },
                 ),
@@ -137,14 +144,19 @@ class NavbarStandv2 extends StatelessWidget {
                     'Buat transaksi',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontWeight: activePage == 'Buat transaksi' ? FontWeight.bold : FontWeight.normal,
+                      fontWeight: activePage == 'Buat transaksi'
+                          ? FontWeight.bold
+                          : FontWeight.normal,
                       color: const Color(0xff0A2B4E),
                     ),
                   ),
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const BuatTransaksi()),
+                      MaterialPageRoute(
+                          builder: (context) => BuatTransaksi(
+                                name: name,
+                              )),
                     );
                   },
                 ),
@@ -153,14 +165,17 @@ class NavbarStandv2 extends StatelessWidget {
                     'Riwayat transaksi',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontWeight: activePage == 'Riwayat transaksi' ? FontWeight.bold : FontWeight.normal,
+                      fontWeight: activePage == 'Riwayat transaksi'
+                          ? FontWeight.bold
+                          : FontWeight.normal,
                       color: const Color(0xff0A2B4E),
                     ),
                   ),
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const RiwayatTransaksi()),
+                      MaterialPageRoute(
+                          builder: (context) => RiwayatTransaksi(name: name)),
                     );
                   },
                 ),
@@ -169,18 +184,19 @@ class NavbarStandv2 extends StatelessWidget {
                     'Daftar barang',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontWeight: activePage == 'Daftar barang' ? FontWeight.bold : FontWeight.normal,
+                      fontWeight: activePage == 'Daftar barang'
+                          ? FontWeight.bold
+                          : FontWeight.normal,
                       color: const Color(0xff0A2B4E),
                     ),
                   ),
-                  onTap: () async {
-                    final DocumentSnapshot document = await FirebaseFirestore.instance.collection('users').doc('name').get();
-                    final Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-                    final String name = data['name'] ?? '';
-
+                  onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => DaftarBarang(name: name,)),
+                      MaterialPageRoute(
+                          builder: (context) => DaftarBarang(
+                                name: name,
+                              )),
                     );
                   },
                 ),
@@ -189,14 +205,19 @@ class NavbarStandv2 extends StatelessWidget {
                     'Tambah barang',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontWeight: activePage == 'Tambah barang' ? FontWeight.bold : FontWeight.normal,
+                      fontWeight: activePage == 'Tambah barang'
+                          ? FontWeight.bold
+                          : FontWeight.normal,
                       color: const Color(0xff0A2B4E),
                     ),
                   ),
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const TambahBarang()),
+                      MaterialPageRoute(
+                          builder: (context) => TambahBarang(
+                                name: name,
+                              )),
                     );
                   },
                 ),
@@ -209,7 +230,8 @@ class NavbarStandv2 extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const Login()),
+                          MaterialPageRoute(
+                              builder: (context) => const Login()),
                         );
                       },
                       style: ElevatedButton.styleFrom(
@@ -218,8 +240,7 @@ class NavbarStandv2 extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
-                          padding: const EdgeInsets.symmetric(vertical: 16.0)
-                      ),
+                          padding: const EdgeInsets.symmetric(vertical: 16.0)),
                       child: const Text(
                         'Keluar',
                         style: TextStyle(
@@ -231,8 +252,7 @@ class NavbarStandv2 extends StatelessWidget {
                   ),
                 ),
               ],
-            )
-        ),
+            )),
       ),
     );
   }

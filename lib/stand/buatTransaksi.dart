@@ -20,7 +20,8 @@ List<String> productNames = [
 ];
 
 class BuatTransaksi extends StatefulWidget {
-  const BuatTransaksi({super.key});
+  final String name;
+  const BuatTransaksi({super.key, required this.name});
 
   @override
   _BuatTransaksiState createState() => _BuatTransaksiState();
@@ -57,6 +58,7 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
   @override
   Widget build(BuildContext context) {
     return NavbarStandv2(
+      name: widget.name,
       key: GlobalKey(),
       body: Scaffold(
         backgroundColor: const Color(0xffF0F0E8),
@@ -142,32 +144,38 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                           ),
                         ),
                       ],
-                      rows: transactions.expand((transaction) =>
-                          transaction.items.map((item) => DataRow(
-                            cells: [
-                              DataCell(
-                                Expanded(
-                                  child: Text(item.name),
-                                ),
-                              ),
-                              DataCell(
-                                Expanded(
-                                  child: Text(item.quantity.toString()),
-                                ),
-                              ),
-                              DataCell(
-                                Expanded(
-                                  child: Text('Rp${item.price}'),
-                                ),
-                              ),
-                              DataCell(
-                                Expanded(
-                                  child: Text('Rp${item.price * item.quantity}'),
-                                ),
-                              ),
-                            ],
-                          )).toList(),
-                      ).toList(),
+                      rows: transactions
+                          .expand(
+                            (transaction) => transaction.items
+                                .map((item) => DataRow(
+                                      cells: [
+                                        DataCell(
+                                          Expanded(
+                                            child: Text(item.name),
+                                          ),
+                                        ),
+                                        DataCell(
+                                          Expanded(
+                                            child:
+                                                Text(item.quantity.toString()),
+                                          ),
+                                        ),
+                                        DataCell(
+                                          Expanded(
+                                            child: Text('Rp${item.price}'),
+                                          ),
+                                        ),
+                                        DataCell(
+                                          Expanded(
+                                            child: Text(
+                                                'Rp${item.price * item.quantity}'),
+                                          ),
+                                        ),
+                                      ],
+                                    ))
+                                .toList(),
+                          )
+                          .toList(),
                     ),
 
                   // input barang
@@ -195,7 +203,8 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
 
                         // Jumlah TextField
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween, // Align children to the start and end of the row
+                          mainAxisAlignment: MainAxisAlignment
+                              .spaceBetween, // Align children to the start and end of the row
                           children: [
                             // Widgets for displaying the quantity
                             Text(
@@ -222,7 +231,8 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                                 SizedBox(
                                   width: 40.0,
                                   child: TextField(
-                                    controller: TextEditingController(text: '$_qty'),
+                                    controller:
+                                        TextEditingController(text: '$_qty'),
                                     keyboardType: TextInputType.number,
                                     onChanged: (value) {
                                       // Update _qty based on user input, handling potential errors
@@ -234,16 +244,19 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                                           });
                                         }
                                       } catch (e) {
-                                        ScaffoldMessenger.of(context).showSnackBar(
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
                                           const SnackBar(
-                                            content: Text('Invalid quantity. Please enter a number.'),
+                                            content: Text(
+                                                'Invalid quantity. Please enter a number.'),
                                           ),
                                         );
                                       }
                                     },
                                     textAlign: TextAlign.center,
                                     decoration: const InputDecoration(
-                                      contentPadding: EdgeInsets.all(0.0), // Remove padding for a cleaner look
+                                      contentPadding: EdgeInsets.all(
+                                          0.0), // Remove padding for a cleaner look
                                     ),
                                   ),
                                 ),
@@ -264,7 +277,8 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                         Padding(
                           padding: const EdgeInsets.all(24.0),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end, // Align children to the end (right side)
+                            mainAxisAlignment: MainAxisAlignment
+                                .end, // Align children to the end (right side)
                             children: [
                               SizedBox(
                                 width: 180.0,
@@ -273,11 +287,19 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                                     // tambah baris tabel
                                     setState(() {
                                       // Buat objek transaksi baru
-                                      Transactions newTransaction = Transactions(
+                                      Transactions newTransaction =
+                                          Transactions(
+                                            name: widget.name,
                                         // Isi data transaksi sesuai dengan input pengguna
-                                        items: [TransactionItem(name: _selectedProduct, quantity: _qty, price: 4000)],
+                                        items: [
+                                          TransactionItem(
+                                              name: _selectedProduct,
+                                              quantity: _qty,
+                                              price: 4000)
+                                        ],
                                         buyerId: "Kenny",
-                                        date: DateTime(2024, 11, 11, 18, 58, 23),
+                                        date:
+                                            DateTime(2024, 11, 11, 18, 58, 23),
                                         id: "PK1239423",
                                         stand: "Sushi Saga",
                                         status: "Belum Bayar",
@@ -291,7 +313,8 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                                       transactions.add(newTransaction);
                                       _showTambahBarangInput = false;
                                       _qty = 1;
-                                      _showDataTable = true; // Setelah transaksi ditambahkan, tampilkan DataTable
+                                      _showDataTable =
+                                          true; // Setelah transaksi ditambahkan, tampilkan DataTable
                                     });
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -300,7 +323,8 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8.0),
                                     ),
-                                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 16.0),
                                   ),
                                   child: const Text(
                                     'Tambah',
@@ -321,7 +345,8 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
 
                   const SizedBox(height: 16.0),
                   Visibility(
-                    visible: !_showTambahBarangInput, // Ubah visible ke false jika _showTambahBarangInput true
+                    visible:
+                        !_showTambahBarangInput, // Ubah visible ke false jika _showTambahBarangInput true
                     child: TextButton(
                       onPressed: () {
                         setState(() {
@@ -330,7 +355,9 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                         });
                       },
                       style: ButtonStyle(
-                        foregroundColor: MaterialStateProperty.all<Color>(const Color(0xff0A2B4E)), // Mengatur warna teks menjadi hitam
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                            const Color(
+                                0xff0A2B4E)), // Mengatur warna teks menjadi hitam
                       ),
                       child: const Row(
                         children: [
@@ -345,28 +372,26 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                   const SizedBox(height: 48.0),
                   // button bayar transaksi
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24.0, vertical: 8.0),
                     child: SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {
-
-                        },
+                        onPressed: () {},
                         style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xffAAD4FF),
                             elevation: 5,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
                             ),
-                            padding: const EdgeInsets.symmetric(vertical: 16.0)
-                        ),
+                            padding:
+                                const EdgeInsets.symmetric(vertical: 16.0)),
                         child: const Text(
                           'Bayar',
                           style: TextStyle(
                               color: Color(0xff0A2B4E),
                               fontSize: 18,
-                              fontWeight: FontWeight.w900
-                          ),
+                              fontWeight: FontWeight.w900),
                         ),
                       ),
                     ),
@@ -374,7 +399,8 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
 
                   // button batal membuat transaksi
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24.0, vertical: 8.0),
                     child: SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
@@ -384,8 +410,10 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                             builder: (BuildContext context) {
                               return ConfirmDialog(
                                 title: "Konfirmasi Membatalkan Transaksi",
-                                icon: const Icon(Icons.warning, color: Colors.orange),
-                                message: "Apakah Anda yakin ingin membatalkan transaksi ini?",
+                                icon: const Icon(Icons.warning,
+                                    color: Colors.orange),
+                                message:
+                                    "Apakah Anda yakin ingin membatalkan transaksi ini?",
                                 mode: "Ya",
                                 onDeletePressed: () {
                                   Navigator.pop(context);
@@ -401,15 +429,14 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
                             ),
-                            padding: const EdgeInsets.symmetric(vertical: 16.0)
-                        ),
+                            padding:
+                                const EdgeInsets.symmetric(vertical: 16.0)),
                         child: const Text(
                           'Batalkan transaksi',
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
-                              fontWeight: FontWeight.w900
-                          ),
+                              fontWeight: FontWeight.w900),
                         ),
                       ),
                     ),

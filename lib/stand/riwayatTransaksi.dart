@@ -4,35 +4,39 @@ import 'package:project_bazzar/stand/detailTransaksi.dart';
 import 'package:project_bazzar/stand/navbarv2.dart';
 
 class RiwayatTransaksi extends StatefulWidget {
-  const RiwayatTransaksi({super.key});
+  final String name;
+  const RiwayatTransaksi({super.key, required this.name});
 
   @override
   _RiwayatTransaksiState createState() => _RiwayatTransaksiState();
 }
 
-class _RiwayatTransaksiState extends State<RiwayatTransaksi>{
+class _RiwayatTransaksiState extends State<RiwayatTransaksi> {
   // Dummy data for riwayat transaksi
-  final List<Transactions> riwayatTransaksi = [
-    Transactions(
-      id: 'PK1249281',
-      date: DateTime(2024, 4, 24, 10, 11),
-      stand: 'Felicia',
-      buyerId: 'Kenny',
-      status: 'Completed',
-      items: const [
-        TransactionItem(name: 'Product A', quantity: 2, price: 25000),
-        TransactionItem(name: 'Product B', quantity: 1, price: 15000),
-        TransactionItem(name: 'Product C', quantity: 3, price: 10000),
-      ],
-      totalAmount: 100000,
-      totalQty: 6,
-    ),
-    // Add more transactions as needed
-  ];
+  List<Transactions>? riwayatTransaksi;
 
   @override
   Widget build(BuildContext context) {
+  riwayatTransaksi = [
+      Transactions(
+        id: 'PK1249281',
+        name: widget.name,
+        date: DateTime(2024, 4, 24, 10, 11),
+        stand: 'Felicia',
+        buyerId: 'Kenny',
+        status: 'Completed',
+        items: const [
+          TransactionItem(name: 'Product A', quantity: 2, price: 25000),
+          TransactionItem(name: 'Product B', quantity: 1, price: 15000),
+          TransactionItem(name: 'Product C', quantity: 3, price: 10000),
+        ],
+        totalAmount: 100000,
+        totalQty: 6,
+      ),
+      // Add more transactions as needed
+    ];    
     return NavbarStandv2(
+      name: widget.name,
       key: GlobalKey(),
       body: Scaffold(
         backgroundColor: const Color(0xffF0F0E8),
@@ -41,10 +45,11 @@ class _RiwayatTransaksiState extends State<RiwayatTransaksi>{
             padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: riwayatTransaksi.map((transaction) {
+              children: riwayatTransaksi!.map((transaction) {
                 return Card(
                   elevation: 5.0,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0)),
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
@@ -58,15 +63,15 @@ class _RiwayatTransaksiState extends State<RiwayatTransaksi>{
                               style: const TextStyle(
                                   fontSize: 18.0,
                                   color: Color(0xff0A2B4E),
-                                  fontWeight: FontWeight.w900
-                              ),
+                                  fontWeight: FontWeight.w900),
                             ),
                             const Spacer(),
                             Padding(
                               padding: const EdgeInsets.only(right: 8.0),
                               child: Text(
                                 'Rp${transaction.totalAmount}',
-                                style: const TextStyle(fontSize: 16.0, color: Color(0xff0A2B4E)),
+                                style: const TextStyle(
+                                    fontSize: 16.0, color: Color(0xff0A2B4E)),
                               ),
                             )
                           ],
@@ -77,18 +82,24 @@ class _RiwayatTransaksiState extends State<RiwayatTransaksi>{
                           children: [
                             Text(
                               '${transaction.date.day} ${_getMonthName(transaction.date.month)} ${transaction.date.year}, ${_getTimeString(transaction.date.hour, transaction.date.minute)}',
-                              style: const TextStyle(fontSize: 14.0, color: Color(0xff0A2B4E)),
+                              style: const TextStyle(
+                                  fontSize: 14.0, color: Color(0xff0A2B4E)),
                             ),
                             TextButton(
                               onPressed: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => DetailTransaksi(transaction: transaction)),
+                                  MaterialPageRoute(
+                                      builder: (context) => DetailTransaksi(
+                                          transaction: transaction, name: widget.name,)),
                                 );
                               },
                               child: const Text(
                                 'Lihat detail >',
-                                style: TextStyle(color: Color(0xff0A2B4E), fontSize: 16.0, fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    color: Color(0xff0A2B4E),
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
                           ],
