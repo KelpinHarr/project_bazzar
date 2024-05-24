@@ -34,9 +34,15 @@ class _DaftarBarangState extends State<DaftarBarang> {
           final name = item['name'].trim();
           final price = item['price'];
           final qty = item['qty'];
-          print('name: $name, stand_name: ${item['stand_name']}, qty: $qty');
+          final docId = item.id;
+          print('name: $name, stand_name: ${item['stand_name']}, qty: $qty, id: $docId');
           setState(() {
-            daftarBarang.add({'nama': name, 'harga': price, 'qty': qty});
+            daftarBarang.add({
+              'nama': name, 
+              'harga': price, 
+              'qty': qty,
+              'docId': docId
+            });
           });
         }
       }
@@ -53,6 +59,23 @@ class _DaftarBarangState extends State<DaftarBarang> {
       decimalDigits: 0,
     );
     return format.format(amount);
+  }
+
+  Future<void> _deleteItem(String docId) async {
+    try {
+      final firestore = FirebaseFirestore.instance;
+      await firestore.collection('items').doc(docId).delete();
+      setState(() {
+        daftarBarang.removeWhere((item) => item['docId'] == docId);
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Barang berhasil dihapus!')),
+      );
+    }
+    catch(e){
+      print(e);
+    }
   }
 
   @override
@@ -126,8 +149,8 @@ class _DaftarBarangState extends State<DaftarBarang> {
                                               icon: const Icon(Icons.warning, color: Colors.orange),
                                               message: "Apakah Anda yakin ingin menghapus barang ini?",
                                               mode: "Hapus",
-                                              onDeletePressed: () {
-                                                // Implement your logic for deleting the item here
+                                              onDeletePressed: () async {
+                                                await _deleteItem(barang['docId']);
                                                 Navigator.pop(context);
                                               },
                                               onCancelPressed: () => Navigator.pop(context),
@@ -146,6 +169,8 @@ class _DaftarBarangState extends State<DaftarBarang> {
                                             name: barang['nama'],
                                             price: barang['harga'],
                                             qty: barang['qty'],
+                                            user_name: widget.name,
+                                            docId: barang['docId'],
                                           )),
                                         );
                                       },

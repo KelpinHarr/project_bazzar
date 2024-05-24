@@ -1,17 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:project_bazzar/CustomDialog.dart';
 import 'package:project_bazzar/stand/daftarBarang.dart';
 import 'package:project_bazzar/stand/navbarv2.dart';
+
 class EditBarang extends StatefulWidget {
+  final user_name;
   final String name;
   final int price;
   final int? qty;
+  final String docId;
 
   const EditBarang({
     super.key,
     required this.name,
     required this.price,
+    required this.user_name,
+    required this.docId,
     this.qty
   });
 
@@ -34,35 +40,59 @@ class _EditBarangState extends State<EditBarang> {
     _showQtyInput = _qty > 0;
   }
 
-  // mungkin berguna
-  // Future<void> _saveChanges() async {
-  //   try {
-  //     final firestore = FirebaseFirestore.instance;
-  //     final itemDoc = await firestore
-  //         .collection('items')
-  //         .where('name', isEqualTo: widget.name)
-  //         .get();
-  //
-  //     if (itemDoc.docs.isNotEmpty) {
-  //       final docId = itemDoc.docs.first.id;
-  //       await firestore.collection('items').doc(docId).update({
-  //         'name': _namaBarangController.text.trim(),
-  //         'price': int.parse(_hargaController.text.trim()),
-  //         'qty': _qty > 0 ? _qty : FieldValue.delete(),
-  //       });
-  //
-  //       showEditSuccessDialog(context);
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //     // Handle the error appropriately
-  //   }
-  // }
+  Future<void> _saveChanges() async {
+    try {
+      final firestore = FirebaseFirestore.instance;
+      await firestore.collection('items').doc(widget.docId).update({
+        'name' : _namaBarangController.text.trim(),
+        'price' : int.parse(_hargaController.text.trim()),
+        'qty' : _qty > 0 ? _qty : null
+      });
+
+      showEditSuccessDialog(context);
+    }
+    catch(e){
+      print(e);
+    }
+  }
+
+  Future<void> showEditSuccessDialog(BuildContext context) async {
+    final result = await showDialog(
+      context: context,
+      barrierDismissible: false, // Prevent dismissal by tapping outside
+      builder: (BuildContext context) {
+        return CustomDialog(
+          title: "Edit Berhasil",
+          // content: "Barang berhasil diedit.",
+          icon: const Icon(Icons.check_circle, color: Colors.green, size: 48.0),
+          actionText: "Kembali ke daftar barang",
+          onPressed: (){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => DaftarBarang(name: widget.name))
+            );
+            Navigator.pop(context);
+          }, // Pop the dialog first
+        );
+      },
+    );
+
+    // if (result == true) {
+    //   // User pressed the action button
+    //   // final DocumentSnapshot document = await FirebaseFirestore.instance.collection('users').doc('name').get();
+    //   // final Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+    //   // final String name = data['name'] ?? '';    
+    //   Navigator.push(
+    //     context,
+    //     MaterialPageRoute(builder: (context) => DaftarBarang(name: widget.name)),
+    //   );
+    // }
+}  
 
   @override
   Widget build(BuildContext context) {
     return NavbarStandv2(
-      name: widget.name,
+      name: widget.user_name,
       key: GlobalKey(),
       body: Scaffold(
         backgroundColor: const Color(0xffF0F0E8),
@@ -150,7 +180,6 @@ class _EditBarangState extends State<EditBarang> {
                               controller: TextEditingController(text: '$_qty'),
                               keyboardType: TextInputType.number,
                               onChanged: (value) {
-                                // Update _qty based on user input, handling potential errors
                                 try {
                                   int newQty = int.parse(value);
                                   if (newQty >= 0) {
@@ -192,9 +221,7 @@ class _EditBarangState extends State<EditBarang> {
                   child: SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
-                        showEditSuccessDialog(context);
-                      },
+                      onPressed: _saveChanges,
                       style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xffAAD4FF),
                           elevation: 5,
@@ -220,33 +247,6 @@ class _EditBarangState extends State<EditBarang> {
         ),
       ),
       activePage: 'Edit barang',
-    );
-  }
-}
-
-void showEditSuccessDialog(BuildContext context) async {
-  final result = await showDialog(
-    context: context,
-    barrierDismissible: false, // Prevent dismissal by tapping outside
-    builder: (BuildContext context) {
-      return CustomDialog(
-        title: "Edit Berhasil",
-        // content: "Barang berhasil diedit.",
-        icon: const Icon(Icons.check_circle, color: Colors.green, size: 48.0),
-        actionText: "Kembali ke daftar barang",
-        onPressed: () => Navigator.pop(context), // Pop the dialog first
-      );
-    },
-  );
-
-  if (result == true) {
-    // User pressed the action button
-    final DocumentSnapshot document = await FirebaseFirestore.instance.collection('users').doc('name').get();
-    final Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-    final String name = data['name'] ?? '';    
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => DaftarBarang(name: name)),
     );
   }
 }
