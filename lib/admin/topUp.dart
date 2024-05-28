@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:project_bazzar/admin/navbarv2.dart';
+import 'package:project_bazzar/currencyUtils.dart';
+import 'dart:convert';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class TopUp extends StatefulWidget {
-  const TopUp({super.key});
+  final Barcode scanResult;
+  const TopUp({super.key, required this.scanResult});
 
   @override
   _TopUpState createState() => _TopUpState();
@@ -20,6 +24,9 @@ class _TopUpState extends State<TopUp> {
 
   @override
   Widget build(BuildContext context) {
+    String barcodeString = widget.scanResult.code ?? '{}';
+    Map<String, dynamic> user = jsonDecode(barcodeString);
+
     return NavbarAdminv2(
       key: GlobalKey(),
       body: Scaffold(
@@ -29,7 +36,7 @@ class _TopUpState extends State<TopUp> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                const Row(
+                Row(
                   children: [
                     Text(
                       'Nama:',
@@ -40,7 +47,7 @@ class _TopUpState extends State<TopUp> {
                     ),
                     SizedBox(width: 8.0),
                     Text(
-                      'Park Chanyeol',
+                      user['nama'] ?? 'Unknown',
                       style: TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
@@ -50,7 +57,7 @@ class _TopUpState extends State<TopUp> {
                   ],
                 ),
                 const SizedBox(height: 8.0),
-                const Row(
+                Row(
                   children: [
                     Text(
                       'Saldo:',
@@ -61,7 +68,7 @@ class _TopUpState extends State<TopUp> {
                     ),
                     SizedBox(width: 12.0),
                     Text(
-                      'Rp100.000',
+                        formatCurrency(user['saldo'] ?? 0),
                       style: TextStyle(
                           fontSize: 18.0,
                           fontWeight: FontWeight.bold,

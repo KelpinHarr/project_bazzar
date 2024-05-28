@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:project_bazzar/admin/cekSaldo.dart';
+import 'package:project_bazzar/admin/qrScanOverlay.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:flutter/material.dart';
 import 'package:project_bazzar/admin/navbarv2.dart';
@@ -30,30 +31,36 @@ class _QrCekSaldoState extends State<QrCekSaldo> {
   Widget build(BuildContext context) {
     return NavbarAdminv2(
       key: GlobalKey(),
-      body: Column(
+      body: Stack(
         children: <Widget>[
-          Expanded(
-            flex: 5,
-            child: QRView(
-              key: qrKey,
-              onQRViewCreated: _onQRViewCreated,
+          QRView(
+            key: qrKey,
+            onQRViewCreated: _onQRViewCreated,
+          ),
+          Center(
+            child: Container(
+              margin: EdgeInsets.only(bottom: 100.0),
+              child: QrScanOverlay(overlaySize: 300),
             ),
           ),
-          Expanded(
-            flex: 1,
+          Positioned(
+            bottom: 50,
+            left: 0,
+            right: 0,
             child: Center(
-              child: (result != null)
-                  ? Text(
-                  'Barcode Type: ${result!.format.name}   Data: ${result!.code}')
-                  : const Text('Scan a code'),
+              child: Text(
+                'Scan a code',
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
             ),
-          )
+          ),
         ],
       ),
-      activePage: 'Scan QR',
+      activePage: 'Scan QR Cek Saldo',
     );
   }
 
+  bool _isNavigated = false;
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
@@ -61,12 +68,12 @@ class _QrCekSaldoState extends State<QrCekSaldo> {
         result = scanData;
       });
 
-      if (result != null) {
+      if (result != null && !_isNavigated) {
+        _isNavigated = true;
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const CekSaldo()),
+          MaterialPageRoute(builder: (context) => CekSaldo(scanResult: result!)),
         ).then((_) {
-          // Dispose controller after returning from TopUp page
           controller.dispose();
           setState(() {
             result = null;

@@ -3,6 +3,7 @@ import 'package:camera/camera.dart';
 import 'package:project_bazzar/admin/daftarUser.dart';
 import 'package:project_bazzar/admin/home.dart';
 import 'package:project_bazzar/admin/qrCekSaldo.dart';
+import 'package:project_bazzar/admin/qrTopUp.dart';
 import 'package:project_bazzar/login.dart';
 
 late List<CameraDescription>? cameras;
@@ -26,8 +27,10 @@ class NavbarAdminv2 extends StatelessWidget {
       pageTitle = 'Top up';
     } else if (activePage == 'Daftar user') {
       pageTitle = 'Daftar user';
-    } else if (activePage == 'Scan QR') {
-      pageTitle = 'Scan QR';
+    } else if (activePage == 'Scan QR Top Up') {
+      pageTitle = 'Scan QR Top Up';
+    } else if (activePage == 'Scan QR Cek Saldo') {
+      pageTitle = 'Scan QR Cek Saldo';
     }
 
     return Scaffold(
@@ -135,7 +138,10 @@ class NavbarAdminv2 extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    // Add action
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const QrTopUp()),
+                    );
                   },
                 ),
                 ListTile(

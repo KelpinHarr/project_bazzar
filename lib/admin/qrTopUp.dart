@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:project_bazzar/admin/qrScanOverlay.dart';
 import 'package:project_bazzar/admin/topUp.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:flutter/material.dart';
@@ -30,27 +31,32 @@ class _QrTopUpState extends State<QrTopUp> {
   Widget build(BuildContext context) {
     return NavbarAdminv2(
       key: GlobalKey(),
-      body: Column(
+      body: Stack(
         children: <Widget>[
-          Expanded(
-            flex: 5,
-            child: QRView(
-              key: qrKey,
-              onQRViewCreated: _onQRViewCreated,
+          QRView(
+            key: qrKey,
+            onQRViewCreated: _onQRViewCreated,
+          ),
+          Center(
+            child: Container(
+              margin: EdgeInsets.only(bottom: 100.0),
+              child: QrScanOverlay(overlaySize: 300),
             ),
           ),
-          Expanded(
-            flex: 1,
+          Positioned(
+            bottom: 50,
+            left: 0,
+            right: 0,
             child: Center(
-              child: (result != null)
-                  ? Text(
-                  'Barcode Type: ${result!.format.name}   Data: ${result!.code}')
-                  : const Text('Scan a code'),
+              child: Text(
+                'Scan a code',
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
             ),
-          )
+          ),
         ],
       ),
-      activePage: 'Scan QR',
+      activePage: 'Scan QR Top Up',
     );
   }
 
@@ -63,12 +69,11 @@ class _QrTopUpState extends State<QrTopUp> {
       });
 
       if (result != null && !_isNavigated) {
-        _isNavigated = true; // Tandai bahwa navigasi sudah dilakukan
+        _isNavigated = true;
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const TopUp()),
+          MaterialPageRoute(builder: (context) => TopUp(scanResult: result!)),
         ).then((_) {
-          // Dispose controller after returning from TopUp page
           controller.dispose();
           setState(() {
             result = null;
