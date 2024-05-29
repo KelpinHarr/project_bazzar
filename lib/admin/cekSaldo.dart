@@ -16,32 +16,51 @@ class CekSaldo extends StatefulWidget {
 }
 
 class _CekSaldoState extends State<CekSaldo> {
-  String barcodeString = widget.scanResult.code ?? '{}';
+  late String barcodeString;
+  late Map<String, dynamic> user;
+  late String name;
+  late Future<int> _balance;
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    _getUserBalance();
+    barcodeString = widget.scanResult.code ?? '{}';
+    user = jsonDecode(barcodeString);
+    name = user['nama'] ?? 'Unknown';
+    // _balance = user['balance'] != null ? formatCurrency(user['balance']) : 'Rp0';
+    _balance = _getUserBalance();
   }
 
-  Future<void> _getUserBalance() async {
+  Future<int> _getUserBalance() async {
     try {
       final firestore = FirebaseFirestore.instance;
       final itemUser = await firestore
           .collection('users')
           .where('role', isEqualTo: 'student')
-          .where('name', isEqualTo: widget.scanResult['name'])
-    }
-    catch(e){
+          .where('name', isEqualTo: name)
+          .get();
+      if (itemUser.docs.isNotEmpty) {
+        final user = itemUser.docs.first;
+        final balance = user['balance'];
+        print("Balance : $user");
+        return balance ?? 0;
+      }
+      else {
+        return 0;
+      }
+    } 
+    catch (e) {
       print(e);
+      return 0;
     }
-  }  
-  
+  }
+
   @override
   Widget build(BuildContext context) {
-    String barcodeString = widget.scanResult.code ?? '{}';
-    Map<String, dynamic> user = jsonDecode(barcodeString);
-    String name = user['nama'] ?? 'Unknown';
-    String balance = user['saldo'] != null ? formatCurrency(user['saldo']) : 'Rp0';
+    // String barcodeString = widget.scanResult.code ?? '{}';
+    // Map<String, dynamic> user = jsonDecode(barcodeString);
+    // String name = user['nama'] ?? 'Unknown';
+    // String balance = user['saldo'] != null ? formatCurrency(user['saldo']) : 'Rp0';
 
     return NavbarAdminv2(
       key: GlobalKey(),
@@ -59,10 +78,10 @@ class _CekSaldoState extends State<CekSaldo> {
                   children: [
                     const Text(
                       'Nama: ',
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          color: Colors.black54,
-                        ),
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black54,
+                      ),
                     ),
                     Text(
                       name,
@@ -75,46 +94,72 @@ class _CekSaldoState extends State<CekSaldo> {
                   ],
                 ),
                 const SizedBox(height: 8.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Saldo: ',
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          color: Colors.black54,
-                        ),
-                      ),
-                      Text(
-                        balance,
-                        style: const TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.green,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 32.0),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const HomeAdmin()),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xffAAD4FF),
-                        elevation: 5,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
-                    ),
-                    child: const Text(
-                      'Kembali',
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Saldo: ',
                       style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.black54,
+                      ),
+                    ),
+                    FutureBuilder<int>(
+                      future: _balance,
+                      builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                              return const CircularProgressIndicator();
+                          } else if (snapshot.hasError) {
+                              return Text(
+                                  'Error: ${snapshot.error}',
+                                  style: const TextStyle(color: Colors.red),
+                              );
+                          } else if (!snapshot.hasData || snapshot.data == 0) {
+                              return const Text(
+                                  'Rp0',
+                                  style: TextStyle(
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.green,
+                                  ),
+                              );
+                          } else {
+                              final balance = snapshot.data!;
+                              return Text(
+                                  formatCurrency(balance),
+                                  style: const TextStyle(
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.green,
+                                  ),
+                              );
+                          }
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 32.0),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HomeAdmin()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xffAAD4FF),
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 16.0, horizontal: 32.0),
+                  ),
+                  child: const Text(
+                    'Kembali',
+                    style: TextStyle(
                       color: Color(0xff0A2B4E),
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -130,4 +175,3 @@ class _CekSaldoState extends State<CekSaldo> {
     );
   }
 }
-

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_bazzar/admin/navbarv2.dart';
 import 'package:project_bazzar/currencyUtils.dart';
@@ -15,18 +16,74 @@ class TopUp extends StatefulWidget {
 class _TopUpState extends State<TopUp> {
   final _nominalTopUpController = TextEditingController();
   late String _errorText;
+  late String barcodeString;
+  late Map<String, dynamic> user;
+  late String name;
+  late Future<int> _balance;
 
   @override
   void initState() {
     super.initState();
     _errorText = '';
+    barcodeString = widget.scanResult.code ?? '{}';
+    user = jsonDecode(barcodeString);
+    name = user['nama'] ?? 'Unknown';    
+    _balance = _getUserBalance();
+  }
+
+  Future<int> _getUserBalance() async {
+    try{
+      final firestore = FirebaseFirestore.instance;
+      final itemUser = await firestore
+          .collection('users')
+          .where('role', isEqualTo: 'student')
+          .where('name', isEqualTo: name)
+          .get();
+      if (itemUser.docs.isNotEmpty) {
+        final user = itemUser.docs.first;
+        final balance = user['balance'];
+        print("Balance : $user");
+        return balance ?? 0;
+      }
+      else {
+        return 0;
+      }        
+    }
+    catch(e){
+      print(e);
+      return 0;
+    }
+  }
+
+  Future<void> topUpSaldo() async {
+    try {
+      final currentBalance = await _balance;
+      final topUpAmount = int.parse(_nominalTopUpController.text);
+      final newBalance = currentBalance + topUpAmount;
+
+      final firestore = FirebaseFirestore.instance;
+      final userSnapshot = await firestore
+          .collection('users')
+          .where('role', isEqualTo: 'student')
+          .where('name', isEqualTo: name)
+          .get();
+      if (userSnapshot.docs.isNotEmpty){
+        final userDoc = userSnapshot.docs.first;
+        await firestore.collection('users').doc(userDoc.id).update({
+          'balance': newBalance
+        });
+        setState(() {
+          _balance = Future.value(newBalance);
+        });
+      }
+    } 
+    catch (e) {
+      print(e);  
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    String barcodeString = widget.scanResult.code ?? '{}';
-    Map<String, dynamic> user = jsonDecode(barcodeString);
-
     return NavbarAdminv2(
       key: GlobalKey(),
       body: Scaffold(
@@ -47,7 +104,7 @@ class _TopUpState extends State<TopUp> {
                     ),
                     SizedBox(width: 8.0),
                     Text(
-                      user['nama'] ?? 'Unknown',
+                      name,
                       style: TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
@@ -67,13 +124,37 @@ class _TopUpState extends State<TopUp> {
                       ),
                     ),
                     SizedBox(width: 12.0),
-                    Text(
-                        formatCurrency(user['saldo'] ?? 0),
-                      style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.green
-                      ),
+                    FutureBuilder<int>(
+                      future: _balance,
+                      builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                              return const CircularProgressIndicator();
+                          } else if (snapshot.hasError) {
+                              return Text(
+                                  'Error: ${snapshot.error}',
+                                  style: const TextStyle(color: Colors.red),
+                              );
+                          } else if (!snapshot.hasData || snapshot.data == 0) {
+                              return const Text(
+                                  'Rp0',
+                                  style: TextStyle(
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.green,
+                                  ),
+                              );
+                          } else {
+                              final balance = snapshot.data!;
+                              return Text(
+                                  formatCurrency(balance),
+                                  style: const TextStyle(
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.green,
+                                  ),
+                              );
+                          }
+                      },
                     ),
                   ],
                 ),
