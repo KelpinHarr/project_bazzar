@@ -1,4 +1,6 @@
+import 'dart:ffi';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:project_bazzar/ConfirmDialog.dart';
@@ -6,18 +8,7 @@ import 'package:project_bazzar/Transaction.dart';
 import 'package:project_bazzar/stand/navbarv2.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-List<String> productNames = [
-  'Pisang Ambon',
-  'Apel Fuji',
-  'Jeruk Manis',
-  'Mangga Harum Manis',
-  'Anggur Hitam',
-  'Semangka Merah',
-  'Melon Madu',
-  'Nanas Madu',
-  'Pepaya California',
-  'Stroberi Mekar',
-];
+
 
 class BuatTransaksi extends StatefulWidget {
   final String name;
@@ -29,7 +20,8 @@ class BuatTransaksi extends StatefulWidget {
 
 class _BuatTransaksiState extends State<BuatTransaksi> {
   final _formKey = GlobalKey<FormState>();
-
+  List<String> productNames = [];
+  Map<String, double> _productDetails = {};
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? result;
   QRViewController? controller;
@@ -41,9 +33,42 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
   bool _showTambahBarangInput = false;
   bool _showDataTable = false;
 
-  String _selectedProduct = productNames[0];
-  List<String> _filteredProducts = productNames;
+  String _selectedProduct = '';
+  List<String> _filteredProducts = [];
   List<Transactions> transactions = [];
+
+  @override
+  void initState(){
+    super.initState();
+    _getItem();
+  }
+
+  Future<void> _getItem() async {
+    try {
+      final firestore = FirebaseFirestore.instance;
+      final itemDoc = await firestore
+          .collection('items')
+          .where('stand_name', isEqualTo: widget.name)
+          .get();
+      if (itemDoc.docs.isNotEmpty){
+        for (final item in itemDoc.docs) {
+          setState(() {
+            final name = item['name'].trim();
+            final price = (item['price'] as num).toDouble(); // Assuming 'price' is the field name
+            productNames.add(name);
+            _productDetails[name] = price; // Store price in a map for easy access
+          });
+          _filteredProducts = List.from(productNames);
+          if (productNames.isNotEmpty) {
+            _selectedProduct = productNames[0];
+          }
+        }
+      }
+    }
+    catch(e){
+      print(e);
+    }
+  }
 
   @override
   void reassemble() {
@@ -195,7 +220,11 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                               labelStyle: TextStyle(fontSize: 20.0),
                             ),
                           ),
-                          onChanged: print,
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedProduct = value!;
+                            });
+                          },
                           selectedItem: _selectedProduct,
                         ),
 
@@ -286,6 +315,7 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                                   onPressed: () {
                                     // tambah baris tabel
                                     setState(() {
+                                      final selectedProductPrice = _productDetails[_selectedProduct]!;
                                       // Buat objek transaksi baru
                                       Transactions newTransaction =
                                           Transactions(
@@ -295,7 +325,7 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                                           TransactionItem(
                                               name: _selectedProduct,
                                               quantity: _qty,
-                                              price: 4000)
+                                              price: selectedProductPrice)
                                         ],
                                         buyerId: "Kenny",
                                         date:
@@ -303,8 +333,8 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                                         id: "PK1239423",
                                         stand: "Sushi Saga",
                                         status: "Belum Bayar",
-                                        totalAmount: 12000,
-                                        totalQty: 3,
+                                        totalAmount: selectedProductPrice * _qty,
+                                        totalQty: (_qty as num).toDouble(),
 
                                         // tambahkan properti lain jika ada, misalnya tanggal transaksi, dsb.
                                       );
@@ -377,7 +407,9 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                     child: SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          reassemble();
+                        },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xffAAD4FF),
                             elevation: 5,

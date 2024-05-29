@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:project_bazzar/ConfirmDialog.dart';
+import 'package:project_bazzar/currencyUtils.dart';
 import 'package:project_bazzar/stand/editBarang.dart';
 import 'package:project_bazzar/stand/navbarv2.dart';
 
@@ -123,7 +124,7 @@ class _DaftarBarangState extends State<DaftarBarang> {
                                   ),
                                   SizedBox(height: 8.0),
                                   Text(
-                                    'Rp ${barang['harga'].toString()}',
+                                    formatCurrency(barang['harga']),
                                     style: TextStyle(
                                       fontSize: 16.0,
                                       fontWeight: FontWeight.w600,

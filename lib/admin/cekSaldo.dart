@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_bazzar/admin/navbarv2.dart';
 import 'package:project_bazzar/currencyUtils.dart';
@@ -15,6 +16,26 @@ class CekSaldo extends StatefulWidget {
 }
 
 class _CekSaldoState extends State<CekSaldo> {
+  String barcodeString = widget.scanResult.code ?? '{}';
+  @override
+  void initState(){
+    super.initState();
+    _getUserBalance();
+  }
+
+  Future<void> _getUserBalance() async {
+    try {
+      final firestore = FirebaseFirestore.instance;
+      final itemUser = await firestore
+          .collection('users')
+          .where('role', isEqualTo: 'student')
+          .where('name', isEqualTo: widget.scanResult['name'])
+    }
+    catch(e){
+      print(e);
+    }
+  }  
+  
   @override
   Widget build(BuildContext context) {
     String barcodeString = widget.scanResult.code ?? '{}';
