@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:project_bazzar/admin/home.dart';
 import 'package:project_bazzar/admin/navbarv2.dart';
 import 'package:project_bazzar/currencyUtils.dart';
 import 'dart:convert';
@@ -76,9 +77,17 @@ class _TopUpState extends State<TopUp> {
           _balance = Future.value(newBalance);
         });
       }
+
+      _nominalTopUpController.clear();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Top up berhasil!'))
+      );
     } 
     catch (e) {
-      print(e);  
+      print(e);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Top up gagal! Error $e'))
+      );
     }
   }
 
@@ -180,11 +189,11 @@ class _TopUpState extends State<TopUp> {
                     }
                     return null;
                   },
-                  onChanged: (value) {
-                    setState(() {
-                      _errorText = '';
-                    });
-                  },
+                  // onChanged: (value) {
+                  //   setState(() {
+                  //     _errorText = '';
+                  //   });
+                  // },
                 ),
                 const SizedBox(height: 8),
                 Text(
@@ -214,7 +223,7 @@ class _TopUpState extends State<TopUp> {
                           });
                           return;
                         }
-                        // Lakukan operasi top up disini
+                        topUpSaldo();
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xffAAD4FF),
