@@ -40,8 +40,8 @@ class NavbarStandv2 extends StatelessWidget {
       pageTitle = 'Bayar transaksi';
     } else if (activePage == 'Riwayat transaksi') {
       pageTitle = 'Riwayat transaksi';
-    } else if (activePage == 'Scan QR') {
-      pageTitle = 'Scan QR';
+    } else if (activePage == 'Scan QR Bayar Transaksi') {
+      pageTitle = 'Scan QR Bayar Transaksi';
     }
 
     return Scaffold(

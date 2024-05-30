@@ -1,19 +1,18 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:project_bazzar/admin/qrScanOverlay.dart';
-import 'package:project_bazzar/admin/topUp.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:flutter/material.dart';
 import 'package:project_bazzar/admin/navbarv2.dart';
 
-class QrTopUp extends StatefulWidget {
-  const QrTopUp({super.key});
+class QrBayarTransaksi extends StatefulWidget {
+  const QrBayarTransaksi({super.key});
 
   @override
-  _QrTopUpState createState() => _QrTopUpState();
+  _QrBayarTransaksiState createState() => _QrBayarTransaksiState();
 }
 
-class _QrTopUpState extends State<QrTopUp> {
+class _QrBayarTransaksiState extends State<QrBayarTransaksi> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? result;
   QRViewController? controller;
@@ -61,7 +60,7 @@ class _QrTopUpState extends State<QrTopUp> {
           ),
         ],
       ),
-      activePage: 'Scan QR Top Up',
+      activePage: 'Scan QR Bayar Transaksi',
     );
   }
 
@@ -79,17 +78,17 @@ class _QrTopUpState extends State<QrTopUp> {
 
       if (result != null && !_isNavigated && name != null) {
         _isNavigated = true;
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => TopUp(scanResult: result!),
-          ),
-        ).then((_) {
-          controller.dispose();
-          setState(() {
-            result = null;
-          });
-        });
+        // Navigator.push(
+          // context,
+          // MaterialPageRoute(
+            // builder: (context) => CekSaldo(scanResult: result!), // KE KONFIRMASI BAYAR
+          // ),
+        // ).then((_) {
+        //   controller.dispose();
+        //   setState(() {
+        //     result = null;
+        //   });
+        // });
       }
     });
   }

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:project_bazzar/admin/cekSaldo.dart';
 import 'package:project_bazzar/admin/qrScanOverlay.dart';
@@ -16,6 +17,10 @@ class _QrCekSaldoState extends State<QrCekSaldo> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? result;
   QRViewController? controller;
+  bool _isNavigated = false;
+  String? barcodeString;
+  Map<String, dynamic>? user;
+  String? name;
 
   @override
   void reassemble() {
@@ -60,19 +65,25 @@ class _QrCekSaldoState extends State<QrCekSaldo> {
     );
   }
 
-  bool _isNavigated = false;
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
+        barcodeString = result?.code;
+        if (barcodeString != null) {
+          user = jsonDecode(barcodeString!);
+          name = user?['nama'];
+        }
       });
 
-      if (result != null && !_isNavigated) {
+      if (result != null && !_isNavigated && name != null) {
         _isNavigated = true;
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => CekSaldo(scanResult: result!)),
+          MaterialPageRoute(
+            builder: (context) => CekSaldo(scanResult: result!),
+          ),
         ).then((_) {
           controller.dispose();
           setState(() {
