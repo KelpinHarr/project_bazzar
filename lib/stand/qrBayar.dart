@@ -1,12 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:project_bazzar/admin/qrScanOverlay.dart';
+import 'package:project_bazzar/stand/pageBayar.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:flutter/material.dart';
 import 'package:project_bazzar/admin/navbarv2.dart';
 
 class QrBayarTransaksi extends StatefulWidget {
-  const QrBayarTransaksi({super.key});
+  final double totalHarga;
+  const QrBayarTransaksi({super.key, required this.totalHarga});
 
   @override
   _QrBayarTransaksiState createState() => _QrBayarTransaksiState();
@@ -78,17 +80,17 @@ class _QrBayarTransaksiState extends State<QrBayarTransaksi> {
 
       if (result != null && !_isNavigated && name != null) {
         _isNavigated = true;
-        // Navigator.push(
-          // context,
-          // MaterialPageRoute(
-            // builder: (context) => CekSaldo(scanResult: result!), // KE KONFIRMASI BAYAR
-          // ),
-        // ).then((_) {
-        //   controller.dispose();
-        //   setState(() {
-        //     result = null;
-        //   });
-        // });
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PageBayar(scanResult: result!, totalHarga: widget.totalHarga,), // KE KONFIRMASI BAYAR
+          ),
+        ).then((_) {
+          controller.dispose();
+          setState(() {
+            result = null;
+          });
+        });
       }
     });
   }

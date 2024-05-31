@@ -1,14 +1,21 @@
 import 'dart:ffi';
 import 'dart:io';
+import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:project_bazzar/ConfirmDialog.dart';
 import 'package:project_bazzar/Transaction.dart';
+import 'package:project_bazzar/stand/home.dart';
 import 'package:project_bazzar/stand/navbarv2.dart';
+import 'package:project_bazzar/stand/qrBayar.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-
+late List<CameraDescription>? cameras;
+Future<List<CameraDescription>?> initializeCamera() async {
+  cameras = await availableCameras();
+  return cameras;
+}
 
 class BuatTransaksi extends StatefulWidget {
   final String name;
@@ -82,6 +89,10 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
 
   @override
   Widget build(BuildContext context) {
+    double totalHarga = transactions
+        .expand((transaction) => transaction.items)
+        .fold(0, (sum, item) => sum + item.price * item.quantity);
+
     return NavbarStandv2(
       name: widget.name,
       key: GlobalKey(),
@@ -126,7 +137,6 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                   // Menampilkan DataTable sesuai kondisi
                   if (_showDataTable)
                     DataTable(
-                      // Props DataTable
                       columns: const [
                         DataColumn(
                           label: Expanded(
@@ -169,38 +179,72 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                           ),
                         ),
                       ],
-                      rows: transactions
-                          .expand(
-                            (transaction) => transaction.items
-                                .map((item) => DataRow(
-                                      cells: [
-                                        DataCell(
-                                          Expanded(
-                                            child: Text(item.name),
-                                          ),
-                                        ),
-                                        DataCell(
-                                          Expanded(
-                                            child:
-                                                Text(item.quantity.toString()),
-                                          ),
-                                        ),
-                                        DataCell(
-                                          Expanded(
-                                            child: Text('Rp${item.price}'),
-                                          ),
-                                        ),
-                                        DataCell(
-                                          Expanded(
-                                            child: Text(
-                                                'Rp${item.price * item.quantity}'),
-                                          ),
-                                        ),
-                                      ],
-                                    ))
-                                .toList(),
-                          )
-                          .toList(),
+                      rows: [
+                        ...transactions
+                            .expand(
+                              (transaction) => transaction.items.map(
+                                (item) => DataRow(
+                                  cells: [
+                                    DataCell(
+                                      Expanded(
+                                        child: Text(item.name),
+                                      ),
+                                    ),
+                                    DataCell(
+                                      Expanded(
+                                        child: Text(item.quantity.toString()),
+                                      ),
+                                    ),
+                                    DataCell(
+                                      Expanded(
+                                        child: Text('Rp ${item.price}'),
+                                      ),
+                                    ),
+                                    DataCell(
+                                      Expanded(
+                                        child: Text('Rp ${item.price * item.quantity}'),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                            .toList(),
+                        DataRow(
+                          cells: [
+                            const DataCell(
+                              Expanded(
+                                child: Text(
+                                  'Total',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const DataCell(
+                              Expanded(
+                                child: Text(''),
+                              ),
+                            ),
+                            const DataCell(
+                              Expanded(
+                                child: Text(''),
+                              ),
+                            ),
+                            DataCell(
+                              Expanded(
+                                child: Text(
+                                  'Rp$totalHarga',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
 
                   // input barang
@@ -407,8 +451,12 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                     child: SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {
-                          reassemble();
+                        onPressed: () async {
+                          await initializeCamera();
+                          Navigator.push(
+                            context, 
+                            MaterialPageRoute(builder: (context) => QrBayarTransaksi(totalHarga: totalHarga))
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xffAAD4FF),
@@ -449,6 +497,10 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                                 mode: "Ya",
                                 onDeletePressed: () {
                                   Navigator.pop(context);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => HomeStand(name: widget.name))
+                                  );
                                 },
                                 onCancelPressed: () => Navigator.pop(context),
                               );
