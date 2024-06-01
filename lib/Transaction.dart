@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_bazzar/stand/detailTransaksi.dart';
 
@@ -11,6 +12,14 @@ class TransactionItem {
     required this.quantity,
     required this.price,
   });
+  
+  factory TransactionItem.fromMap(Map<String, dynamic> data) {
+    return TransactionItem(
+      name: data['name'] ?? '',
+      quantity: data['quantity'] is int ? data['quantity'] : int.tryParse(data['quantity'].toString()) ?? 0,
+      price: data['price'] is double ? data['price'] : double.tryParse(data['price'].toString()) ?? 0.0,
+    );
+  }
 }
 
 class Transactions extends StatelessWidget {
@@ -35,6 +44,28 @@ class Transactions extends StatelessWidget {
     required this.totalAmount,
     required this.totalQty,
   });
+
+  factory Transactions.fromMap(String id, Map<String, dynamic> data) {
+    List<TransactionItem> items = (data['items'] as List).map((item) {
+      return TransactionItem.fromMap(item);
+    }).toList();
+
+    return Transactions(
+      id: id,
+      name: data['name'] ?? '',
+      date: (data['date'] as Timestamp?)?.toDate() ?? DateTime.now(),
+      stand: data['stand'] ?? '',
+      buyerId: data['buyerId'] ?? '',
+      status: data['status'] ?? '',
+      items: items,
+      totalAmount: data['totalAmount'] is int
+          ? (data['totalAmount'] as int).toDouble()
+          : double.parse(data['totalAmount'].toString()),
+      totalQty: data['totalQty'] is int
+          ? (data['totalQty'] as int).toDouble()
+          : double.parse(data['totalQty'].toString()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_bazzar/Topup.dart';
 import 'package:project_bazzar/admin/navbar.dart';
+import 'package:project_bazzar/currencyUtils.dart';
 
 class HomeAdmin extends StatefulWidget {
   const HomeAdmin({super.key});
@@ -77,7 +78,7 @@ class _HomeAdminState extends State<HomeAdmin>{
                   ),
                 ],
               ),
-              child: const Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
@@ -85,13 +86,38 @@ class _HomeAdminState extends State<HomeAdmin>{
                     style: TextStyle(fontSize: 18.0),
                   ),
                   SizedBox(height: 8.0),
-                  Text(
-                    'Rp1.500.000',
-                    style: TextStyle(
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  FutureBuilder<int>(
+                    future: _balance,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const CircularProgressIndicator();
+                      } else if (snapshot.hasError) {
+                        return Text(
+                          'Error: ${snapshot.error}',
+                          style: const TextStyle(color: Colors.red),
+                        );
+                      } else if (!snapshot.hasData || snapshot.data == 0) {
+                        return const Text(
+                          'Rp0',
+                          style: TextStyle(
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green,
+                          ),
+                        );
+                      } else {
+                        final balance = snapshot.data!;
+                        return Text(
+                          formatCurrency(balance),
+                          style: const TextStyle(
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green,
+                          ),
+                        );
+                      }
+                    },
+                  )
                 ],
               ),
             ),

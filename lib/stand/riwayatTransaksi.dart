@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_bazzar/Transaction.dart';
 import 'package:project_bazzar/stand/detailTransaksi.dart';
@@ -14,106 +15,159 @@ class RiwayatTransaksi extends StatefulWidget {
 class _RiwayatTransaksiState extends State<RiwayatTransaksi> {
   // Dummy data for riwayat transaksi
   List<Transactions>? riwayatTransaksi;
+  Future<List<Transactions>>? _futureTransactions;
+
+  @override
+  void initState() {
+    super.initState();
+    _futureTransactions = _getTransaction();
+  }
+
+  Future<List<Transactions>> _getTransaction() async {
+    List<Transactions> transactions = [];
+    try {
+      final firestore = FirebaseFirestore.instance;
+      final itemTransaction = await firestore
+          .collection('transactions')
+          .where('stand_name', isEqualTo: widget.name)
+          .get();
+      if (itemTransaction.docs.isNotEmpty) {
+        for (var trans in itemTransaction.docs) {
+          final id = trans['id'];
+          final date = (trans['date'] as Timestamp).toDate();
+          final name = trans['name'];
+          String status = trans['status'] == 1 ? 'Completed' : 'Pending';
+          final items = trans['item'] as List;
+          List<TransactionItem> transactionItems = [];
+
+          for (final item in items) {
+            transactionItems.add(TransactionItem(
+              name: item['name'],
+              price: item['price'],
+              quantity: item['qty'],
+            ));
+          }
+
+          final totalAmount = trans['totalAmount'];
+          final totalQty = trans['totalQty'];
+
+          transactions.add(Transactions(
+            id: id,
+            name: widget.name,
+            date: date,
+            stand: widget.name,
+            buyerId: name,
+            status: status,
+            items: transactionItems,
+            totalAmount: totalAmount.toDouble(),
+            totalQty: totalQty.toDouble(),
+          ));
+        }
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+    }
+    return transactions;
+  }
 
   @override
   Widget build(BuildContext context) {
-  riwayatTransaksi = [
-      Transactions(
-        id: 'PK1249281',
+    return Scaffold(
+      body: NavbarStandv2(
         name: widget.name,
-        date: DateTime(2024, 4, 24, 10, 11),
-        stand: 'Felicia',
-        buyerId: 'Kenny',
-        status: 'Completed',
-        items: const [
-          TransactionItem(name: 'Product A', quantity: 2, price: 25000),
-          TransactionItem(name: 'Product B', quantity: 1, price: 15000),
-          TransactionItem(name: 'Product C', quantity: 3, price: 10000),
-        ],
-        totalAmount: 100000,
-        totalQty: 6,
-      ),
-      // Add more transactions as needed
-    ];    
-    return NavbarStandv2(
-      name: widget.name,
-      key: GlobalKey(),
-      body: Scaffold(
-        backgroundColor: const Color(0xffF0F0E8),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: riwayatTransaksi!.map((transaction) {
-                return Card(
-                  elevation: 5.0,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              transaction.id,
-                              style: const TextStyle(
-                                  fontSize: 18.0,
-                                  color: Color(0xff0A2B4E),
-                                  fontWeight: FontWeight.w900),
-                            ),
-                            const Spacer(),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 8.0),
-                              child: Text(
-                                'Rp${transaction.totalAmount}',
-                                style: const TextStyle(
-                                    fontSize: 16.0, color: Color(0xff0A2B4E)),
+        key: GlobalKey(),
+        body: Scaffold(
+          backgroundColor: const Color(0xffF0F0E8),
+          body: FutureBuilder<List<Transactions>>(
+            future: _futureTransactions,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return Center(child: Text('No transactions found'));
+              }
+              final transactions = snapshot.data!;
+              return SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: transactions.map((transaction) {
+                      return Card(
+                        elevation: 5.0,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    transaction.id,
+                                    style: const TextStyle(
+                                        fontSize: 18.0,
+                                        color: Color(0xff0A2B4E),
+                                        fontWeight: FontWeight.w900),
+                                  ),
+                                  const Spacer(),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 8.0),
+                                    child: Text(
+                                      'Rp${transaction.totalAmount}',
+                                      style: const TextStyle(
+                                          fontSize: 16.0, color: Color(0xff0A2B4E)),
+                                    ),
+                                  )
+                                ],
                               ),
-                            )
-                          ],
-                        ),
-                        const SizedBox(height: 4.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              '${transaction.date.day} ${_getMonthName(transaction.date.month)} ${transaction.date.year}, ${_getTimeString(transaction.date.hour, transaction.date.minute)}',
-                              style: const TextStyle(
-                                  fontSize: 14.0, color: Color(0xff0A2B4E)),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => DetailTransaksi(
-                                          transaction: transaction, name: widget.name,)),
-                                );
-                              },
-                              child: const Text(
-                                'Lihat detail >',
-                                style: TextStyle(
-                                    color: Color(0xff0A2B4E),
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold),
+                              const SizedBox(height: 4.0),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    '${transaction.date.day} ${_getMonthName(transaction.date.month)} ${transaction.date.year}, ${_getTimeString(transaction.date.hour, transaction.date.minute)}',
+                                    style: const TextStyle(
+                                        fontSize: 14.0, color: Color(0xff0A2B4E)),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => DetailTransaksi(
+                                                  transaction: transaction,
+                                                  name: widget.name,
+                                                )),
+                                      );
+                                    },
+                                    child: const Text(
+                                      'Lihat detail >',
+                                      style: TextStyle(
+                                          color: Color(0xff0A2B4E),
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
+                      );
+                    }).toList(),
                   ),
-                );
-              }).toList(),
-            ),
-          ),
+                ),
+              );
+            }
+          )
         ),
-      ),
-      activePage: 'Riwayat transaksi',
+        activePage: 'Riwayat transaksi',
+      )
     );
   }
 

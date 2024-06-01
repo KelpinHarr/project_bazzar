@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:project_bazzar/Transaction.dart';
 import 'package:project_bazzar/currencyUtils.dart';
 import 'package:project_bazzar/stand/navbar.dart';
 
@@ -12,12 +13,14 @@ class HomeStand extends StatefulWidget {
   _HomeStandState createState() => _HomeStandState();
 }
 
-class _HomeStandState extends State<HomeStand>{
+class _HomeStandState extends State<HomeStand> {
   late Future<int> _balance;
+  late Future<List<Transactions>> _transactions;
 
   void initState() {
     super.initState();
     _balance = _getUserBalance();
+    _transactions = _getUserTransaction();
   }
 
   Future<int> _getUserBalance() async {
@@ -42,6 +45,47 @@ class _HomeStandState extends State<HomeStand>{
     }
   }
 
+  Future<List<Transactions>> _getUserTransaction() async {
+    try {
+      final firestore = FirebaseFirestore.instance;
+      final transactionItem = await firestore
+          .collection('transactions')
+          .where('stand', isEqualTo: widget.name)
+          .get();
+      
+      if (transactionItem.docs.isNotEmpty) {
+        List<Transactions> transactions = transactionItem.docs.map((doc) {
+          List<TransactionItem> items = (doc['items'] as List).map((item) {
+            return TransactionItem.fromMap(item);
+          }).toList();
+          return Transactions(
+            id: doc.id,
+            name: doc['name'] ?? '',
+            date: (doc['date'] as Timestamp?)?.toDate() ?? DateTime.now(),
+            stand: doc['stand'] ?? '',
+            buyerId: doc['buyerId'] ?? '',
+            status: doc['status'] ?? '',
+            items: items,
+            totalAmount: doc['totalAmount'] is int
+                ? (doc['totalAmount'] as int).toDouble()
+                : doc['totalAmount'],
+            totalQty: doc['totalQty'] is int
+                ? (doc['totalQty'] as int).toDouble()
+                : doc['totalQty'],
+          );
+        }).toList();
+        return transactions;
+      } 
+      else {
+        return [];
+      }
+    }
+    catch(e){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error $e')));
+      return [];
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +100,9 @@ class _HomeStandState extends State<HomeStand>{
         backgroundColor: const Color(0xff0A2B4E),
         iconTheme: const IconThemeData(color: Color(0xffAAD4FF)),
       ),
-      endDrawer: NavBarStand(name: widget.name,),
+      endDrawer: NavBarStand(
+        name: widget.name,
+      ),
       backgroundColor: Color(0xffF0F0E8),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
@@ -94,31 +140,31 @@ class _HomeStandState extends State<HomeStand>{
                     future: _balance,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const CircularProgressIndicator();
+                        return const CircularProgressIndicator();
                       } else if (snapshot.hasError) {
-                          return Text(
-                              'Error: ${snapshot.error}',
-                              style: const TextStyle(color: Colors.red),
-                          );
+                        return Text(
+                          'Error: ${snapshot.error}',
+                          style: const TextStyle(color: Colors.red),
+                        );
                       } else if (!snapshot.hasData || snapshot.data == 0) {
-                          return const Text(
-                              'Rp0',
-                              style: TextStyle(
-                                  fontSize: 24.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.green,
-                              ),
-                          );
+                        return const Text(
+                          'Rp0',
+                          style: TextStyle(
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green,
+                          ),
+                        );
                       } else {
-                          final balance = snapshot.data!;
-                          return Text(
-                              formatCurrency(balance),
-                              style: const TextStyle(
-                                  fontSize: 24.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.green,
-                              ),
-                          );
+                        final balance = snapshot.data!;
+                        return Text(
+                          formatCurrency(balance),
+                          style: const TextStyle(
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green,
+                          ),
+                        );
                       }
                     },
                   ),
@@ -127,10 +173,7 @@ class _HomeStandState extends State<HomeStand>{
             ),
             const SizedBox(height: 32.0),
             const Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: 4.0,
-                  vertical: 16.0
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 16.0),
               child: Text(
                 'Laporan Penjualan',
                 style: TextStyle(
@@ -141,7 +184,41 @@ class _HomeStandState extends State<HomeStand>{
               ),
             ),
             const SizedBox(height: 16.0),
-
+            FutureBuilder<List<Transactions>>(
+              future: _transactions,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text(
+                    'Error: ${snapshot.error}',
+                    style: const TextStyle(color: Colors.red),
+                  );
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Text(
+                    'No transactions available',
+                    style: TextStyle(fontSize: 18.0),
+                  );
+                } else {
+                  final transactions = snapshot.data!;
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: transactions.length,
+                    itemBuilder: (context, index) {
+                      final transaction = transactions[index];
+                      return Card(
+                        child: ListTile(
+                          title: Text(transaction.name),
+                          subtitle: Text(DateFormat('yyyy-MM-dd').format(transaction.date).toString()),
+                          trailing: Text(formatCurrency(transaction.totalAmount.toInt()).toString()),
+                        ),
+                      );
+                    },
+                  );
+                }
+              },
+            ),
           ],
         ),
       ),
