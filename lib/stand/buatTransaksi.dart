@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -45,7 +44,7 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
   List<Transactions> transactions = [];
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _getItem();
   }
@@ -57,22 +56,26 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
           .collection('items')
           .where('stand_name', isEqualTo: widget.name)
           .get();
-      if (itemDoc.docs.isNotEmpty){
+      if (itemDoc.docs.isNotEmpty) {
+        // print('Total Items Found: ${itemDoc.docs.length}');
+        // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Data:  ${itemDoc.docs.length}')));
         for (final item in itemDoc.docs) {
           setState(() {
             final name = item['name'].trim();
-            final price = (item['price'] as num).toDouble(); // Assuming 'price' is the field name
+            final price = (item['price'] is String)
+                ? double.parse(item['price'])
+                : (item['price'] as num).toDouble();
             productNames.add(name);
-            _productDetails[name] = price; // Store price in a map for easy access
+            _productDetails[name] = price;
           });
           _filteredProducts = List.from(productNames);
+
           if (productNames.isNotEmpty) {
             _selectedProduct = productNames[0];
           }
         }
       }
-    }
-    catch(e){
+    } catch (e) {
       print(e);
     }
   }
@@ -202,7 +205,8 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                                     ),
                                     DataCell(
                                       Expanded(
-                                        child: Text('Rp ${item.price * item.quantity}'),
+                                        child: Text(
+                                            'Rp ${item.price * item.quantity}'),
                                       ),
                                     ),
                                   ],
@@ -359,11 +363,12 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                                   onPressed: () {
                                     // tambah baris tabel
                                     setState(() {
-                                      final selectedProductPrice = _productDetails[_selectedProduct]!;
+                                      final selectedProductPrice =
+                                          _productDetails[_selectedProduct]!;
                                       // Buat objek transaksi baru
                                       Transactions newTransaction =
                                           Transactions(
-                                            name: widget.name,
+                                        name: widget.name,
                                         // Isi data transaksi sesuai dengan input pengguna
                                         items: [
                                           TransactionItem(
@@ -377,7 +382,8 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                                         id: "PK1239423",
                                         stand: "Sushi Saga",
                                         status: "Belum Bayar",
-                                        totalAmount: selectedProductPrice * _qty,
+                                        totalAmount:
+                                            selectedProductPrice * _qty,
                                         totalQty: (_qty as num).toDouble(),
 
                                         // tambahkan properti lain jika ada, misalnya tanggal transaksi, dsb.
@@ -454,9 +460,13 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                         onPressed: () async {
                           await initializeCamera();
                           Navigator.push(
-                            context, 
-                            MaterialPageRoute(builder: (context) => QrBayarTransaksi(totalHarga: totalHarga))
-                          );
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => QrBayarTransaksi(
+                                        totalHarga: totalHarga,
+                                        stand_name: widget.name,
+                                        transactions: transactions,
+                                      )));
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xffAAD4FF),
@@ -498,9 +508,10 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                                 onDeletePressed: () {
                                   Navigator.pop(context);
                                   Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => HomeStand(name: widget.name))
-                                  );
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              HomeStand(name: widget.name)));
                                 },
                                 onCancelPressed: () => Navigator.pop(context),
                               );

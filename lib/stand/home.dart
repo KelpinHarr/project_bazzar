@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:project_bazzar/currencyUtils.dart';
 import 'package:project_bazzar/stand/navbar.dart';
 
 class HomeStand extends StatefulWidget {
@@ -12,40 +13,32 @@ class HomeStand extends StatefulWidget {
 }
 
 class _HomeStandState extends State<HomeStand>{
-  int? _standBalance;
+  late Future<int> _balance;
 
-  @override
-  void initState(){
+  void initState() {
     super.initState();
+    _balance = _getUserBalance();
   }
 
-  String formatIdr(int amount) {
-    final format = NumberFormat.currency(
-      locale: 'id_ID',
-      symbol: 'Rp ',
-      decimalDigits: 0,
-    );
-    return format.format(amount);
-  }
-
-  Future<void> _getUser() async {
+  Future<int> _getUserBalance() async {
     try {
       final firestore = FirebaseFirestore.instance;
-      final userDoc = await firestore
+      final itemUser = await firestore
           .collection('users')
-          .where('role', isEqualTo: 'student')
+          .where('role', isEqualTo: 'stand')
           .where('name', isEqualTo: widget.name)
           .get();
-      if (userDoc.docs.isNotEmpty) {
-        final user = userDoc.docs.first;
+      if (itemUser.docs.isNotEmpty) {
+        final user = itemUser.docs.first;
         final balance = user['balance'];
-        print('Retrieved balance: $balance');
-        setState(() {
-          _standBalance = balance;
-        });
+        print("Fetched user: ${user.id}, balance: $balance");
+        return (balance is double) ? balance.toInt() : balance;
+      } else {
+        return 0;
       }
     } catch (e) {
       print(e);
+      return 0;
     }
   }
 
@@ -97,12 +90,37 @@ class _HomeStandState extends State<HomeStand>{
                     style: TextStyle(fontSize: 18.0),
                   ),
                   SizedBox(height: 8.0),
-                  Text(
-                    formatIdr(_standBalance ?? 0),
-                    style: TextStyle(
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  FutureBuilder<int>(
+                    future: _balance,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const CircularProgressIndicator();
+                      } else if (snapshot.hasError) {
+                          return Text(
+                              'Error: ${snapshot.error}',
+                              style: const TextStyle(color: Colors.red),
+                          );
+                      } else if (!snapshot.hasData || snapshot.data == 0) {
+                          return const Text(
+                              'Rp0',
+                              style: TextStyle(
+                                  fontSize: 24.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.green,
+                              ),
+                          );
+                      } else {
+                          final balance = snapshot.data!;
+                          return Text(
+                              formatCurrency(balance),
+                              style: const TextStyle(
+                                  fontSize: 24.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.green,
+                              ),
+                          );
+                      }
+                    },
                   ),
                 ],
               ),

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_bazzar/Topup.dart';
 import 'package:project_bazzar/admin/navbar.dart';
@@ -10,6 +11,33 @@ class HomeAdmin extends StatefulWidget {
 }
 
 class _HomeAdminState extends State<HomeAdmin>{
+  late Future<int> _balance;
+
+  void initState() {
+    super.initState();
+    _balance = _getUserBalance();
+  }
+
+  Future<int> _getUserBalance() async {
+    try {
+      final firestore = FirebaseFirestore.instance;
+      final itemUser = await firestore
+          .collection('users')
+          .where('role', isEqualTo: 'admin')
+          .get();
+      if (itemUser.docs.isNotEmpty) {
+        final user = itemUser.docs.first;
+        final balance = user['balance'];
+        return (balance is double) ? balance.toInt() : balance;
+      } else {
+        return 0;
+      }
+    } catch (e) {
+      print(e);
+      return 0;
+    }
+  }
+    
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +81,7 @@ class _HomeAdminState extends State<HomeAdmin>{
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Pedapatan hari ini',
+                    'Pendapatan hari ini',
                     style: TextStyle(fontSize: 18.0),
                   ),
                   SizedBox(height: 8.0),

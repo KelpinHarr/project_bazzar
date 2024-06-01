@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:project_bazzar/CustomDialog.dart';
 import 'package:project_bazzar/stand/daftarBarang.dart';
 import 'package:project_bazzar/stand/navbarv2.dart';
@@ -87,7 +86,7 @@ class _EditBarangState extends State<EditBarang> {
     //     MaterialPageRoute(builder: (context) => DaftarBarang(name: widget.name)),
     //   );
     // }
-}  
+  }  
 
   @override
   Widget build(BuildContext context) {

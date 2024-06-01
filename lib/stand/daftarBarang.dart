@@ -33,7 +33,7 @@ class _DaftarBarangState extends State<DaftarBarang> {
       if (itemDoc.docs.isNotEmpty){
         for (final item in itemDoc.docs){
           final name = item['name'].trim();
-          final price = item['price'];
+          final price = item['price'] is int ? item['price'] : int.parse(item['price']);
           final qty = item['qty'];
           final docId = item.id;
           print('name: $name, stand_name: ${item['stand_name']}, qty: $qty, id: $docId');
