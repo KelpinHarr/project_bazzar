@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:project_bazzar/admin/daftarUser.dart';
 import 'package:project_bazzar/admin/home.dart';
 import 'package:project_bazzar/admin/qrCekSaldo.dart';
 import 'package:project_bazzar/admin/qrTopUp.dart';
@@ -93,21 +92,6 @@ class NavBarAdmin extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const QrTopUp()),
-              );
-            },
-          ),
-          ListTile(
-            title: const Text(
-              'Daftar user',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Color(0xff0A2B4E),
-              ),
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const DaftarUser()),
               );
             },
           ),

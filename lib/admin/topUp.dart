@@ -184,16 +184,8 @@ class _TopUpState extends State<TopUp> {
                       return 'Nominal top up tidak boleh kosong';
                     }
                     final double amount = double.tryParse(value) ?? 0;
-                    if (amount <= 0) {
-                      return 'Nominal top up harus lebih dari 0';
-                    }
                     return null;
                   },
-                  // onChanged: (value) {
-                  //   setState(() {
-                  //     _errorText = '';
-                  //   });
-                  // },
                 ),
                 const SizedBox(height: 8),
                 Text(

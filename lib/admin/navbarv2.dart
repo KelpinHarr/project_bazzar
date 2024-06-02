@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:project_bazzar/admin/daftarUser.dart';
 import 'package:project_bazzar/admin/home.dart';
 import 'package:project_bazzar/admin/qrCekSaldo.dart';
 import 'package:project_bazzar/admin/qrTopUp.dart';
@@ -25,8 +24,6 @@ class NavbarAdminv2 extends StatelessWidget {
       pageTitle = 'Cek saldo';
     } else if (activePage == 'Top up') {
       pageTitle = 'Top up';
-    } else if (activePage == 'Daftar user') {
-      pageTitle = 'Daftar user';
     } else if (activePage == 'Scan QR Top Up') {
       pageTitle = 'Scan QR Top Up';
     } else if (activePage == 'Scan QR Cek Saldo') {
@@ -141,22 +138,6 @@ class NavbarAdminv2 extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const QrTopUp()),
-                    );
-                  },
-                ),
-                ListTile(
-                  title: Text(
-                    'Daftar user',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: activePage == 'Daftar user' ? FontWeight.bold : FontWeight.normal,
-                      color: const Color(0xff0A2B4E),
-                    ),
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => DaftarUser()),
                     );
                   },
                 ),
