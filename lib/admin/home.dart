@@ -54,6 +54,7 @@ class _HomeAdminState extends State<HomeAdmin>{
         iconTheme: const IconThemeData(color: Color(0xffAAD4FF)),
       ),
       endDrawer: const NavBarAdmin(),
+      backgroundColor: Color(0xffF0F0E8),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
         child: Column(

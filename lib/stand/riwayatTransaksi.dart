@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_bazzar/Transaction.dart';
+import 'package:project_bazzar/currencyUtils.dart';
 import 'package:project_bazzar/stand/detailTransaksi.dart';
 import 'package:project_bazzar/stand/navbarv2.dart';
 
@@ -29,15 +30,15 @@ class _RiwayatTransaksiState extends State<RiwayatTransaksi> {
       final firestore = FirebaseFirestore.instance;
       final itemTransaction = await firestore
           .collection('transactions')
-          .where('stand_name', isEqualTo: widget.name)
+          .where('stand', isEqualTo: widget.name)
           .get();
       if (itemTransaction.docs.isNotEmpty) {
         for (var trans in itemTransaction.docs) {
-          final id = trans['id'];
+          final id = trans.id;
           final date = (trans['date'] as Timestamp).toDate();
           final name = trans['name'];
           String status = trans['status'] == 1 ? 'Completed' : 'Pending';
-          final items = trans['item'] as List;
+          final items = trans['items'] as List;
           List<TransactionItem> transactionItems = [];
 
           for (final item in items) {
@@ -118,7 +119,7 @@ class _RiwayatTransaksiState extends State<RiwayatTransaksi> {
                                   Padding(
                                     padding: const EdgeInsets.only(right: 8.0),
                                     child: Text(
-                                      'Rp${transaction.totalAmount}',
+                                      formatCurrency(transaction.totalAmount.toInt()),
                                       style: const TextStyle(
                                           fontSize: 16.0, color: Color(0xff0A2B4E)),
                                     ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:project_bazzar/Transaction.dart';
 import 'package:project_bazzar/currencyUtils.dart';
+import 'package:project_bazzar/stand/detailTransaksi.dart';
 import 'package:project_bazzar/stand/navbar.dart';
 
 class HomeStand extends StatefulWidget {
@@ -15,12 +16,13 @@ class HomeStand extends StatefulWidget {
 
 class _HomeStandState extends State<HomeStand> {
   late Future<int> _balance;
-  late Future<List<Transactions>> _transactions;
+  List<Transactions>? riwayatTransaksi;
+  Future<List<Transactions>>? _futureTransactions;
 
   void initState() {
     super.initState();
     _balance = _getUserBalance();
-    _transactions = _getUserTransaction();
+    _futureTransactions = _getTransaction();
   }
 
   Future<int> _getUserBalance() async {
@@ -45,45 +47,51 @@ class _HomeStandState extends State<HomeStand> {
     }
   }
 
-  Future<List<Transactions>> _getUserTransaction() async {
+  Future<List<Transactions>> _getTransaction() async {
+    List<Transactions> transactions = [];
     try {
       final firestore = FirebaseFirestore.instance;
-      final transactionItem = await firestore
+      final itemTransaction = await firestore
           .collection('transactions')
           .where('stand', isEqualTo: widget.name)
           .get();
-      
-      if (transactionItem.docs.isNotEmpty) {
-        List<Transactions> transactions = transactionItem.docs.map((doc) {
-          List<TransactionItem> items = (doc['items'] as List).map((item) {
-            return TransactionItem.fromMap(item);
-          }).toList();
-          return Transactions(
-            id: doc.id,
-            name: doc['name'] ?? '',
-            date: (doc['date'] as Timestamp?)?.toDate() ?? DateTime.now(),
-            stand: doc['stand'] ?? '',
-            buyerId: doc['buyerId'] ?? '',
-            status: doc['status'] ?? '',
-            items: items,
-            totalAmount: doc['totalAmount'] is int
-                ? (doc['totalAmount'] as int).toDouble()
-                : doc['totalAmount'],
-            totalQty: doc['totalQty'] is int
-                ? (doc['totalQty'] as int).toDouble()
-                : doc['totalQty'],
-          );
-        }).toList();
-        return transactions;
-      } 
-      else {
-        return [];
+      if (itemTransaction.docs.isNotEmpty) {
+        for (var trans in itemTransaction.docs) {
+          final id = trans.id;
+          final date = (trans['date'] as Timestamp).toDate();
+          final name = trans['name'];
+          String status = trans['status'] == 1 ? 'Completed' : 'Pending';
+          final items = trans['items'] as List;
+          List<TransactionItem> transactionItems = [];
+
+          for (final item in items) {
+            transactionItems.add(TransactionItem(
+              name: item['name'],
+              price: item['price'],
+              quantity: item['qty'],
+            ));
+          }
+
+          final totalAmount = trans['totalAmount'];
+          final totalQty = trans['totalQty'];
+
+          transactions.add(Transactions(
+            id: id,
+            name: widget.name,
+            date: date,
+            stand: widget.name,
+            buyerId: name,
+            status: status,
+            items: transactionItems,
+            totalAmount: totalAmount.toDouble(),
+            totalQty: totalQty.toDouble(),
+          ));
+        }
       }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
     }
-    catch(e){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error $e')));
-      return [];
-    }
+    return transactions;
   }
 
   @override
@@ -185,43 +193,138 @@ class _HomeStandState extends State<HomeStand> {
             ),
             const SizedBox(height: 16.0),
             FutureBuilder<List<Transactions>>(
-              future: _transactions,
+              future: _futureTransactions,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
+                  return Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
-                  return Text(
-                    'Error: ${snapshot.error}',
-                    style: const TextStyle(color: Colors.red),
-                  );
+                  return Center(child: Text('Error: ${snapshot.error}'));
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Text(
-                    'No transactions available',
-                    style: TextStyle(fontSize: 18.0),
-                  );
-                } else {
-                  final transactions = snapshot.data!;
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: transactions.length,
-                    itemBuilder: (context, index) {
-                      final transaction = transactions[index];
-                      return Card(
-                        child: ListTile(
-                          title: Text(transaction.name),
-                          subtitle: Text(DateFormat('yyyy-MM-dd').format(transaction.date).toString()),
-                          trailing: Text(formatCurrency(transaction.totalAmount.toInt()).toString()),
-                        ),
-                      );
-                    },
-                  );
+                  return Center(child: Text('No transactions found'));
                 }
-              },
-            ),
+                final transactions = snapshot.data!;
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: transactions.length,
+                  itemBuilder: (context, index) {
+                    final transaction = transactions[index];
+                    return Card(
+                      elevation: 5.0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  transaction.id,
+                                  style: const TextStyle(
+                                    fontSize: 18.0,
+                                    color: Color(0xff0A2B4E),
+                                    fontWeight: FontWeight.w900,
+                                  ),
+                                ),
+                                const Spacer(),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: Text(
+                                    formatCurrency(transaction.totalAmount.toInt()),
+                                    style: const TextStyle(
+                                      fontSize: 16.0,
+                                      color: Color(0xff0A2B4E),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            const SizedBox(height: 4.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  '${transaction.date.day} ${_getMonthName(transaction.date.month)} ${transaction.date.year}, ${_getTimeString(transaction.date.hour, transaction.date.minute)}',
+                                  style: const TextStyle(
+                                    fontSize: 14.0,
+                                    color: Color(0xff0A2B4E),
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => DetailTransaksi(
+                                          transaction: transaction,
+                                          name: widget.name,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: const Text(
+                                    'Lihat detail >',
+                                    style: TextStyle(
+                                      color: Color(0xff0A2B4E),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
+              }
+            )
           ],
         ),
       ),
     );
+  }
+  
+  String _getMonthName(int month) {
+    switch (month) {
+      case 1:
+        return 'Januari';
+      case 2:
+        return 'Februari';
+      case 3:
+        return 'Maret';
+      case 4:
+        return 'April';
+      case 5:
+        return 'Mei';
+      case 6:
+        return 'Juni';
+      case 7:
+        return 'Juli';
+      case 8:
+        return 'Agustus';
+      case 9:
+        return 'September';
+      case 10:
+        return 'Oktober';
+      case 11:
+        return 'November';
+      case 12:
+        return 'Desember';
+      default:
+        return '';
+    }
+  }  
+
+  String _getTimeString(int hour, int minute) {
+    String hourString = hour.toString().padLeft(2, '0');
+    String minuteString = minute.toString().padLeft(2, '0');
+    return '$hourString:$minuteString';
   }
 }

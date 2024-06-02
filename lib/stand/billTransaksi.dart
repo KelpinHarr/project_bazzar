@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_bazzar/Transaction.dart';
+import 'package:project_bazzar/currencyUtils.dart';
 
 class BillTransaksi extends StatelessWidget {
   final Transactions transaction;
@@ -47,10 +48,10 @@ class BillTransaksi extends StatelessWidget {
                 Text(item.quantity.toString()),
               ),
               DataCell(
-                Text('Rp${item.price}'),
+                Text(formatCurrency(item.price.toInt())),
               ),
               DataCell(
-                Text('Rp${item.price * item.quantity}'),
+                Text(formatCurrency((item.price * item.quantity).toInt())),
               ),
             ],
           )).toList(),
@@ -59,11 +60,11 @@ class BillTransaksi extends StatelessWidget {
         // Total Amount with Divider
         Divider(thickness: 1.0, color: Colors.grey),
         const SizedBox(height: 16.0),
-        buildTotalRow('Total Qty:', '${transaction.totalQty}'),
+        buildTotalRow('Total Qty: ', '${transaction.totalQty.toInt()}'),
         const SizedBox(height: 16.0),
         buildTotalRow(
-          'Total:',
-          'Rp${transaction.totalAmount}',
+          'Total: ',
+          formatCurrency(transaction.totalAmount.toInt()),
           textColor: Colors.green,
         ),
       ],
