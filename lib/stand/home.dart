@@ -117,6 +117,7 @@ class _HomeStandState extends State<HomeStand> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(height: 16.0),
             Container(
               width: double.infinity,
               height: 180,
@@ -168,7 +169,7 @@ class _HomeStandState extends State<HomeStand> {
                         return Text(
                           formatCurrency(balance),
                           style: const TextStyle(
-                            fontSize: 24.0,
+                            fontSize: 28.0,
                             fontWeight: FontWeight.bold,
                             color: Colors.green,
                           ),
@@ -179,19 +180,18 @@ class _HomeStandState extends State<HomeStand> {
                 ],
               ),
             ),
-            const SizedBox(height: 32.0),
+            const SizedBox(height: 24.0),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 16.0),
               child: Text(
                 'Laporan Penjualan',
                 style: TextStyle(
-                  fontSize: 20.0,
+                  fontSize: 22.0,
                   fontWeight: FontWeight.w900,
                   color: Color(0xff0A2B4E),
                 ),
               ),
             ),
-            const SizedBox(height: 16.0),
             FutureBuilder<List<Transactions>>(
               future: _futureTransactions,
               builder: (context, snapshot) {
@@ -237,7 +237,7 @@ class _HomeStandState extends State<HomeStand> {
                                     formatCurrency(transaction.totalAmount.toInt()),
                                     style: const TextStyle(
                                       fontSize: 16.0,
-                                      color: Color(0xff0A2B4E),
+                                      color: Colors.green,
                                     ),
                                   ),
                                 )
