@@ -32,7 +32,6 @@ class _PageBayarState extends State<PageBayar> {
     barcodeString = widget.scanResult.code ?? '{}';
     user = jsonDecode(barcodeString);
     name = user['nama'] ?? 'Unknown';
-    // _balance = user['balance'] != null ? formatCurrency(user['balance']) : 'Rp0';
     _balance = _getUserBalance();
   }
 
@@ -43,35 +42,34 @@ class _PageBayarState extends State<PageBayar> {
       final transactionItems = widget.transactions.expand((transaction) {
         return transaction.items.map((item) {
           return {
-            'name' : item.name,
-            'qty' : item.quantity,
-            'price' : item.price
+            'name': item.name,
+            'qty': item.quantity,
+            'price': item.price
           };
         });
       }).toList();
-
 
       final transactionRef = await firestore.collection('transactions').add({
         'buyerId': user['id'],
         'date': FieldValue.serverTimestamp(),
         'items': transactionItems,
-        'name' : name,
-        'stand' : widget.stand_name,
-        'status' : 1,
-        'totalAmount' : widget.totalHarga,
-        'totalQty' : transactionItems.length
+        'name': name,
+        'stand': widget.stand_name,
+        'status': 1,
+        'totalAmount': widget.totalHarga,
+        'totalQty': transactionItems.length
       });
 
-      for (var item in transactionItems){
+      for (var item in transactionItems) {
         await firestore.collection('transaction_items').add({
           'name': item['name'],
           'price': item['price'],
-          'quantity' : item['qty']
+          'quantity': item['qty']
         });
       }
-    }
-    catch(e){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Error: $e')));
     }
   }
 
@@ -124,7 +122,7 @@ class _PageBayarState extends State<PageBayar> {
           final standBalance = standDoc['balance'] + widget.totalHarga;
 
           await firestore.collection('users').doc(userDoc.id).update({'balance': newBalance});
-          await firestore.collection('users').doc(standDoc.id).update({'balance' : standBalance});
+          await firestore.collection('users').doc(standDoc.id).update({'balance': standBalance});
 
           setState(() {
             _balance = Future.value(newBalance);
@@ -135,8 +133,8 @@ class _PageBayarState extends State<PageBayar> {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Pembayaran Berhasil!')));
           Navigator.of(context).pop();
           Navigator.push(
-            context, 
-            MaterialPageRoute(builder: (context) => HomeStand(name: widget.stand_name,))
+              context,
+              MaterialPageRoute(builder: (context) => HomeStand(name: widget.stand_name,))
           );
         }
       } else {
@@ -158,49 +156,109 @@ class _PageBayarState extends State<PageBayar> {
         backgroundColor: const Color(0xffF0F0E8),
         body: Center(
           child: Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('Stand: ${widget.stand_name}', style: TextStyle(fontSize: 20)),
-                Text('Total Harga: ${widget.totalHarga != null ? formatCurrency(widget.totalHarga!.toInt()) : 'N/A'}', style: TextStyle(fontSize: 20)),
-                // Display transaction items
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: widget.transactions.length,
-                    itemBuilder: (context, index) {
-                      final transaction = widget.transactions[index];
-                      return ListTile(
-                        title: Text(transaction.name),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: transaction.items.map((item) {
-                            return Text('${item.name} x${item.quantity} - @Rp${item.price}');
-                          }).toList(),
-                        ),
-                      );
-                    },
+                Text(
+                  'Stand: ${widget.stand_name}',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xff0A2B4E),
                   ),
                 ),
-                SizedBox(height: 32.0),
-                ElevatedButton(
-                  onPressed: _buyItem,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xffAAD4FF),
-                    elevation: 5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 16.0, horizontal: 32.0),
+                const SizedBox(height: 16.0),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Total: ',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xff0A2B4E),
+                        ),
+                      ),
+                      TextSpan(
+                        text: '${widget.totalHarga != null ? formatCurrency(widget.totalHarga!.toInt()) : 'N/A'}',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: widget.totalHarga != null ? Colors.green : Colors.red, // Menetapkan warna hijau jika totalHarga tidak null
+                        ),
+                      ),
+                    ],
                   ),
-                  child: const Text(
-                    'Bayar',
-                    style: TextStyle(
-                      color: Color(0xff0A2B4E),
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                ),
+                const SizedBox(height: 16.0),
+                Expanded(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: ListView.builder(
+                          itemCount: widget.transactions.length,
+                          itemBuilder: (context, index) {
+                            final transaction = widget.transactions[index];
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: transaction.items.map((item) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        '${item.name} x${item.quantity}',
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          color: Color(0xff36454F),
+                                        ),
+                                      ),
+                                      Text(
+                                        '${formatCurrency(item.price.toInt())}',
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          color: Color(0xff36454F),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }).toList(),
+                            );
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 16.0),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: _buyItem,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xffAAD4FF),
+                              elevation: 5,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 12.0),
+                            ),
+                            child: const Text(
+                              'Bayar',
+                              style: TextStyle(
+                                color: Color(0xff0A2B4E),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16.0),
+                    ],
                   ),
                 ),
               ],

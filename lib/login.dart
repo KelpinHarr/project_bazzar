@@ -93,6 +93,7 @@ class _LoginState extends State<Login> {
                     height: 50.0,
                     child: TextField(
                       controller: _usernameController,
+                      cursorColor: const Color(0xff0A2B4E),
                       decoration: InputDecoration(
                         labelText: 'Username',
                         labelStyle: const TextStyle(color: Color(0xff36454F)),
@@ -120,6 +121,7 @@ class _LoginState extends State<Login> {
                     height: 50.0,
                     child: TextField(
                       controller: _passwordController,
+                      cursorColor: const Color(0xff0A2B4E),
                       obscureText: _obsecureText,
                       decoration: InputDecoration(
                         labelText: 'Password',

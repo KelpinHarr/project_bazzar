@@ -133,7 +133,7 @@ class _HomeStudentState extends State<HomeStudent> {
                     stand: 'Felicia',
                     buyerId: 'Kenny',
                     status: 'Completed',
-                    items: const [
+                    items: [
                       TransactionItem(
                           name: 'Product A', quantity: 2, price: 25000),
                       TransactionItem(
@@ -154,7 +154,7 @@ class _HomeStudentState extends State<HomeStudent> {
                     stand: 'Uncle Tan',
                     buyerId: 'Kenny',
                     status: 'Completed',
-                    items: const [
+                    items: [
                       TransactionItem(
                           name: 'Product A', quantity: 2, price: 25000),
                       TransactionItem(

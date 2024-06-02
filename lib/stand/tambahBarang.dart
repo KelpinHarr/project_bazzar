@@ -36,6 +36,7 @@ class _TambahBarangState extends State<TambahBarang>
               children: [
                 TextFormField(
                   controller: _namaBarangController,
+                  cursorColor: const Color(0xff0A2B4E),
                   decoration: const InputDecoration(
                     labelText: "Nama Barang",
                     focusedBorder: OutlineInputBorder(
@@ -54,6 +55,7 @@ class _TambahBarangState extends State<TambahBarang>
                 const SizedBox(height: 16.0),
                 TextFormField(
                   controller: _hargaController,
+                  cursorColor: const Color(0xff0A2B4E),
                   keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
                     labelText: "Harga Barang",
@@ -125,6 +127,7 @@ class _TambahBarangState extends State<TambahBarang>
                             width: 40.0,
                             child: TextField(
                               controller: TextEditingController(text: '$_qty'),
+                              cursorColor: const Color(0xff0A2B4E),
                               keyboardType: TextInputType.number,
                               onChanged: (value) {
                                 // Update _qty based on user input, handling potential errors

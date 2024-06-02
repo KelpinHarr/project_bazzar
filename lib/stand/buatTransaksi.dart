@@ -4,7 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:project_bazzar/ConfirmDialog.dart';
+import 'package:project_bazzar/CustomDialog.dart';
 import 'package:project_bazzar/Transaction.dart';
+import 'package:project_bazzar/currencyUtils.dart';
 import 'package:project_bazzar/stand/home.dart';
 import 'package:project_bazzar/stand/navbarv2.dart';
 import 'package:project_bazzar/stand/qrBayar.dart';
@@ -109,292 +111,259 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // header
-                  Center(
-                    child: RichText(
-                      textAlign: TextAlign.center,
-                      text: const TextSpan(
-                        children: [
-                          TextSpan(
-                            text: 'Transaksi',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 32,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          TextSpan(
-                            text: '\nPK1239423',
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 32.0),
-
-                  // receipt
-                  // Menampilkan DataTable sesuai kondisi
+                  const SizedBox(height: 16.0),
                   if (_showDataTable)
-                    DataTable(
-                      columns: const [
-                        DataColumn(
-                          label: Expanded(
-                            child: Text(
-                              'Nama',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Expanded(
-                            child: Text(
-                              'Qty',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Expanded(
-                            child: Text(
-                              'Harga',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          label: Expanded(
-                            child: Text(
-                              'Total',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                      rows: [
-                        ...transactions
-                            .expand(
-                              (transaction) => transaction.items.map(
-                                (item) => DataRow(
-                                  cells: [
-                                    DataCell(
-                                      Expanded(
-                                        child: Text(item.name),
-                                      ),
-                                    ),
-                                    DataCell(
-                                      Expanded(
-                                        child: Text(item.quantity.toString()),
-                                      ),
-                                    ),
-                                    DataCell(
-                                      Expanded(
-                                        child: Text('Rp ${item.price}'),
-                                      ),
-                                    ),
-                                    DataCell(
-                                      Expanded(
-                                        child: Text(
-                                            'Rp ${item.price * item.quantity}'),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )
-                            .toList(),
-                        DataRow(
-                          cells: [
-                            const DataCell(
-                              Expanded(
-                                child: Text(
-                                  'Total',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                    Center(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: transactions.isEmpty // Tambahkan kondisi untuk mengecek apakah daftar transaksi kosong
+                            ? Container() // Jika kosong, tampilkan container kosong
+                            : DataTable(
+                          columnSpacing: 16.0,
+                          columns: const [
+                            DataColumn(
+                              label: Text(
+                                'Nama',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
-                            const DataCell(
-                              Expanded(
-                                child: Text(''),
+                            DataColumn(
+                              label: Text(
+                                'Qty',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
-                            const DataCell(
-                              Expanded(
-                                child: Text(''),
+                            DataColumn(
+                              label: Text(
+                                'Harga',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
-                            DataCell(
-                              Expanded(
-                                child: Text(
-                                  'Rp$totalHarga',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                            DataColumn(
+                              label: Text(
+                                'Total',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            DataColumn(
+                              label: Text(
+                                '',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
                           ],
-                        ),
-                      ],
-                    ),
-
-                  // input barang
-                  Visibility(
-                    visible: _showTambahBarangInput,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        DropdownSearch<String>(
-                          popupProps: const PopupProps.menu(
-                            showSelectedItems: true,
-                          ),
-                          items: _filteredProducts,
-                          dropdownDecoratorProps: const DropDownDecoratorProps(
-                            dropdownSearchDecoration: InputDecoration(
-                              labelText: "Nama barang",
-                              labelStyle: TextStyle(fontSize: 20.0),
-                            ),
-                          ),
-                          onChanged: (value) {
-                            setState(() {
-                              _selectedProduct = value!;
-                            });
-                          },
-                          selectedItem: _selectedProduct,
-                        ),
-
-                        const SizedBox(height: 16.0),
-
-                        // Jumlah TextField
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment
-                              .spaceBetween, // Align children to the start and end of the row
-                          children: [
-                            // Widgets for displaying the quantity
-                            Text(
-                              "Qty: $_qty",
-                              style: const TextStyle(
-                                color: Color(0xff0A2B4E),
-                                fontSize: 18.0,
+                          rows: [
+                            ...transactions
+                                .asMap()
+                                .entries
+                                .map(
+                                  (entry) => DataRow(
+                                cells: [
+                                  DataCell(
+                                    Text(transactions[entry.key].items[0].name), // Ubah kode di sini
+                                  ),
+                                  DataCell(
+                                    Text(transactions[entry.key].items[0].quantity.toString()), // Ubah kode di sini
+                                  ),
+                                  DataCell(
+                                    Text(
+                                      formatCurrency(transactions[entry.key].items[0].price.toInt()), // Ubah kode di sini
+                                    ),
+                                  ),
+                                  DataCell(
+                                    Text(
+                                      formatCurrency(transactions[entry.key].items[0].price.toInt() * transactions[entry.key].items[0].quantity), // Ubah kode di sini
+                                    ),
+                                  ),
+                                  DataCell(
+                                    IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          transactions.removeAt(entry.key);
+                                        });
+                                      },
+                                      icon: const Icon(Icons.delete),
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                            // Widgets for adjusting the quantity
-                            Row(
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      if (_qty > 1) {
-                                        _qty--;
-                                      }
-                                    });
-                                  },
-                                  icon: const Icon(Icons.remove),
-                                  color: const Color(0xff0A2B4E),
-                                ),
-                                SizedBox(
-                                  width: 40.0,
-                                  child: TextField(
-                                    controller:
-                                        TextEditingController(text: '$_qty'),
-                                    keyboardType: TextInputType.number,
-                                    onChanged: (value) {
-                                      // Update _qty based on user input, handling potential errors
-                                      try {
-                                        int newQty = int.parse(value);
-                                        if (newQty >= 1) {
-                                          setState(() {
-                                            _qty = newQty;
-                                          });
-                                        }
-                                      } catch (e) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                            content: Text(
-                                                'Invalid quantity. Please enter a number.'),
-                                          ),
-                                        );
-                                      }
-                                    },
-                                    textAlign: TextAlign.center,
-                                    decoration: const InputDecoration(
-                                      contentPadding: EdgeInsets.all(
-                                          0.0), // Remove padding for a cleaner look
+                            ).toList(),
+                            DataRow(
+                              cells: [
+                                const DataCell(
+                                  Text(
+                                    'Total',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
-                                IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      _qty++;
-                                    });
-                                  },
-                                  icon: const Icon(Icons.add),
-                                  color: const Color(0xff0A2B4E),
+                                const DataCell(
+                                  Text(''),
+                                ),
+                                const DataCell(
+                                  Text(''),
+                                ),
+                                DataCell(
+                                  Text(
+                                    formatCurrency(totalHarga.toInt()),
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                const DataCell(
+                                  Text(''),
                                 ),
                               ],
                             ),
                           ],
                         ),
-                        const SizedBox(height: 32.0),
-                        Padding(
-                          padding: const EdgeInsets.all(24.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment
-                                .end, // Align children to the end (right side)
+                      ),
+                    ),
+
+                  // input barang
+                  Visibility(
+                    visible: _showTambahBarangInput,
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 16.0), // Menambahkan margin atas
+                      padding: const EdgeInsets.all(16.0), // Menambahkan padding dalam kotak
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Color(0xff0A2B4E),
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0), // Mengatur border radius
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          DropdownSearch<String>(
+                            popupProps: const PopupProps.menu(
+                              showSelectedItems: true,
+                            ),
+                            items: _filteredProducts,
+                            dropdownDecoratorProps: const DropDownDecoratorProps(
+                              dropdownSearchDecoration: InputDecoration(
+                                labelText: "Nama barang",
+                                labelStyle: TextStyle(fontSize: 20.0),
+                              ),
+                            ),
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedProduct = value!;
+                              });
+                            },
+                            selectedItem: _selectedProduct,
+                          ),
+                          const SizedBox(height: 16.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              SizedBox(
-                                width: 180.0,
+                              Text(
+                                "Qty: $_qty",
+                                style: const TextStyle(
+                                  color: Color(0xff0A2B4E),
+                                  fontSize: 18.0,
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        if (_qty > 1) {
+                                          _qty--;
+                                        }
+                                      });
+                                    },
+                                    icon: const Icon(Icons.remove),
+                                    color: const Color(0xff0A2B4E),
+                                  ),
+                                  SizedBox(
+                                    width: 40.0,
+                                    child: TextField(
+                                      controller: TextEditingController(text: '$_qty'),
+                                      keyboardType: TextInputType.number,
+                                      onChanged: (value) {
+                                        try {
+                                          int newQty = int.parse(value);
+                                          if (newQty >= 1) {
+                                            setState(() {
+                                              _qty = newQty;
+                                            });
+                                          }
+                                        } catch (e) {
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            const SnackBar(
+                                              content: Text('Invalid quantity. Please enter a number.'),
+                                            ),
+                                          );
+                                        }
+                                      },
+                                      textAlign: TextAlign.center,
+                                      decoration: const InputDecoration(
+                                        contentPadding: EdgeInsets.all(0.0),
+                                      ),
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _qty++;
+                                      });
+                                    },
+                                    icon: const Icon(Icons.add),
+                                    color: const Color(0xff0A2B4E),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 32.0),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: SizedBox(
+                                width: double.infinity,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    // tambah baris tabel
                                     setState(() {
-                                      final selectedProductPrice =
-                                          _productDetails[_selectedProduct]!;
-                                      // Buat objek transaksi baru
-                                      Transactions newTransaction =
-                                          Transactions(
+                                      final selectedProductPrice = _productDetails[_selectedProduct]!;
+                                      Transactions newTransaction = Transactions(
                                         name: widget.name,
-                                        // Isi data transaksi sesuai dengan input pengguna
                                         items: [
                                           TransactionItem(
-                                              name: _selectedProduct,
-                                              quantity: _qty,
-                                              price: selectedProductPrice)
+                                            name: _selectedProduct,
+                                            quantity: _qty,
+                                            price: selectedProductPrice,
+                                          ),
                                         ],
                                         buyerId: "Kenny",
-                                        date:
-                                            DateTime(2024, 11, 11, 18, 58, 23),
+                                        date: DateTime(2024, 11, 11, 18, 58, 23),
                                         id: "PK1239423",
                                         stand: "Sushi Saga",
                                         status: "Belum Bayar",
-                                        totalAmount:
-                                            selectedProductPrice * _qty,
+                                        totalAmount: selectedProductPrice * _qty,
                                         totalQty: (_qty as num).toDouble(),
-
-                                        // tambahkan properti lain jika ada, misalnya tanggal transaksi, dsb.
                                       );
 
-                                      // Tambahkan transaksi baru ke daftar transaksi
                                       transactions.add(newTransaction);
                                       _showTambahBarangInput = false;
                                       _qty = 1;
-                                      _showDataTable =
-                                          true; // Setelah transaksi ditambahkan, tampilkan DataTable
+                                      _showDataTable = true;
                                     });
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -403,8 +372,7 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8.0),
                                     ),
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 16.0),
+                                    padding: const EdgeInsets.symmetric(vertical: 12.0),
                                   ),
                                   child: const Text(
                                     'Tambah',
@@ -416,17 +384,18 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                                   ),
                                 ),
                               ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ],
+                          const SizedBox(height: 16.0),
+                        ],
+                      ),
                     ),
                   ),
 
-                  const SizedBox(height: 16.0),
+                  const SizedBox(height: 8.0),
                   Visibility(
                     visible:
-                        !_showTambahBarangInput, // Ubah visible ke false jika _showTambahBarangInput true
+                        !_showTambahBarangInput,
                     child: TextButton(
                       onPressed: () {
                         setState(() {
@@ -436,20 +405,25 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                       },
                       style: ButtonStyle(
                         foregroundColor: MaterialStateProperty.all<Color>(
-                            const Color(
-                                0xff0A2B4E)), // Mengatur warna teks menjadi hitam
+                            const Color(0xff0A2B4E)),
                       ),
                       child: const Row(
                         children: [
                           Icon(Icons.add),
                           SizedBox(width: 8), // Adjust the width as needed
-                          Text("Tambah barang"),
+                          Text(
+                              "Tambah barang",
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Color(0xff0A2B4E),
+                            ),
+                          ),
                         ],
                       ),
                     ),
                   ),
 
-                  const SizedBox(height: 48.0),
+                  const SizedBox(height: 32.0),
                   // button bayar transaksi
                   Padding(
                     padding: const EdgeInsets.symmetric(
@@ -458,30 +432,51 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () async {
-                          await initializeCamera();
-                          Navigator.push(
+                          if (transactions.isEmpty) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return CustomDialog(
+                                  title: "Belum ada item yang ditambahkan",
+                                  icon: const Icon(Icons.warning,
+                                      color: Colors.red),
+                                  actionText:
+                                  "OK",
+                                  onPressed: () {
+                                    Navigator.pop(context); // Tutup dialog saat tombol ditekan
+                                  },
+                                );
+                              },
+                            );
+                          } else {
+                            await initializeCamera();
+                            Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => QrBayarTransaksi(
-                                        totalHarga: totalHarga,
-                                        stand_name: widget.name,
-                                        transactions: transactions,
-                                      )));
+                                builder: (context) => QrBayarTransaksi(
+                                  totalHarga: totalHarga,
+                                  stand_name: widget.name,
+                                  transactions: transactions,
+                                ),
+                              ),
+                            );
+                          }
                         },
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xffAAD4FF),
-                            elevation: 5,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            padding:
-                                const EdgeInsets.symmetric(vertical: 16.0)),
+                          backgroundColor: const Color(0xffAAD4FF),
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 12.0),
+                        ),
                         child: const Text(
                           'Bayar',
                           style: TextStyle(
-                              color: Color(0xff0A2B4E),
-                              fontSize: 18,
-                              fontWeight: FontWeight.w900),
+                            color: Color(0xff0A2B4E),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w900,
+                          ),
                         ),
                       ),
                     ),
@@ -525,12 +520,12 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                               borderRadius: BorderRadius.circular(8.0),
                             ),
                             padding:
-                                const EdgeInsets.symmetric(vertical: 16.0)),
+                                const EdgeInsets.symmetric(vertical: 12.0)),
                         child: const Text(
                           'Batalkan transaksi',
                           style: TextStyle(
                               color: Colors.white,
-                              fontSize: 18,
+                              fontSize: 16,
                               fontWeight: FontWeight.w900),
                         ),
                       ),
@@ -544,30 +539,6 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
       ),
       activePage: 'Buat transaksi',
     );
-  }
-
-  bool _isNavigated = false;
-  void _onQRViewCreated(QRViewController controller) {
-    this.controller = controller;
-    controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        result = scanData;
-      });
-
-      if (result != null && !_isNavigated) {
-        _isNavigated = true; // Tandai bahwa navigasi sudah dilakukan
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => const TopUp()),
-        // ).then((_) {
-        //   // Dispose controller after returning from TopUp page
-        //   controller.dispose();
-        //   setState(() {
-        //     result = null;
-        //   });
-        // });
-      }
-    });
   }
 
   @override

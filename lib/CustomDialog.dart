@@ -30,9 +30,9 @@ class CustomDialog extends StatelessWidget {
             children: [
               Center(child: icon),
               const SizedBox(height: 16.0), // Add spacing between icon and text
-              Text(title, style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
-              // SizedBox(height: 8.0), // Add spacing between title and content
-              // Text(content),
+              Center(
+                child: Text(title, style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
+              ),
               const SizedBox(height: 16.0),
               TextButton(
                 onPressed: onPressed,

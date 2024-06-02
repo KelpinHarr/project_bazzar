@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:project_bazzar/stand/detailTransaksi.dart';
 
 class TransactionItem {
-  final String name;
-  final int quantity;
-  final double price;
+  String name;
+  int quantity;
+  double price;
 
-  const TransactionItem({
+   TransactionItem({
     required this.name,
     required this.quantity,
     required this.price,

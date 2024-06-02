@@ -209,82 +209,87 @@ class _HomeStandState extends State<HomeStand> {
                   itemCount: transactions.length,
                   itemBuilder: (context, index) {
                     final transaction = transactions[index];
-                    return Card(
-                      elevation: 5.0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
+                    return Column(
+                      children: [
+                        Card(
+                          elevation: 5.0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  transaction.id,
-                                  style: const TextStyle(
-                                    fontSize: 18.0,
-                                    color: Color(0xff0A2B4E),
-                                    fontWeight: FontWeight.w900,
-                                  ),
-                                ),
-                                const Spacer(),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 8.0),
-                                  child: Text(
-                                    formatCurrency(transaction.totalAmount.toInt()),
-                                    style: const TextStyle(
-                                      fontSize: 16.0,
-                                      color: Colors.green,
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      transaction.id,
+                                      style: const TextStyle(
+                                        fontSize: 18.0,
+                                        color: Color(0xff0A2B4E),
+                                        fontWeight: FontWeight.w900,
+                                      ),
                                     ),
-                                  ),
-                                )
-                              ],
-                            ),
-                            const SizedBox(height: 4.0),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  '${transaction.date.day} ${_getMonthName(transaction.date.month)} ${transaction.date.year}, ${_getTimeString(transaction.date.hour, transaction.date.minute)}',
-                                  style: const TextStyle(
-                                    fontSize: 14.0,
-                                    color: Color(0xff0A2B4E),
-                                  ),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => DetailTransaksi(
-                                          transaction: transaction,
-                                          name: widget.name,
+                                    const Spacer(),
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 8.0),
+                                      child: Text(
+                                        formatCurrency(transaction.totalAmount.toInt()),
+                                        style: const TextStyle(
+                                          fontSize: 16.0,
+                                          color: Colors.green,
                                         ),
                                       ),
-                                    );
-                                  },
-                                  child: const Text(
-                                    'Lihat detail >',
-                                    style: TextStyle(
-                                      color: Color(0xff0A2B4E),
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.bold,
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(height: 4.0),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      '${transaction.date.day} ${_getMonthName(transaction.date.month)} ${transaction.date.year}, ${_getTimeString(transaction.date.hour, transaction.date.minute)}',
+                                      style: const TextStyle(
+                                        fontSize: 14.0,
+                                        color: Color(0xff0A2B4E),
+                                      ),
                                     ),
-                                  ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => DetailTransaksi(
+                                              transaction: transaction,
+                                              name: widget.name,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: const Text(
+                                        'Lihat detail >',
+                                        style: TextStyle(
+                                          color: Color(0xff0A2B4E),
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                          ],
+                          ),
                         ),
-                      ),
+                        const SizedBox(height: 8.0),
+                      ],
                     );
                   },
                 );
               }
-            )
+            ),
           ],
         ),
       ),
