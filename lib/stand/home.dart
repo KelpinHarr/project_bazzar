@@ -227,7 +227,7 @@ class _HomeStandState extends State<HomeStand> {
                                     Text(
                                       transaction.id,
                                       style: const TextStyle(
-                                        fontSize: 18.0,
+                                        fontSize: 16.0,
                                         color: Color(0xff0A2B4E),
                                         fontWeight: FontWeight.w900,
                                       ),
@@ -238,7 +238,7 @@ class _HomeStandState extends State<HomeStand> {
                                       child: Text(
                                         formatCurrency(transaction.totalAmount.toInt()),
                                         style: const TextStyle(
-                                          fontSize: 16.0,
+                                          fontSize: 14.0,
                                           color: Color(0xff0A2B4E),
                                         ),
                                       ),
@@ -250,7 +250,7 @@ class _HomeStandState extends State<HomeStand> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      '${transaction.date.day} ${_getMonthName(transaction.date.month)} ${transaction.date.year}, ${_getTimeString(transaction.date.hour, transaction.date.minute)}',
+                                      '${transaction.date.day} ${_getMonthName(transaction.date.month)} ${transaction.date.year}, ${_getTimeString(transaction.date.hour, transaction.date.minute, transaction.date.second)}',
                                       style: const TextStyle(
                                         fontSize: 14.0,
                                         color: Color(0xff0A2B4E),
@@ -272,7 +272,7 @@ class _HomeStandState extends State<HomeStand> {
                                         'Lihat detail >',
                                         style: TextStyle(
                                           color: Color(0xff0A2B4E),
-                                          fontSize: 16.0,
+                                          fontSize: 14.0,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -327,9 +327,10 @@ class _HomeStandState extends State<HomeStand> {
     }
   }  
 
-  String _getTimeString(int hour, int minute) {
+  String _getTimeString(int hour, int minute, int second) {
     String hourString = hour.toString().padLeft(2, '0');
     String minuteString = minute.toString().padLeft(2, '0');
-    return '$hourString:$minuteString';
+    String secondString = second.toString().padLeft(2, '0');
+    return '$hourString:$minuteString:$secondString';
   }
 }
