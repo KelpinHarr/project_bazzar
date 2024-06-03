@@ -34,7 +34,7 @@ class DetailTransaksi extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _buildTransactionInfo(
-                            context, transaction.id, 'Nomor Transaksi:'),
+                            context, transaction.id, 'No Transaksi:'),
                         const SizedBox(height: 8.0),
                         _buildTransactionInfo(
                             context, formattedTime, 'Tanggal:'),

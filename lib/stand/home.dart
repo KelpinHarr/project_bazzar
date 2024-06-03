@@ -127,7 +127,7 @@ class _HomeStandState extends State<HomeStand> {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Colors.blue[200]!, Colors.white],
+                  colors: [Color(0xffAAD4FF), Colors.white],
                 ),
                 boxShadow: [
                   BoxShadow(
@@ -239,7 +239,7 @@ class _HomeStandState extends State<HomeStand> {
                                         formatCurrency(transaction.totalAmount.toInt()),
                                         style: const TextStyle(
                                           fontSize: 16.0,
-                                          color: Colors.green,
+                                          color: Color(0xff0A2B4E),
                                         ),
                                       ),
                                     )

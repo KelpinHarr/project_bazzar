@@ -114,11 +114,10 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                   const SizedBox(height: 16.0),
                   if (_showDataTable)
                     Center(
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: transactions.isEmpty // Tambahkan kondisi untuk mengecek apakah daftar transaksi kosong
-                            ? Container() // Jika kosong, tampilkan container kosong
-                            : DataTable(
+                      child: transactions.isEmpty
+                          ? Container() // Jika kosong, tampilkan container kosong
+                          : Flexible(
+                        child: DataTable(
                           columnSpacing: 16.0,
                           columns: const [
                             DataColumn(
@@ -137,14 +136,14 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                                 ),
                               ),
                             ),
-                            DataColumn(
-                              label: Text(
-                                'Harga',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
+                            // DataColumn(
+                            //   label: Text(
+                            //     'Harga',
+                            //     style: TextStyle(
+                            //       fontWeight: FontWeight.bold,
+                            //     ),
+                            //   ),
+                            // ),
                             DataColumn(
                               label: Text(
                                 'Total',
@@ -163,26 +162,41 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                             ),
                           ],
                           rows: [
-                            ...transactions
-                                .asMap()
-                                .entries
-                                .map(
-                                  (entry) => DataRow(
+                            ...transactions.asMap().entries.map((entry) {
+                              final item = transactions[entry.key].items[0];
+                              final truncatedName = item.name.length > 15
+                                  ? item.name.substring(0, 15) + '...'
+                                  : item.name;
+
+                              return DataRow(
                                 cells: [
                                   DataCell(
-                                    Text(transactions[entry.key].items[0].name), // Ubah kode di sini
-                                  ),
-                                  DataCell(
-                                    Text(transactions[entry.key].items[0].quantity.toString()), // Ubah kode di sini
-                                  ),
-                                  DataCell(
-                                    Text(
-                                      formatCurrency(transactions[entry.key].items[0].price.toInt()), // Ubah kode di sini
+                                    ConstrainedBox(
+                                      constraints: BoxConstraints(
+                                        maxWidth: 100,
+                                      ),
+                                      child: Text(
+                                        truncatedName,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Color(0xff36454F),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                   DataCell(
+                                    Text(item.quantity.toString()),
+                                  ),
+                                  // DataCell(
+                                  //   Text(
+                                  //     formatCurrency(item.price.toInt()),
+                                  //   ),
+                                  // ),
+                                  DataCell(
                                     Text(
-                                      formatCurrency(transactions[entry.key].items[0].price.toInt() * transactions[entry.key].items[0].quantity), // Ubah kode di sini
+                                      formatCurrency(item.price.toInt() * item.quantity),
                                     ),
                                   ),
                                   DataCell(
@@ -197,8 +211,8 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                                     ),
                                   ),
                                 ],
-                              ),
-                            ).toList(),
+                              );
+                            }).toList(),
                             DataRow(
                               cells: [
                                 const DataCell(
@@ -209,9 +223,9 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                                     ),
                                   ),
                                 ),
-                                const DataCell(
-                                  Text(''),
-                                ),
+                                // const DataCell(
+                                //   Text(''),
+                                // ),
                                 const DataCell(
                                   Text(''),
                                 ),
@@ -272,7 +286,7 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "Qty: $_qty",
+                                "Qty: ",
                                 style: const TextStyle(
                                   color: Color(0xff0A2B4E),
                                   fontSize: 18.0,
