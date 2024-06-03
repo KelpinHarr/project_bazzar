@@ -97,7 +97,9 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
     double totalHarga = transactions
         .expand((transaction) => transaction.items)
         .fold(0, (sum, item) => sum + item.price * item.quantity);
-
+    int totalQty = transactions
+        .expand((transaction) => transaction.items)
+        .fold(0, (sum, item) => sum + item.quantity);
     return NavbarStandv2(
       name: widget.name,
       key: GlobalKey(),
@@ -164,8 +166,8 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                           rows: [
                             ...transactions.asMap().entries.map((entry) {
                               final item = transactions[entry.key].items[0];
-                              final truncatedName = item.name.length > 15
-                                  ? item.name.substring(0, 15) + '...'
+                              final truncatedName = item.name.length > 20
+                                  ? item.name.substring(0, 20) + '...'
                                   : item.name;
 
                               return DataRow(
@@ -173,7 +175,7 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                                   DataCell(
                                     ConstrainedBox(
                                       constraints: BoxConstraints(
-                                        maxWidth: 100,
+                                        maxWidth: 150,
                                       ),
                                       child: Text(
                                         truncatedName,
@@ -226,8 +228,13 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                                 // const DataCell(
                                 //   Text(''),
                                 // ),
-                                const DataCell(
-                                  Text(''),
+                                DataCell(
+                                  Text(
+                                    totalQty.toString(),
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ),
                                 DataCell(
                                   Text(
