@@ -24,8 +24,6 @@ class NavbarStandv2 extends StatelessWidget {
       pageTitle = 'Tambah Barang';
     } else if (activePage == 'Tambah transaksi') {
       pageTitle = 'Tambah Transaksi';
-    } else if (activePage == 'Riwayat transaksi') {
-      pageTitle = 'Riwayat transaksi';
     } else if (activePage == 'List barang') {
       pageTitle = 'List barang';
     } else if (activePage == 'Daftar barang') {
@@ -164,25 +162,6 @@ class NavbarStandv2 extends StatelessWidget {
                 ),
                 ListTile(
                   title: Text(
-                    'Riwayat transaksi',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: activePage == 'Riwayat transaksi'
-                          ? FontWeight.bold
-                          : FontWeight.normal,
-                      color: const Color(0xff0A2B4E),
-                    ),
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => RiwayatTransaksi(name: name)),
-                    );
-                  },
-                ),
-                ListTile(
-                  title: Text(
                     'Daftar barang',
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -254,7 +233,8 @@ class NavbarStandv2 extends StatelessWidget {
                   ),
                 ),
               ],
-            )),
+            )
+        ),
       ),
     );
   }

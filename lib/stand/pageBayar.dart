@@ -154,7 +154,7 @@ class _PageBayarState extends State<PageBayar> {
       name: widget.stand_name,
       body: Scaffold(
         backgroundColor: const Color(0xffF0F0E8),
-        body: Center(
+        body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -192,75 +192,68 @@ class _PageBayarState extends State<PageBayar> {
                   ),
                 ),
                 const SizedBox(height: 16.0),
-                Expanded(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: ListView.builder(
-                          itemCount: widget.transactions.length,
-                          itemBuilder: (context, index) {
-                            final transaction = widget.transactions[index];
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: transaction.items.map((item) {
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        '${item.name} x${item.quantity}',
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                          color: Color(0xff36454F),
-                                        ),
-                                      ),
-                                      Text(
-                                        '${formatCurrency(item.price.toInt())}',
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                          color: Color(0xff36454F),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }).toList(),
-                            );
-                          },
-                        ),
-                      ),
-                      const SizedBox(height: 16.0),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: _buyItem,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xffAAD4FF),
-                              elevation: 5,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.0),
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: widget.transactions.length,
+                  itemBuilder: (context, index) {
+                    final transaction = widget.transactions[index];
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: transaction.items.map((item) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                '${item.name} x${item.quantity}',
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  color: Color(0xff36454F),
+                                ),
                               ),
-                              padding: const EdgeInsets.symmetric(vertical: 12.0),
-                            ),
-                            child: const Text(
-                              'Bayar',
-                              style: TextStyle(
-                                color: Color(0xff0A2B4E),
-                                fontSize: 16,
-                                fontWeight: FontWeight.w900,
+                              Text(
+                                '${formatCurrency(item.price.toInt())}',
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  color: Color(0xff36454F),
+                                ),
                               ),
-                            ),
+                            ],
                           ),
+                        );
+                      }).toList(),
+                    );
+                  },
+                ),
+                const SizedBox(height: 16.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: _buyItem,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xffAAD4FF),
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 12.0),
+                      ),
+                      child: const Text(
+                        'Bayar',
+                        style: TextStyle(
+                          color: Color(0xff0A2B4E),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w900,
                         ),
                       ),
-                      const SizedBox(height: 16.0),
-                    ],
+                    ),
                   ),
                 ),
+                const SizedBox(height: 16.0),
               ],
             ),
           ),

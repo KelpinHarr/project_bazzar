@@ -76,21 +76,6 @@ class NavBarStand extends StatelessWidget {
           ),
           ListTile(
             title: const Text(
-              'Riwayat transaksi',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Color(0xff0A2B4E),
-              ),
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => RiwayatTransaksi(name: name,)),
-              );
-            },
-          ),
-          ListTile(
-            title: const Text(
               'Daftar barang',
               textAlign: TextAlign.center,
               style: TextStyle(
