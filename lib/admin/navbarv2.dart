@@ -63,7 +63,8 @@ class NavbarAdminv2 extends StatelessWidget {
       endDrawer: Builder(
         builder: (context) => Drawer(
             backgroundColor: const Color(0xffF0F0E8),
-            child: Column(
+            child: SingleChildScrollView(
+              child: Column(
               children: [
                 Container(
                   margin: const EdgeInsets.symmetric(vertical: 16),
@@ -173,6 +174,7 @@ class NavbarAdminv2 extends StatelessWidget {
                 ),
               ],
             )
+            ),
         ),
       ),
     );

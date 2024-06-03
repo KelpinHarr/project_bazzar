@@ -18,114 +18,116 @@ class NavBarAdmin extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       backgroundColor: const Color(0xffF0F0E8),
-      child: Column(
-        children: [
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 16),
-            decoration: BoxDecoration(
-              color: const Color(0xff0A2B4E),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 75),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  'assets/Profile.png',
-                  height: 60,
-                  width: 60,
-                  fit: BoxFit.contain,
-                ),
-                const Text(
-                  'Admin',
-                  style: TextStyle(
-                    color: Color(0xffAAD4FF),
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 16),
+              decoration: BoxDecoration(
+                color: const Color(0xff0A2B4E),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 75),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/Profile.png',
+                    height: 60,
+                    width: 60,
+                    fit: BoxFit.contain,
                   ),
-                ),
-              ],
-            ),
-          ),
-          ListTile(
-            title: const Text(
-              'Home',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Color(0xff0A2B4E),
-              ),
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const HomeAdmin()),
-              );
-            },
-          ),
-          ListTile(
-            title: const Text(
-              'Cek saldo',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Color(0xff0A2B4E),
-              ),
-            ),
-            onTap: () async {
-              await initializeCamera();
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const QrCekSaldo()),
-              );
-            },
-          ),
-          ListTile(
-            title: const Text(
-              'Top up',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Color(0xff0A2B4E),
-              ),
-            ),
-            onTap: () async {
-              await initializeCamera();
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const QrTopUp()),
-              );
-            },
-          ),
-          const Spacer(),
-          Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Login()),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
-                    elevation: 5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
+                  const Text(
+                    'Admin',
+                    style: TextStyle(
+                      color: Color(0xffAAD4FF),
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
                     ),
-                    padding: const EdgeInsets.symmetric(vertical: 16.0)
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              title: const Text(
+                'Home',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xff0A2B4E),
                 ),
-                child: const Text(
-                  'Keluar',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeAdmin()),
+                );
+              },
+            ),
+            ListTile(
+              title: const Text(
+                'Cek saldo',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Color(0xff0A2B4E),
+                ),
+              ),
+              onTap: () async {
+                await initializeCamera();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const QrCekSaldo()),
+                );
+              },
+            ),
+            ListTile(
+              title: const Text(
+                'Top up',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Color(0xff0A2B4E),
+                ),
+              ),
+              onTap: () async {
+                await initializeCamera();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const QrTopUp()),
+                );
+              },
+            ),
+            const Spacer(),
+            Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Login()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 16.0)
+                  ),
+                  child: const Text(
+                    'Keluar',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

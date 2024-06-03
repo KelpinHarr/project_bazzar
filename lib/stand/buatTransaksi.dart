@@ -125,7 +125,7 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                             builder: (context, constraints) {
                             final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
                             return SizedBox(
-                              width: isLandscape ? double.infinity : null,
+                              width: isLandscape ? double.infinity : double.infinity,
                               child: DataTable(
                               columnSpacing: 16.0,
                               columns: const [
