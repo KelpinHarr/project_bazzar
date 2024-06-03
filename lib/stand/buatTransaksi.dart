@@ -100,6 +100,9 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
     int totalQty = transactions
         .expand((transaction) => transaction.items)
         .fold(0, (sum, item) => sum + item.quantity);
+
+    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+
     return NavbarStandv2(
       name: widget.name,
       key: GlobalKey(),
@@ -117,140 +120,130 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                   if (_showDataTable)
                     Center(
                       child: transactions.isEmpty
-                          ? Container() // Jika kosong, tampilkan container kosong
-                          : Flexible(
-                        child: DataTable(
-                          columnSpacing: 16.0,
-                          columns: const [
-                            DataColumn(
-                              label: Text(
-                                'Nama',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            DataColumn(
-                              label: Text(
-                                'Qty',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            // DataColumn(
-                            //   label: Text(
-                            //     'Harga',
-                            //     style: TextStyle(
-                            //       fontWeight: FontWeight.bold,
-                            //     ),
-                            //   ),
-                            // ),
-                            DataColumn(
-                              label: Text(
-                                'Total',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            DataColumn(
-                              label: Text(
-                                '',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
-                          rows: [
-                            ...transactions.asMap().entries.map((entry) {
-                              final item = transactions[entry.key].items[0];
-                              final truncatedName = item.name.length > 20
-                                  ? item.name.substring(0, 20) + '...'
-                                  : item.name;
-
-                              return DataRow(
-                                cells: [
-                                  DataCell(
-                                    ConstrainedBox(
-                                      constraints: BoxConstraints(
-                                        maxWidth: 150,
-                                      ),
-                                      child: Text(
-                                        truncatedName,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Color(0xff36454F),
-                                        ),
-                                      ),
+                          ? Container()
+                          : LayoutBuilder(
+                            builder: (context, constraints) {
+                            final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+                            return SizedBox(
+                              width: isLandscape ? double.infinity : null,
+                              child: DataTable(
+                              columnSpacing: 16.0,
+                              columns: const [
+                                DataColumn(
+                                  label: Text(
+                                    'Nama',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  DataCell(
-                                    Text(item.quantity.toString()),
-                                  ),
-                                  // DataCell(
-                                  //   Text(
-                                  //     formatCurrency(item.price.toInt()),
-                                  //   ),
-                                  // ),
-                                  DataCell(
-                                    Text(
-                                      formatCurrency(item.price.toInt() * item.quantity),
+                                ),
+                                DataColumn(
+                                  label: Text(
+                                    'Qty',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  DataCell(
-                                    IconButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          transactions.removeAt(entry.key);
-                                        });
-                                      },
-                                      icon: const Icon(Icons.delete),
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                ],
-                              );
-                            }).toList(),
-                            DataRow(
-                              cells: [
-                                const DataCell(
-                                  Text(
+                                ),
+                                DataColumn(
+                                  label: Text(
                                     'Total',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
-                                // const DataCell(
-                                //   Text(''),
-                                // ),
-                                DataCell(
-                                  Text(
-                                    totalQty.toString(),
-                                    style: const TextStyle(
+                                DataColumn(
+                                  label: Text(
+                                    '',
+                                    style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
-                                DataCell(
-                                  Text(
-                                    formatCurrency(totalHarga.toInt()),
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
+                              ],
+                              rows: [
+                                ...transactions.asMap().entries.map((entry) {
+                                  final item = transactions[entry.key].items[0];
+                                  final truncatedName = !isLandscape && item.name.length > 20
+                                      ? item.name.substring(0, 20) + '...'
+                                      : item.name;
+
+                                  return DataRow(
+                                    cells: [
+                                      DataCell(
+                                        ConstrainedBox(
+                                          constraints: BoxConstraints(
+                                            maxWidth: isLandscape ? double.infinity : 150,
+                                          ),
+                                          child: Text(
+                                            truncatedName,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              color: Color(0xff36454F),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      DataCell(
+                                        Text(item.quantity.toString()),
+                                      ),
+                                      DataCell(
+                                        Text(
+                                          formatCurrency(item.price.toInt() * item.quantity),
+                                        ),
+                                      ),
+                                      DataCell(
+                                        IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              transactions.removeAt(entry.key);
+                                            });
+                                          },
+                                          icon: const Icon(Icons.delete),
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                }).toList(),
+                                DataRow(
+                                  cells: [
+                                    const DataCell(
+                                      Text(
+                                        'Total',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                const DataCell(
-                                  Text(''),
+                                    DataCell(
+                                      Text(
+                                        totalQty.toString(),
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                    DataCell(
+                                      Text(
+                                        formatCurrency(totalHarga.toInt()),
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                    const DataCell(
+                                      Text(''),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                          ],
-                        ),
+                          );
+                        },
                       ),
                     ),
 
