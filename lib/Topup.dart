@@ -4,7 +4,7 @@ class Topup extends StatelessWidget {
   final String id;
   final DateTime date;
   final String buyer;
-  final double totalAmount;
+  final int totalAmount;
 
   const Topup({super.key,
     required this.id,

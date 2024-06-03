@@ -13,10 +13,36 @@ class HomeAdmin extends StatefulWidget {
 
 class _HomeAdminState extends State<HomeAdmin>{
   late Future<int> _balance;
+  Future<List<Topup>>? _futureTopup;
 
   void initState() {
     super.initState();
     _balance = _getUserBalance();
+    _futureTopup = _getTopup();
+  }
+
+  Future<List<Topup>> _getTopup() async {
+    List<Topup> topups = [];
+    try {
+      final firestore = FirebaseFirestore.instance;
+      final itemTopup = await firestore.collection('topup').get();
+      if (itemTopup.docs.isNotEmpty) {
+        for (var doc in itemTopup.docs) {
+          final data = doc.data();
+          final topup = Topup(
+            id: doc.id,
+            buyer: data['user_name'],
+            totalAmount: data['totalAmount'],
+            date: (data['date'] as Timestamp).toDate(),
+          );
+          topups.add(topup);
+        }
+      }
+    } 
+    catch(e){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error : $e")));
+    }
+    return topups;
   }
 
   Future<int> _getUserBalance() async {
@@ -139,23 +165,77 @@ class _HomeAdminState extends State<HomeAdmin>{
             ),
             Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Topup(
-                    id: 'T239423122',
-                    buyer: 'Kenny',
-                    totalAmount: 100000,
-                    date: DateTime(2024, 4, 24, 11, 11, 23),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Topup(
-                    id: 'T112123312',
-                    buyer: 'Felicia',
-                    totalAmount: 100000,
-                    date: DateTime(2024, 4, 24, 11, 11, 23),
-                  ),
+                FutureBuilder<List<Topup>>(
+                  future: _futureTopup,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return const Center(child: Text('No top-up transactions found'));
+                    }
+                    final topups = snapshot.data!;
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: topups.length,
+                      itemBuilder: (context, index) {
+                        final topup = topups[index];
+                        return Card(
+                          elevation: 5.0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      topup.buyer,
+                                      style: const TextStyle(
+                                        fontSize: 18.0,
+                                        color: Color(0xff0A2B4E),
+                                        fontWeight: FontWeight.w900,
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 8.0),
+                                      child: Text(
+                                        formatCurrency(topup.totalAmount),
+                                        style: const TextStyle(
+                                          fontSize: 16.0,
+                                          color: Color(0xff0A2B4E),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 4.0),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      '${topup.date.day} ${_getMonthName(topup.date.month)} ${topup.date.year}, ${_getTimeString(topup.date.hour, topup.date.minute)}',
+                                      style: const TextStyle(
+                                        fontSize: 14.0,
+                                        color: Color(0xff0A2B4E),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
                 ),
               ],
             ),
@@ -164,4 +244,40 @@ class _HomeAdminState extends State<HomeAdmin>{
       ),
     );
   }
+  String _getMonthName(int month) {
+    switch (month) {
+      case 1:
+        return 'Januari';
+      case 2:
+        return 'Februari';
+      case 3:
+        return 'Maret';
+      case 4:
+        return 'April';
+      case 5:
+        return 'Mei';
+      case 6:
+        return 'Juni';
+      case 7:
+        return 'Juli';
+      case 8:
+        return 'Agustus';
+      case 9:
+        return 'September';
+      case 10:
+        return 'Oktober';
+      case 11:
+        return 'November';
+      case 12:
+        return 'Desember';
+      default:
+        return '';
+    }
+  }
+
+  String _getTimeString(int hour, int minute) {
+    String hourString = hour.toString().padLeft(2, '0');
+    String minuteString = minute.toString().padLeft(2, '0');
+    return '$hourString:$minuteString';
+  }  
 }

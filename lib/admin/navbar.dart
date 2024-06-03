@@ -18,7 +18,6 @@ class NavBarAdmin extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       backgroundColor: const Color(0xffF0F0E8),
-      child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
@@ -128,7 +127,6 @@ class NavBarAdmin extends StatelessWidget {
             ),
           ],
         ),
-      ),
     );
   }
 }

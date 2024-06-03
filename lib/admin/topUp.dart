@@ -78,6 +78,21 @@ class _TopUpState extends State<TopUp> {
         });
       }
 
+      final topupRef = await firestore.collection('topup').add({
+        'user_name' : name,
+        'date' : FieldValue.serverTimestamp(),
+        'totalAmount' : topUpAmount
+      });
+
+      final adminSnapshot = await firestore
+          .collection('users')
+          .where('role', isEqualTo: 'admin')
+          .get();
+          
+      if (adminSnapshot.docs.isNotEmpty){
+
+      }
+
       _nominalTopUpController.clear();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Top up berhasil!'))
@@ -209,12 +224,12 @@ class _TopUpState extends State<TopUp> {
                         }
                         final double amount =
                             double.tryParse(_nominalTopUpController.text) ?? 0;
-                        if (amount <= 0) {
-                          setState(() {
-                            _errorText = 'Nominal top up harus lebih dari 0';
-                          });
-                          return;
-                        }
+                        // if (amount <= 0) {
+                        //   setState(() {
+                        //     _errorText = 'Nominal top up harus lebih dari 0';
+                        //   });
+                        //   return;
+                        // }
                         topUpSaldo();
                       },
                       style: ElevatedButton.styleFrom(
