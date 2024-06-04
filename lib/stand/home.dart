@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:project_bazzar/Transaction.dart';
 import 'package:project_bazzar/currencyUtils.dart';
 import 'package:project_bazzar/stand/detailTransaksi.dart';
@@ -54,6 +53,7 @@ class _HomeStandState extends State<HomeStand> {
       final itemTransaction = await firestore
           .collection('transactions')
           .where('stand', isEqualTo: widget.name)
+          .orderBy('date', descending: true)
           .get();
       if (itemTransaction.docs.isNotEmpty) {
         for (var trans in itemTransaction.docs) {
@@ -225,7 +225,7 @@ class _HomeStandState extends State<HomeStand> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      transaction.id,
+                                      '${transaction.date.day} ${_getMonthName(transaction.date.month)} ${transaction.date.year}, ${_getTimeString(transaction.date.hour, transaction.date.minute, transaction.date.second)}',
                                       style: const TextStyle(
                                         fontSize: 16.0,
                                         color: Color(0xff0A2B4E),
@@ -250,7 +250,7 @@ class _HomeStandState extends State<HomeStand> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      '${transaction.date.day} ${_getMonthName(transaction.date.month)} ${transaction.date.year}, ${_getTimeString(transaction.date.hour, transaction.date.minute, transaction.date.second)}',
+                                      transaction.buyerId,
                                       style: const TextStyle(
                                         fontSize: 14.0,
                                         color: Color(0xff0A2B4E),
