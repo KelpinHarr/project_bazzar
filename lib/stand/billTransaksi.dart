@@ -79,7 +79,7 @@ class BillTransaksi extends StatelessWidget {
             alignment: Alignment.centerRight,
             child: Text(
               label,
-              style: TextStyle(fontSize: 16.0),
+              style: TextStyle(fontSize: 20.0),
             ),
           ),
         ),
@@ -88,7 +88,7 @@ class BillTransaksi extends StatelessWidget {
           child: Text(
             value,
             style: TextStyle(
-              fontSize: 16.0,
+              fontSize: 20.0,
               fontWeight: FontWeight.bold,
               color: textColor,
             ),

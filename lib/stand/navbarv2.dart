@@ -3,7 +3,6 @@ import 'package:project_bazzar/login.dart';
 import 'package:project_bazzar/stand/buatTransaksi.dart';
 import 'package:project_bazzar/stand/daftarBarang.dart';
 import 'package:project_bazzar/stand/home.dart';
-import 'package:project_bazzar/stand/riwayatTransaksi.dart';
 import 'package:project_bazzar/stand/tambahBarang.dart';
 
 class NavbarStandv2 extends StatelessWidget {
@@ -56,7 +55,7 @@ class NavbarStandv2 extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () async {
-            if (activePage == 'Detil transaksi') {
+            if (activePage == 'Detil transaksi' || activePage == 'Bayar transaksi') {
               Navigator.pop(context);
             } else {
               try {

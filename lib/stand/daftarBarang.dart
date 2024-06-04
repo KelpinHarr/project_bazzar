@@ -115,7 +115,7 @@ class _DaftarBarangState extends State<DaftarBarang> {
                                   Text(
                                     namaBarang,
                                     style: TextStyle(
-                                      fontSize: 18.0,
+                                      fontSize: 24.0,
                                       fontWeight: FontWeight.bold,
                                       color: Color(0xff0A2B4E),
                                     ),
@@ -126,7 +126,7 @@ class _DaftarBarangState extends State<DaftarBarang> {
                                   Text(
                                     formatCurrency(barang['harga']),
                                     style: TextStyle(
-                                      fontSize: 16.0,
+                                      fontSize: 22.0,
                                       fontWeight: FontWeight.w600,
                                       color: Color(0xff0A2B4E),
                                     ),

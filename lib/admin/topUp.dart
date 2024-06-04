@@ -127,7 +127,7 @@ class _TopUpState extends State<TopUp> {
                     Text(
                       'Nama:',
                       style: TextStyle(
-                        fontSize: 18.0,
+                        fontSize: 24.0,
                         color: Colors.black54,
                       ),
                     ),
@@ -135,7 +135,7 @@ class _TopUpState extends State<TopUp> {
                     Text(
                       name,
                       style: TextStyle(
-                        fontSize: 18.0,
+                        fontSize: 24.0,
                         fontWeight: FontWeight.bold,
                         color: Color(0xff0A2B4E)
                       ),
@@ -148,7 +148,7 @@ class _TopUpState extends State<TopUp> {
                     Text(
                       'Saldo:',
                       style: TextStyle(
-                        fontSize: 18.0,
+                        fontSize: 24.0,
                         color: Colors.black54,
                       ),
                     ),
@@ -167,7 +167,7 @@ class _TopUpState extends State<TopUp> {
                               return const Text(
                                   'Rp0',
                                   style: TextStyle(
-                                      fontSize: 18.0,
+                                      fontSize: 24.0,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.green,
                                   ),
@@ -177,7 +177,7 @@ class _TopUpState extends State<TopUp> {
                               return Text(
                                   formatCurrency(balance),
                                   style: const TextStyle(
-                                      fontSize: 18.0,
+                                      fontSize: 24.0,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.green,
                                   ),
@@ -212,7 +212,7 @@ class _TopUpState extends State<TopUp> {
                   _errorText,
                   style: const TextStyle(
                     color: Colors.red,
-                    fontSize: 14,
+                    fontSize: 18,
                   ),
                 ),
                 const SizedBox(height: 24.0),
@@ -248,7 +248,7 @@ class _TopUpState extends State<TopUp> {
                         'Top up',
                         style: TextStyle(
                             color: Color(0xff0A2B4E),
-                            fontSize: 16,
+                            fontSize: 18,
                             fontWeight: FontWeight.w900),
                       ),
                     ),

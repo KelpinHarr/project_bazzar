@@ -29,7 +29,7 @@ class Topup extends StatelessWidget {
                 Text(
                   buyer,
                   style: const TextStyle(
-                      fontSize: 18.0,
+                      fontSize: 22.0,
                       color: Color(0xff0A2B4E),
                       fontWeight: FontWeight.w900
                   ),
@@ -40,7 +40,7 @@ class Topup extends StatelessWidget {
                   child: Text(
                     'Rp$totalAmount',
                     style: const TextStyle(
-                        fontSize: 16.0,
+                        fontSize: 20.0,
                         color: Colors.green,
                         fontWeight: FontWeight.w600
                     ),
@@ -54,9 +54,9 @@ class Topup extends StatelessWidget {
               children: [
                 // Date and Time
                 Text(
-                  '${date.day} ${_getMonthName(date.month)} ${date.year}, ${_formatTime(date.hour, date.minute)}',
+                  '${date.day} ${_getMonthName(date.month)} ${date.year}, ${_formatTime(date.hour, date.minute, date.second)}',
                   style: const TextStyle(
-                      fontSize: 14.0,
+                      fontSize: 18.0,
                       color: Color(0xff0A2B4E)
                   ),
                 ),
@@ -99,9 +99,10 @@ class Topup extends StatelessWidget {
     }
   }
 
-  String _formatTime(int hour, int minute) {
+  String _formatTime(int hour, int minute, int second) {
     String formattedHour = hour.toString().padLeft(2, '0');
     String formattedMinute = minute.toString().padLeft(2, '0');
+    String formattedSecond = second.toString().padLeft(2, '0');
     return '$formattedHour:$formattedMinute';
   }
 }

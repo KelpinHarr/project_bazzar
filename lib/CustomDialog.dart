@@ -31,7 +31,7 @@ class CustomDialog extends StatelessWidget {
               Center(child: icon),
               const SizedBox(height: 16.0), // Add spacing between icon and text
               Center(
-                child: Text(title, style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
+                child: Text(title, style: const TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold)),
               ),
               const SizedBox(height: 16.0),
               TextButton(
@@ -42,7 +42,7 @@ class CustomDialog extends StatelessWidget {
                     RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
                   ),
                 ),
-                child: Text(actionText, style: const TextStyle(color: Colors.green)),
+                child: Text(actionText, style: const TextStyle(color: Colors.green, fontSize: 16.0)),
               ),
             ],
           ),

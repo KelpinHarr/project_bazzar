@@ -165,7 +165,7 @@ class NavbarAdminv2 extends StatelessWidget {
                         'Keluar',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 16,
+                          fontSize: 18,
                         ),
                       ),
                     ),

@@ -135,7 +135,7 @@ class _EditBarangState extends State<EditBarang> {
                         "Qty: $_qty",
                         style: const TextStyle(
                             color: Color(0xff0A2B4E),
-                            fontSize: 16.0
+                            fontSize: 24.0
                         )
                     )
                         :
@@ -233,7 +233,7 @@ class _EditBarangState extends State<EditBarang> {
                         'Edit',
                         style: TextStyle(
                             color: Color(0xff0A2B4E),
-                            fontSize: 16,
+                            fontSize: 24,
                             fontWeight: FontWeight.w900
                         ),
                       ),

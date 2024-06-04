@@ -163,7 +163,7 @@ class _PageBayarState extends State<PageBayar> {
                 Text(
                   'Stand: ${widget.stand_name}',
                   style: const TextStyle(
-                    fontSize: 20,
+                    fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: Color(0xff0A2B4E),
                   ),
@@ -175,7 +175,7 @@ class _PageBayarState extends State<PageBayar> {
                       TextSpan(
                         text: 'Total: ',
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 24,
                           fontWeight: FontWeight.bold,
                           color: Color(0xff0A2B4E),
                         ),
@@ -183,7 +183,7 @@ class _PageBayarState extends State<PageBayar> {
                       TextSpan(
                         text: '${widget.totalHarga != null ? formatCurrency(widget.totalHarga!.toInt()) : 'N/A'}',
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 24,
                           fontWeight: FontWeight.bold,
                           color: widget.totalHarga != null ? Colors.green : Colors.red, // Menetapkan warna hijau jika totalHarga tidak null
                         ),
@@ -209,14 +209,14 @@ class _PageBayarState extends State<PageBayar> {
                               Text(
                                 '${item.name} x${item.quantity}',
                                 style: const TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 20,
                                   color: Color(0xff36454F),
                                 ),
                               ),
                               Text(
                                 '${formatCurrency(item.price.toInt())}',
                                 style: const TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 20,
                                   color: Color(0xff36454F),
                                 ),
                               ),
@@ -246,7 +246,7 @@ class _PageBayarState extends State<PageBayar> {
                         'Bayar',
                         style: TextStyle(
                           color: Color(0xff0A2B4E),
-                          fontSize: 16,
+                          fontSize: 18,
                           fontWeight: FontWeight.w900,
                         ),
                       ),

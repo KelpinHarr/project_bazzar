@@ -32,7 +32,7 @@ class ConfirmDialog extends StatelessWidget {
             Text(
               title,
               style: const TextStyle(
-                fontSize: 18.0,
+                fontSize: 22.0,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
@@ -41,7 +41,7 @@ class ConfirmDialog extends StatelessWidget {
             Text(
               message,
               textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.white70),
+              style: const TextStyle(color: Colors.white70, fontSize: 18.0,),
             ),
             const SizedBox(height: 16.0),
             Row(
@@ -49,7 +49,7 @@ class ConfirmDialog extends StatelessWidget {
               children: [
                 ElevatedButton(
                   onPressed: onDeletePressed,
-                  child: Text(mode, style: TextStyle(color: Colors.white)),
+                  child: Text(mode, style: TextStyle(color: Colors.white, fontSize: 16.0)),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
                     shape: RoundedRectangleBorder(
@@ -60,7 +60,7 @@ class ConfirmDialog extends StatelessWidget {
                 const SizedBox(width: 16.0),
                 TextButton(
                   onPressed: onCancelPressed,
-                  child: const Text("Kembali", style: TextStyle(color: Colors.white70)),
+                  child: const Text("Kembali", style: TextStyle(color: Colors.white70, fontSize: 16.0)),
                 ),
               ],
             ),

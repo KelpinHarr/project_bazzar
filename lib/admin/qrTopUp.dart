@@ -55,7 +55,7 @@ class _QrTopUpState extends State<QrTopUp> {
             child: Center(
               child: Text(
                 'Scan a code',
-                style: TextStyle(color: Colors.white, fontSize: 18),
+                style: TextStyle(color: Colors.white, fontSize: 24),
               ),
             ),
           ),

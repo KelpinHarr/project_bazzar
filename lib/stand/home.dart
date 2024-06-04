@@ -142,7 +142,7 @@ class _HomeStandState extends State<HomeStand> {
                 children: [
                   Text(
                     'Pendapatan hari ini',
-                    style: TextStyle(fontSize: 18.0),
+                    style: TextStyle(fontSize: 22.0),
                   ),
                   SizedBox(height: 8.0),
                   FutureBuilder<int>(
@@ -159,7 +159,7 @@ class _HomeStandState extends State<HomeStand> {
                         return const Text(
                           'Rp0',
                           style: TextStyle(
-                            fontSize: 24.0,
+                            fontSize: 28.0,
                             fontWeight: FontWeight.bold,
                             color: Colors.green,
                           ),
@@ -186,7 +186,7 @@ class _HomeStandState extends State<HomeStand> {
               child: Text(
                 'Laporan Penjualan',
                 style: TextStyle(
-                  fontSize: 22.0,
+                  fontSize: 24.0,
                   fontWeight: FontWeight.w900,
                   color: Color(0xff0A2B4E),
                 ),
@@ -227,7 +227,7 @@ class _HomeStandState extends State<HomeStand> {
                                     Text(
                                       '${transaction.date.day} ${_getMonthName(transaction.date.month)} ${transaction.date.year}, ${_getTimeString(transaction.date.hour, transaction.date.minute, transaction.date.second)}',
                                       style: const TextStyle(
-                                        fontSize: 16.0,
+                                        fontSize: 20.0,
                                         color: Color(0xff0A2B4E),
                                         fontWeight: FontWeight.w900,
                                       ),
@@ -238,7 +238,7 @@ class _HomeStandState extends State<HomeStand> {
                                       child: Text(
                                         formatCurrency(transaction.totalAmount.toInt()),
                                         style: const TextStyle(
-                                          fontSize: 14.0,
+                                          fontSize: 18.0,
                                           color: Color(0xff0A2B4E),
                                         ),
                                       ),
@@ -252,7 +252,7 @@ class _HomeStandState extends State<HomeStand> {
                                     Text(
                                       transaction.buyerId,
                                       style: const TextStyle(
-                                        fontSize: 14.0,
+                                        fontSize: 18.0,
                                         color: Color(0xff0A2B4E),
                                       ),
                                     ),
@@ -272,7 +272,7 @@ class _HomeStandState extends State<HomeStand> {
                                         'Lihat detail >',
                                         style: TextStyle(
                                           color: Color(0xff0A2B4E),
-                                          fontSize: 14.0,
+                                          fontSize: 18.0,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),

@@ -79,14 +79,14 @@ class _CekSaldoState extends State<CekSaldo> {
                     const Text(
                       'Nama: ',
                       style: TextStyle(
-                        fontSize: 18.0,
+                        fontSize: 28.0,
                         color: Colors.black54,
                       ),
                     ),
                     Text(
                       name,
                       style: const TextStyle(
-                        fontSize: 18.0,
+                        fontSize: 28.0,
                         fontWeight: FontWeight.bold,
                         color: Color(0xff0A2B4E),
                       ),
@@ -100,7 +100,7 @@ class _CekSaldoState extends State<CekSaldo> {
                     const Text(
                       'Saldo: ',
                       style: TextStyle(
-                        fontSize: 18.0,
+                        fontSize: 28.0,
                         color: Colors.black54,
                       ),
                     ),
@@ -118,7 +118,7 @@ class _CekSaldoState extends State<CekSaldo> {
                               return const Text(
                                   'Rp0',
                                   style: TextStyle(
-                                      fontSize: 18.0,
+                                      fontSize: 28.0,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.green,
                                   ),
@@ -128,7 +128,7 @@ class _CekSaldoState extends State<CekSaldo> {
                               return Text(
                                   formatCurrency(balance),
                                   style: const TextStyle(
-                                      fontSize: 18.0,
+                                      fontSize: 28.0,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.green,
                                   ),
@@ -161,7 +161,7 @@ class _CekSaldoState extends State<CekSaldo> {
                     'Kembali',
                     style: TextStyle(
                       color: Color(0xff0A2B4E),
-                      fontSize: 16,
+                      fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

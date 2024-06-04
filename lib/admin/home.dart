@@ -110,7 +110,7 @@ class _HomeAdminState extends State<HomeAdmin>{
                 children: [
                   Text(
                     'Pendapatan hari ini',
-                    style: TextStyle(fontSize: 18.0),
+                    style: TextStyle(fontSize: 22.0),
                   ),
                   SizedBox(height: 8.0),
                   FutureBuilder<int>(
@@ -127,7 +127,7 @@ class _HomeAdminState extends State<HomeAdmin>{
                         return const Text(
                           'Rp0',
                           style: TextStyle(
-                            fontSize: 24.0,
+                            fontSize: 28.0,
                             fontWeight: FontWeight.bold,
                             color: Colors.green,
                           ),
@@ -137,7 +137,7 @@ class _HomeAdminState extends State<HomeAdmin>{
                         return Text(
                           formatCurrency(balance),
                           style: const TextStyle(
-                            fontSize: 24.0,
+                            fontSize: 28.0,
                             fontWeight: FontWeight.bold,
                             color: Colors.green,
                           ),
@@ -157,7 +157,7 @@ class _HomeAdminState extends State<HomeAdmin>{
               child: Text(
                 'Daftar Transaksi Top Up',
                 style: TextStyle(
-                  fontSize: 20.0,
+                  fontSize: 22.0,
                   fontWeight: FontWeight.w900,
                   color: Color(0xff0A2B4E),
                 ),
@@ -198,7 +198,7 @@ class _HomeAdminState extends State<HomeAdmin>{
                                     Text(
                                       topup.buyer,
                                       style: const TextStyle(
-                                        fontSize: 18.0,
+                                        fontSize: 20.0,
                                         color: Color(0xff0A2B4E),
                                         fontWeight: FontWeight.w900,
                                       ),
@@ -209,7 +209,7 @@ class _HomeAdminState extends State<HomeAdmin>{
                                       child: Text(
                                         formatCurrency(topup.totalAmount),
                                         style: const TextStyle(
-                                          fontSize: 16.0,
+                                          fontSize: 18.0,
                                           color: Color(0xff0A2B4E),
                                         ),
                                       ),
@@ -221,9 +221,9 @@ class _HomeAdminState extends State<HomeAdmin>{
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      '${topup.date.day} ${_getMonthName(topup.date.month)} ${topup.date.year}, ${_getTimeString(topup.date.hour, topup.date.minute)}',
+                                      '${topup.date.day} ${_getMonthName(topup.date.month)} ${topup.date.year}, ${_getTimeString(topup.date.hour, topup.date.minute, topup.date.second)}',
                                       style: const TextStyle(
-                                        fontSize: 14.0,
+                                        fontSize: 16.0,
                                         color: Color(0xff0A2B4E),
                                       ),
                                     ),
@@ -275,9 +275,10 @@ class _HomeAdminState extends State<HomeAdmin>{
     }
   }
 
-  String _getTimeString(int hour, int minute) {
+  String _getTimeString(int hour, int minute, int second) {
     String hourString = hour.toString().padLeft(2, '0');
     String minuteString = minute.toString().padLeft(2, '0');
-    return '$hourString:$minuteString';
-  }  
+    String secondString = second.toString().padLeft(2, '0');
+    return '$hourString:$minuteString:$secondString';
+  }
 }

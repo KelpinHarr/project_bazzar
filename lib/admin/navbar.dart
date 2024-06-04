@@ -119,7 +119,7 @@ class NavBarAdmin extends StatelessWidget {
                     'Keluar',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 16,
+                      fontSize: 18,
                     ),
                   ),
                 ),

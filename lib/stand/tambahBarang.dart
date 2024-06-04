@@ -63,7 +63,7 @@ class _TambahBarangState extends State<TambahBarang>
                       borderSide: BorderSide(color: Color(0xff0A2B4E)),
                     ),
                     labelStyle: TextStyle(
-                      color: Color(0xff0A2B4E),
+                      color: Color(0xff0A2B4E), fontSize: 20.0
                     ),
                   ),
                   validator: (value) {
@@ -72,7 +72,7 @@ class _TambahBarangState extends State<TambahBarang>
                     }
                     try {
                       int.parse(value);
-                      return null; // Valid number
+                      return null;
                     } catch (e) {
                       return 'Harga barang harus berupa angka';
                     }
@@ -85,7 +85,7 @@ class _TambahBarangState extends State<TambahBarang>
                     _qty > 0
                         ? Text("Qty: $_qty",
                             style: const TextStyle(
-                                color: Color(0xff0A2B4E), fontSize: 16.0))
+                                color: Color(0xff0A2B4E), fontSize: 20.0))
                         :
                         // Button add qty
                         TextButton(
@@ -219,7 +219,7 @@ class _TambahBarangState extends State<TambahBarang>
                         'Tambah barang',
                         style: TextStyle(
                             color: Color(0xff0A2B4E),
-                            fontSize: 16,
+                            fontSize: 18,
                             fontWeight: FontWeight.w900),
                       ),
                     ),

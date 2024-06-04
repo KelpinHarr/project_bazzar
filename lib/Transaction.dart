@@ -86,7 +86,7 @@ class Transactions extends StatelessWidget {
                 Text(
                   id,
                   style: const TextStyle(
-                      fontSize: 18.0,
+                      fontSize: 22.0,
                       color: Color(0xff0A2B4E),
                       fontWeight: FontWeight.w900),
                 ),
@@ -98,7 +98,7 @@ class Transactions extends StatelessWidget {
                   child: Text(
                     'Rp$totalAmount',
                     style: const TextStyle(
-                        fontSize: 16.0,
+                        fontSize: 20.0,
                         color: Colors.green,
                         fontWeight: FontWeight.w600),
                   ),
@@ -113,7 +113,7 @@ class Transactions extends StatelessWidget {
                 Text(
                   '${date.day} ${_getMonthName(date.month)} ${date.year}, ${_formatTime(date.hour, date.minute)}',
                   style: const TextStyle(
-                      fontSize: 14.0, color: const Color(0xff0A2B4E)),
+                      fontSize: 18.0, color: const Color(0xff0A2B4E)),
                 ),
 
                 TextButton(
@@ -140,8 +140,9 @@ class Transactions extends StatelessWidget {
                     'Lihat detail >',
                     style: TextStyle(
                         color: Color(0xff0A2B4E),
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold),
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold
+                    ),
                   ),
                 ),
               ],

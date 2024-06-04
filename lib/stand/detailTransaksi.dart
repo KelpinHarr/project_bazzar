@@ -51,15 +51,7 @@ class DetailTransaksi extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 16.0),
-
-                // Items List with Heading
-                // Text(
-                //   '',
-                //   style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, color: Color(0xff0A2B4E)),
-                // ),
-                const SizedBox(height: 8.0),
-
+                const SizedBox(height: 24.0),
                 BillTransaksi(transaction: transaction),
               ],
             ),
@@ -120,14 +112,14 @@ class DetailTransaksi extends StatelessWidget {
       children: [
         Text(
           label,
-          style: const TextStyle(fontSize: 16.0, color: Color(0xff0A2B4E)),
+          style: const TextStyle(fontSize: 20.0, color: Color(0xff0A2B4E)),
         ),
         const SizedBox(width: 8.0),
         Expanded(
           child: Text(
             value,
             style: TextStyle(
-                fontSize: 16.0, color: textColor, fontWeight: FontWeight.w900),
+                fontSize: 20.0, color: textColor, fontWeight: FontWeight.w900),
           ),
         ),
       ],

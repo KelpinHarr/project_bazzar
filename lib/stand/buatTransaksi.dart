@@ -174,14 +174,14 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                                       DataCell(
                                         ConstrainedBox(
                                           constraints: BoxConstraints(
-                                            maxWidth: isLandscape ? double.infinity : 150,
+                                            maxWidth: isLandscape ? double.infinity : 120,
                                           ),
                                           child: Text(
                                             truncatedName,
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
-                                              fontSize: 16,
+                                              fontSize: 20,
                                               color: Color(0xff36454F),
                                             ),
                                           ),
@@ -271,7 +271,7 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                             dropdownDecoratorProps: const DropDownDecoratorProps(
                               dropdownSearchDecoration: InputDecoration(
                                 labelText: "Nama barang",
-                                labelStyle: TextStyle(fontSize: 20.0),
+                                labelStyle: TextStyle(fontSize: 24.0),
                               ),
                             ),
                             onChanged: (value) {
@@ -289,7 +289,7 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                                 "Qty: ",
                                 style: const TextStyle(
                                   color: Color(0xff0A2B4E),
-                                  fontSize: 18.0,
+                                  fontSize: 24.0,
                                 ),
                               ),
                               Row(
@@ -392,7 +392,7 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                                     'Tambah',
                                     style: TextStyle(
                                       color: Color(0xffAAD4FF),
-                                      fontSize: 16,
+                                      fontSize: 18,
                                       fontWeight: FontWeight.w900,
                                     ),
                                   ),
@@ -428,7 +428,7 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                           Text(
                               "Tambah barang",
                             style: TextStyle(
-                              fontSize: 16.0,
+                              fontSize: 18.0,
                               color: Color(0xff0A2B4E),
                             ),
                           ),
@@ -488,7 +488,7 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                           'Bayar',
                           style: TextStyle(
                             color: Color(0xff0A2B4E),
-                            fontSize: 16,
+                            fontSize: 18,
                             fontWeight: FontWeight.w900,
                           ),
                         ),
@@ -539,7 +539,7 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                           'Batalkan transaksi',
                           style: TextStyle(
                               color: Colors.white,
-                              fontSize: 16,
+                              fontSize: 18,
                               fontWeight: FontWeight.w900),
                         ),
                       ),

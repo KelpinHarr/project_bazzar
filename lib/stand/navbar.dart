@@ -3,7 +3,6 @@ import 'package:project_bazzar/login.dart';
 import 'package:project_bazzar/stand/buatTransaksi.dart';
 import 'package:project_bazzar/stand/daftarBarang.dart';
 import 'package:project_bazzar/stand/home.dart';
-import 'package:project_bazzar/stand/riwayatTransaksi.dart';
 import 'package:project_bazzar/stand/tambahBarang.dart';
 
 class NavBarStand extends StatelessWidget {
@@ -128,7 +127,7 @@ class NavBarStand extends StatelessWidget {
                   'Keluar',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 16,
+                    fontSize: 18,
                   ),
                 ),
               ),
