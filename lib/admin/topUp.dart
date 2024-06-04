@@ -68,6 +68,7 @@ class _TopUpState extends State<TopUp> {
           .where('role', isEqualTo: 'student')
           .where('name', isEqualTo: name)
           .get();
+
       if (userSnapshot.docs.isNotEmpty){
         final userDoc = userSnapshot.docs.first;
         await firestore.collection('users').doc(userDoc.id).update({
@@ -90,7 +91,10 @@ class _TopUpState extends State<TopUp> {
           .get();
           
       if (adminSnapshot.docs.isNotEmpty){
-
+        final adminDoc = adminSnapshot.docs.first;
+        await firestore.collection('users').doc(adminDoc.id).update({
+          'balance': topUpAmount
+        });
       }
 
       _nominalTopUpController.clear();
