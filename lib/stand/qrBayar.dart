@@ -9,10 +9,11 @@ import 'package:flutter/material.dart';
 
 class QrBayarTransaksi extends StatefulWidget {
   final double totalHarga;
+  final int totalQty;
   final String stand_name;
   final List<Transactions> transactions;
   
-  const QrBayarTransaksi({super.key, required this.totalHarga, required this.stand_name, required this.transactions});
+  const QrBayarTransaksi({super.key, required this.totalHarga, required this.stand_name, required this.transactions, required this.totalQty});
 
   @override
   _QrBayarTransaksiState createState() => _QrBayarTransaksiState();
@@ -93,6 +94,7 @@ class _QrBayarTransaksiState extends State<QrBayarTransaksi> {
               totalHarga: widget.totalHarga,
               stand_name: widget.stand_name,
               transactions: widget.transactions,
+              totalQty: widget.totalQty,
             ), // KE KONFIRMASI BAYAR
           ),
         ).then((_) {
