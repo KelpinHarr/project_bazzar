@@ -25,7 +25,7 @@ class _HomeAdminState extends State<HomeAdmin>{
     List<Topup> topups = [];
     try {
       final firestore = FirebaseFirestore.instance;
-      final itemTopup = await firestore.collection('topup').get();
+      final itemTopup = await firestore.collection('topup').orderBy("date", descending: true).get();
       if (itemTopup.docs.isNotEmpty) {
         for (var doc in itemTopup.docs) {
           final data = doc.data();

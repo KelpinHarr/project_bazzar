@@ -92,8 +92,9 @@ class _TopUpState extends State<TopUp> {
           
       if (adminSnapshot.docs.isNotEmpty){
         final adminDoc = adminSnapshot.docs.first;
+        final adminBalance = adminDoc['balance'] + topUpAmount;
         await firestore.collection('users').doc(adminDoc.id).update({
-          'balance': topUpAmount
+          'balance': adminBalance
         });
       }
 
