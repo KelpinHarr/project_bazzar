@@ -266,6 +266,7 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                           DropdownSearch<String>(
                             popupProps: const PopupProps.menu(
                               showSelectedItems: true,
+                              showSearchBox: true,
                             ),
                             items: _filteredProducts,
                             dropdownDecoratorProps: const DropDownDecoratorProps(
@@ -280,6 +281,7 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                               });
                             },
                             selectedItem: _selectedProduct,
+                            filterFn: (item, filter) => item.toLowerCase().contains(filter.toLowerCase())
                           ),
                           const SizedBox(height: 16.0),
                           Row(
@@ -471,6 +473,7 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
                                   totalHarga: totalHarga,
                                   stand_name: widget.name,
                                   transactions: transactions,
+                                  totalQty: totalQty,
                                 ),
                               ),
                             );
