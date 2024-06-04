@@ -11,10 +11,11 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 class PageBayar extends StatefulWidget {
   final Barcode scanResult;
   final double? totalHarga;
+  final int totalQty;
   final String stand_name;
   final List<Transactions> transactions;
 
-  PageBayar({super.key, required this.scanResult, this.totalHarga, required this.stand_name, required this.transactions});
+  PageBayar({super.key, required this.scanResult, this.totalHarga, required this.stand_name, required this.transactions, required this.totalQty});
 
   @override
   State<PageBayar> createState() => _PageBayarState();
@@ -57,7 +58,7 @@ class _PageBayarState extends State<PageBayar> {
         'stand': widget.stand_name,
         'status': 1,
         'totalAmount': widget.totalHarga,
-        'totalQty': transactionItems.length
+        'totalQty': widget.totalQty
       });
 
       for (var item in transactionItems) {

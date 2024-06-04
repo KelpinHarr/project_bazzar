@@ -53,7 +53,7 @@ class _HomeStandState extends State<HomeStand> {
       final itemTransaction = await firestore
           .collection('transactions')
           .where('stand', isEqualTo: widget.name)
-          .orderBy('date', descending: true)
+          // .orderBy('date', descending: true)
           .get();
       if (itemTransaction.docs.isNotEmpty) {
         for (var trans in itemTransaction.docs) {
@@ -86,6 +86,8 @@ class _HomeStandState extends State<HomeStand> {
             totalAmount: totalAmount.toDouble(),
             totalQty: totalQty.toDouble(),
           ));
+
+          transactions.sort((a, b) => b.date.compareTo(a.date));
         }
       }
     } catch (e) {
