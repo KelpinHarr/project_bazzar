@@ -127,6 +127,7 @@ class NavbarStandv2 extends StatelessWidget {
                       fontWeight: activePage == 'Home'
                           ? FontWeight.bold
                           : FontWeight.normal,
+                      fontSize: 20,
                       color: const Color(0xff0A2B4E),
                     ),
                   ),
@@ -146,6 +147,7 @@ class NavbarStandv2 extends StatelessWidget {
                       fontWeight: activePage == 'Buat transaksi'
                           ? FontWeight.bold
                           : FontWeight.normal,
+                      fontSize: 20,
                       color: const Color(0xff0A2B4E),
                     ),
                   ),
@@ -167,6 +169,7 @@ class NavbarStandv2 extends StatelessWidget {
                       fontWeight: activePage == 'Daftar barang'
                           ? FontWeight.bold
                           : FontWeight.normal,
+                      fontSize: 20,
                       color: const Color(0xff0A2B4E),
                     ),
                   ),
@@ -188,6 +191,7 @@ class NavbarStandv2 extends StatelessWidget {
                       fontWeight: activePage == 'Tambah barang'
                           ? FontWeight.bold
                           : FontWeight.normal,
+                      fontSize: 20,
                       color: const Color(0xff0A2B4E),
                     ),
                   ),
@@ -225,7 +229,7 @@ class NavbarStandv2 extends StatelessWidget {
                         'Keluar',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 16,
+                          fontSize: 18,
                         ),
                       ),
                     ),

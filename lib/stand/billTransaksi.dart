@@ -17,41 +17,45 @@ class BillTransaksi extends StatelessWidget {
             DataColumn(
               label: Text(
                 'Nama',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
             ),
             DataColumn(
               label: Text(
                 'Qty',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
             ),
             DataColumn(
               label: Text(
                 'Harga',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
             ),
             DataColumn(
               label: Text(
                 'Total',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
             ),
           ],
           rows: transaction.items.map((item) => DataRow(
             cells: [
               DataCell(
-                Text(item.name),
+                Text(item.name,
+                style: TextStyle(fontSize: 16)),
               ),
               DataCell(
-                Text(item.quantity.toString()),
+                Text(item.quantity.toString(),
+                    style: TextStyle(fontSize: 16)),
               ),
               DataCell(
-                Text(formatCurrency(item.price.toInt())),
+                Text(formatCurrency(item.price.toInt()),
+                    style: TextStyle(fontSize: 16)),
               ),
               DataCell(
-                Text(formatCurrency((item.price * item.quantity).toInt())),
+                Text(formatCurrency((item.price * item.quantity).toInt()),
+                    style: TextStyle(fontSize: 16)),
               ),
             ],
           )).toList(),

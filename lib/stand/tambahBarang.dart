@@ -1,11 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:project_bazzar/stand/navbarv2.dart';
-import 'dart:io';
-import 'package:file_picker/file_picker.dart';
-import 'dart:typed_data';
-import 'package:firebase_storage/firebase_storage.dart';
 
 class TambahBarang extends StatefulWidget {
   final String name;
@@ -44,12 +39,14 @@ class _TambahBarangState extends State<TambahBarang>
                     ),
                     labelStyle: TextStyle(
                       color: Color(0xff0A2B4E),
+                      fontSize: 20,
                     ),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Nama barang tidak boleh kosong';
                     }
+                    return null;
                   },
                 ),
                 const SizedBox(height: 16.0),
@@ -105,7 +102,10 @@ class _TambahBarangState extends State<TambahBarang>
                                 Icon(Icons.add),
                                 SizedBox(
                                     width: 8), // Adjust the width as needed
-                                Text("Add Qty"),
+                                Text("Add Qty",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                )),
                               ],
                             ),
                           ),

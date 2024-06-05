@@ -101,8 +101,6 @@ class _BuatTransaksiState extends State<BuatTransaksi> {
         .expand((transaction) => transaction.items)
         .fold(0, (sum, item) => sum + item.quantity);
 
-    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
-
     return NavbarStandv2(
       name: widget.name,
       key: GlobalKey(),

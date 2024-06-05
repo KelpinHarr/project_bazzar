@@ -48,6 +48,7 @@ class NavBarStand extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
+                fontSize: 20,
                 color: Color(0xff0A2B4E),
               ),
             ),
@@ -64,6 +65,7 @@ class NavBarStand extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color(0xff0A2B4E),
+                fontSize: 20,
               ),
             ),
             onTap: () {
@@ -79,6 +81,7 @@ class NavBarStand extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color(0xff0A2B4E),
+                fontSize: 20,
               ),
             ),
             onTap: () {
@@ -94,6 +97,7 @@ class NavBarStand extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color(0xff0A2B4E),
+                fontSize: 20,
               ),
             ),
             onTap: () {
