@@ -66,11 +66,11 @@ class _EditBarangState extends State<EditBarang> {
           icon: const Icon(Icons.check_circle, color: Colors.green, size: 48.0),
           actionText: "Kembali ke daftar barang",
           onPressed: (){
-            Navigator.push(
+            Navigator.of(context, rootNavigator: true).pop(); // Close the dialog
+            Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => DaftarBarang(name: widget.name))
+              MaterialPageRoute(builder: (context) => DaftarBarang(name: widget.user_name))
             );
-            Navigator.pop(context);
           }, // Pop the dialog first
         );
       },
