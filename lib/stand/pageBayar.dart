@@ -67,6 +67,21 @@ class _PageBayarState extends State<PageBayar> {
           'price': item['price'],
           'quantity': item['qty']
         });
+
+        final productDoc = await firestore
+            .collection('items')
+            .where('name', isEqualTo: item['name'])
+            .get();
+        
+        if (productDoc.docs.isNotEmpty) {
+          final product = productDoc.docs.first;
+          final currentQty = product['qty'];
+
+          if (currentQty != null) {
+            final newQty = currentQty - item['qty'];
+            await firestore.collection('products').doc(product.id).update({'qty': newQty});
+          }
+        }        
       }
     } catch (e) {
       ScaffoldMessenger.of(context)
@@ -97,7 +112,34 @@ class _PageBayarState extends State<PageBayar> {
     }
   }
 
+  void _showLoadingDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(width: 16.0),
+                Text("Processing..."),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _hideLoadingDialog() {
+    Navigator.of(context, rootNavigator: true).pop();
+  }
+
   Future<void> _buyItem() async {
+    _showLoadingDialog();
     try {
       final balance = await _balance;
       final totalHarga = widget.totalHarga ?? 0;
@@ -145,6 +187,9 @@ class _PageBayarState extends State<PageBayar> {
     } catch (e) {
       print(e);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error $e')));
+    }
+    finally{
+      _hideLoadingDialog();
     }
   }
 
