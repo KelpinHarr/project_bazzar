@@ -57,6 +57,7 @@ class _TopUpState extends State<TopUp> {
   }
 
   Future<void> topUpSaldo() async {
+    _showLoadingDialog();
     try {
       final currentBalance = await _balance;
       final topUpAmount = int.parse(_nominalTopUpController.text);
@@ -102,6 +103,14 @@ class _TopUpState extends State<TopUp> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Top up berhasil!'))
       );
+      _hideLoadingDialog();
+      
+      Future.delayed(Duration(milliseconds: 100), () {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => HomeAdmin())
+        );
+      });      
     } 
     catch (e) {
       print(e);
@@ -109,6 +118,32 @@ class _TopUpState extends State<TopUp> {
         SnackBar(content: Text('Top up gagal! Error $e'))
       );
     }
+  }
+
+  void _showLoadingDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(width: 16.0),
+                Text("Processing..."),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }  
+
+  void _hideLoadingDialog()  {
+    Navigator.of(context, rootNavigator: true).pop();
   }
 
   @override

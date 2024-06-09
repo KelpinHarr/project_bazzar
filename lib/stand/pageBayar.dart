@@ -79,7 +79,7 @@ class _PageBayarState extends State<PageBayar> {
 
           if (currentQty != null) {
             final newQty = currentQty - item['qty'];
-            await firestore.collection('products').doc(product.id).update({'qty': newQty});
+            await firestore.collection('items').doc(product.id).update({'qty': newQty});
           }
         }        
       }
@@ -112,32 +112,6 @@ class _PageBayarState extends State<PageBayar> {
     }
   }
 
-  void _showLoadingDialog() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return Dialog(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CircularProgressIndicator(),
-                SizedBox(width: 16.0),
-                Text("Processing..."),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  void _hideLoadingDialog() {
-    Navigator.of(context, rootNavigator: true).pop();
-  }
-
   Future<void> _buyItem() async {
     _showLoadingDialog();
     try {
@@ -164,6 +138,7 @@ class _PageBayarState extends State<PageBayar> {
 
           final standBalance = standDoc['balance'] + widget.totalHarga;
 
+          print("Updating balance of user $name to $newBalance"); // Debug statement
           await firestore.collection('users').doc(userDoc.id).update({'balance': newBalance});
           await firestore.collection('users').doc(standDoc.id).update({'balance': standBalance});
 
@@ -174,23 +149,56 @@ class _PageBayarState extends State<PageBayar> {
           await _addTransaction();
 
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Pembayaran Berhasil!')));
-          Navigator.of(context).pop();
-          Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => HomeStand(name: widget.stand_name,))
-          );
+          
+          // Ensure hide loading dialog before navigation
+          _hideLoadingDialog();
+          
+          Future.delayed(Duration(milliseconds: 100), () {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => HomeStand(name: widget.stand_name))
+            );
+          });
+        } else {
+          print("User or Stand not found"); // Debug statement
         }
       } else {
         final currentBalance = await _balance;
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Saldo tidak cukup, saldo anda : $currentBalance')));
+        print("Saldo tidak cukup"); // Debug statement
       }
     } catch (e) {
       print(e);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error $e')));
-    }
-    finally{
+    } finally {
       _hideLoadingDialog();
     }
+  }
+
+  void _showLoadingDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(width: 16.0),
+                Text("Processing..."),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }  
+
+  void _hideLoadingDialog()  {
+    Navigator.of(context, rootNavigator: true).pop();
   }
 
   @override
